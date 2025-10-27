@@ -25,6 +25,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const Sidebar = () => {
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1024px)" });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [productsExpanded, setProductsExpanded] = useState(false);
+  const [categoriesExpanded, setCategoriesExpanded] = useState(false);
+  const [blogsExpanded, setBlogsExpanded] = useState(false);
+  const [bannersExpanded, setBannersExpanded] = useState(false);
+  const [liveClassesExpanded, setLiveClassesExpanded] = useState(false);
+  const [workshopsExpanded, setWorkshopsExpanded] = useState(false);
   const location = useLocation();
 
   const toggleSidebar = () => {
@@ -66,8 +72,8 @@ const Sidebar = () => {
           onClick={closeSidebar}
           className={`font-anta mx-2 flex items-center gap-x-2 ${
             isActive("/admin")
-              ? "border-b-2 border-orange-600 text-orange-600"
-              : "border-b-black hover:border-b-white text-white"
+              ? "border-b-2 border-secondary text-secondary"
+              : "border-b-black hover:border-b-secondary text-white"
           }`}
         >
           <HomeOutlined />
@@ -85,8 +91,8 @@ const Sidebar = () => {
           onClick={closeSidebar}
           className={`font-anta mx-2 flex items-center gap-x-2 ${
             isActive("/admin/userlist")
-              ? "border-b-2 border-orange-600 text-orange-600"
-              : "border-b-black hover:border-b-white text-white"
+              ? "border-b-2 border-secondary text-secondary"
+              : "border-b-black hover:border-b-secondary text-white"
           }`}
         >
           <UserOutlined />
@@ -103,8 +109,8 @@ const Sidebar = () => {
           onClick={closeSidebar}
           className={`font-anta mx-2 flex items-center gap-x-2 ${
             isActive("/admin/aboutpagecontent")
-              ? "border-b-2 border-orange-600 text-orange-600"
-              : "border-b-black hover:border-b-white text-white"
+              ? "border-b-2 border-secondary text-secondary"
+              : "border-b-black hover:border-b-secondary text-white"
           }`}
         >
           <FileImageOutlined />
@@ -112,6 +118,7 @@ const Sidebar = () => {
         </Link>
       </div>
       <Accordion
+        onChange={(event, expanded) => setProductsExpanded(expanded)}
         sx={{
           backgroundColor: "black",
           "&:hover": {
@@ -123,9 +130,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: "white",
+                color: productsExpanded ? "secondary" : "white",
                 "&:hover": {
-                  color: "#ea580c",
+                  color: "secondary",
                 },
               }}
             />
@@ -135,9 +142,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: "white",
+              color: productsExpanded ? "secondary" : "white",
               "&:hover": {
-                color: "#ea580c",
+                color: "secondary",
               },
               fontFamily: "anta",
             }}
@@ -156,8 +163,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/addproduct")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <PlusOutlined />
@@ -170,8 +177,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/productlist")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
@@ -184,6 +191,7 @@ const Sidebar = () => {
       </Accordion>
 
       <Accordion
+        onChange={(event, expanded) => setCategoriesExpanded(expanded)}
         sx={{
           backgroundColor: "black",
           "&:hover": {
@@ -195,9 +203,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: "white",
+                color: categoriesExpanded ? "secondary" : "white",
                 "&:hover": {
-                  color: "#ea580c",
+                  color: "secondary",
                 },
               }}
             />
@@ -207,9 +215,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: "white",
+              color: categoriesExpanded ? "secondary" : "white",
               "&:hover": {
-                color: "#ea580c",
+                color: "secondary",
               },
               fontFamily: "anta",
             }}
@@ -228,8 +236,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/addcategory")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <PlusOutlined />
@@ -242,8 +250,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/allcategories")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
@@ -256,6 +264,7 @@ const Sidebar = () => {
       </Accordion>
 
       <Accordion
+        onChange={(event, expanded) => setBlogsExpanded(expanded)}
         sx={{
           backgroundColor: "black",
           "&:hover": {
@@ -267,9 +276,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: "white",
+                color: blogsExpanded ? "secondary" : "white",
                 "&:hover": {
-                  color: "#ea580c",
+                  color: "secondary",
                 },
               }}
             />
@@ -279,9 +288,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: "white",
+              color: blogsExpanded ? "secondary" : "white",
               "&:hover": {
-                color: "#ea580c",
+                color: "secondary",
               },
               fontFamily: "anta",
             }}
@@ -301,8 +310,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/addblog")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <PlusOutlined />
@@ -316,8 +325,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/allblogs")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
@@ -330,6 +339,7 @@ const Sidebar = () => {
       </Accordion>
 
       <Accordion
+        onChange={(event, expanded) => setBannersExpanded(expanded)}
         sx={{
           backgroundColor: "black",
           "&:hover": {
@@ -341,9 +351,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: "white",
+                color: bannersExpanded ? "secondary" : "white",
                 "&:hover": {
-                  color: "#ea580c",
+                  color: "secondary",
                 },
               }}
             />
@@ -353,9 +363,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: "white",
+              color: bannersExpanded ? "secondary" : "white",
               "&:hover": {
-                color: "#ea580c",
+                color: "secondary",
               },
               fontFamily: "anta",
             }}
@@ -374,8 +384,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 ${
                     isActive("/admin/bannersection")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <FlagOutlined />
@@ -388,8 +398,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 ${
                     isActive("/admin/allbanners")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
@@ -402,6 +412,7 @@ const Sidebar = () => {
       </Accordion>
 
       <Accordion
+        onChange={(event, expanded) => setLiveClassesExpanded(expanded)}
         sx={{
           backgroundColor: "black",
           "&:hover": {
@@ -413,9 +424,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: "white",
+                color: liveClassesExpanded ? "secondary" : "white",
                 "&:hover": {
-                  color: "#ea580c",
+                  color: "secondary",
                 },
               }}
             />
@@ -425,9 +436,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: "white",
+              color: liveClassesExpanded ? "secondary" : "white",
               "&:hover": {
-                color: "#ea580c",
+                color: "secondary",
               },
               fontFamily: "anta",
             }}
@@ -446,8 +457,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 ${
                     isActive("/admin/addliveclass")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <PlusOutlined />
@@ -460,8 +471,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 ${
                     isActive("/admin/allliveclasses")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
@@ -474,6 +485,7 @@ const Sidebar = () => {
       </Accordion>
 
       <Accordion
+        onChange={(event, expanded) => setWorkshopsExpanded(expanded)}
         sx={{
           backgroundColor: "black",
           "&:hover": {
@@ -485,9 +497,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: "white",
+                color: workshopsExpanded ? "secondary" : "white",
                 "&:hover": {
-                  color: "#ea580c",
+                  color: "secondary",
                 },
               }}
             />
@@ -497,9 +509,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: "white",
+              color: workshopsExpanded ? "secondary" : "white",
               "&:hover": {
-                color: "#ea580c",
+                color: "secondary",
               },
               fontFamily: "anta",
             }}
@@ -518,8 +530,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 ${
                     isActive("/admin/addworkshop")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <FlagOutlined />
@@ -532,8 +544,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 ${
                     isActive("/admin/allworkshops")
-                      ? "border-b-2 border-orange-600 text-orange-600"
-                      : "border-b-black hover:border-b-white text-white"
+                      ? "border-b-2 border-secondary text-secondary"
+                      : "border-b-black hover:border-b-secondary text-white"
                   }`}
                 >
                   <UnorderedListOutlined />

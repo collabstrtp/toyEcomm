@@ -28,7 +28,7 @@ import EditCategory from "../components/EditCategory";
 
 const Admin = () => {
   return (
-    <div className="bg-gradient-to-r from-blue-400 via-orange-700 to-blue-400">
+    <div className="bg-gradient-to-b from-primary via-secondary to-primary">
       <div></div>
       <div className="lg:flex">
         <Sidebar />
