@@ -21,9 +21,6 @@ dotenv.config();
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: false }));
-
 const allowedOrigins = [process.env.CLIENT_URL, process.env.ADMIN_URL];
 const corsOptions = {
   origin: function (origin, callback) {

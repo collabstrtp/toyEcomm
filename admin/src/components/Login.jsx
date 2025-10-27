@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../features/authSlice";
-import { toast } from "react-toastify";
+import { toast, Zoom } from "react-toastify";
 import logo from "../assets/logo2.png";
 
 const Login = () => {
@@ -19,8 +19,10 @@ const Login = () => {
   };
 
   const login = async () => {
-    dispatch(loginUser(formData)).then((response) => {
+    try {
+      const response = await dispatch(loginUser(formData));
       console.log("Login response:", response);
+
       if (response.payload && response.payload.success) {
         const { user, token } = response.payload;
         localStorage.setItem("token", token);
@@ -34,8 +36,35 @@ const Login = () => {
           progress: undefined,
         });
         navigate("/admin");
+      } else if (response.payload && response.payload.needsEmailVerification) {
+        toast.warning("Please verify your email address first.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Zoom,
+        });
+      } else if (response.payload && response.payload.needsPhoneVerification) {
+        toast.warning("Please verify your phone number first.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Zoom,
+        });
       } else {
-        toast.error("Login failed. Please check your credentials.", {
+        const errorMessage =
+          response.payload?.message ||
+          "Login failed. Please check your credentials.";
+        toast.error(errorMessage, {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -46,13 +75,25 @@ const Login = () => {
           theme: "dark",
           transition: Zoom,
         });
-        //alert(response.payload.errors);
       }
-    });
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during login. Please try again.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Zoom,
+      });
+    }
   };
 
   return (
-    <section className="pt-36 pb-24 max_padd_container h-screen flexCenter text-white flex-col bg-gradient-to-r from-blue-400 via-orange-600 to-blue-400">
+    <section className="pt-36 pb-24 max_padd_container h-screen flexCenter text-white flex-col bg-black">
       <div className="max-w-[555px]  bg-[#ffffff4e] m-auto px-14 py-10 rounded-md">
         <div className="flex justify-center items-center">
           <img src={logo} className="w-[60px]" />

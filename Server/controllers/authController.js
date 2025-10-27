@@ -70,13 +70,13 @@ exports.register = async (req, res) => {
 
     // Send welcome email
     const welcomeEmail = {
-      from: '"Cord & Brushes" <noreply@cors&brushes.com>',
+      from: '"@company" <noreply@company.com>',
       to: email,
-      subject: "Welcome to Cord & Brushes",
+      subject: "Welcome to @companyName! Please Verify Your Email",
       text: `Welcome! Please verify your email by clicking this link: ${process.env.BASE_URL}/api/auth/verify-email/${token}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; box-sizing: border-box;">
-          <img src="https://i.postimg.cc/gkpN5gXQ/logo.png" alt="Logo" style="display: block; margin: 0 auto; height: 80px; width: auto;">
+          <img src="https://logo.png" alt="Logo" style="display: block; margin: 0 auto; height: 80px; width: auto;">
           <div style="margin-top: 30px; text-align: center;">
             <h2 style="color: #007BFF; margin-bottom: 20px;">Welcome ${name}!</h2>
             <p style="color: #666; line-height: 1.6;">Thank you for registering on our website. We're excited to have you join us.</p>
@@ -129,16 +129,26 @@ exports.verifyEmail = async (req, res) => {
 
     const user = await User.findById(decoded._id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
 
     user.isVerified = true;
     await user.save();
-    const redirectUrl = `${process.env.CLIENT_URL}/auth/login?verified=true`;
-    res.redirect(redirectUrl);
+
+    return res.status(200).json({
+      success: true,
+      message: "Email verified successfully",
+      redirectUrl: `${process.env.CLIENT_URL}/auth/login?verified=true`,
+    });
   } catch (error) {
     console.error(error);
-    res.status(401).send("Verification failed!");
+    return res.status(401).json({
+      success: false,
+      message: "Email verification failed",
+    });
   }
 };
 
@@ -170,12 +180,12 @@ exports.login = async (req, res) => {
       }
 
       const welcomeEmail = {
-        from: '"Cord & Brushes" <noreply@cord&brushes.com>',
+        from: '"@company" <noreply@company.com>',
         to: email,
         subject: "Please Verify Your Account",
         html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; box-sizing: border-box;">
-        <img src="https://i.postimg.cc/gkpN5gXQ/logo.png" alt="Logo" style="display: block; margin: 0 auto; height: 80px; width: auto;">
+        <img src="https://logo.png" alt="Logo" style="display: block; margin: 0 auto; height: 80px; width: auto;">
         <div style="margin-top: 30px; text-align: center;">
         <h2>Please Verify Your Account</h2>
           <p style="color: #666; line-height: 1.6;">${verificationMessage}</p>
@@ -260,12 +270,12 @@ exports.forgotPassword = async (req, res) => {
     });
 
     var mailOptions = {
-      from: '"Cord & Brushes" <noreply@cord&brushes.com>',
+      from: '"@company" <noreply@company.com>',
       to: email,
       subject: "Password Reset Request",
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; box-sizing: border-box;">
-      <img src="https://i.postimg.cc/gkpN5gXQ/logo.png" alt="Logo" style="display: block; margin: 0 auto; height: 80px; width: auto;">
+      <img src="https://logo.png" alt="Logo" style="display: block; margin: 0 auto; height: 80px; width: auto;">
       <div style="margin-top: 30px; text-align: center;">
         <h2 style="margin-bottom: 20px;">Welcome Back!</h2>
         <p style="color: #666; line-height: 1.6;">Your request to reset your password has been processed.</p>
@@ -303,7 +313,10 @@ exports.resetPasswordGet = async (req, res) => {
     // First find user to avoid unnecessary token verification
     const user = await User.findOne({ _id: id });
     if (!user) {
-      return res.status(404).json({ message: "User not found." });
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
     }
 
     try {
@@ -312,21 +325,33 @@ exports.resetPasswordGet = async (req, res) => {
 
       // Verify that the token's email matches the user's email
       if (decoded.email !== user.email) {
-        return res.status(401).json({ message: "Invalid token." });
+        return res.status(401).json({
+          success: false,
+          message: "Invalid token.",
+        });
       }
 
-      // If everything is valid, redirect to the frontend reset password page
-      const redirectUrl = `${process.env.CLIENT_URL}/auth/reset-password/${user._id}/${token}`;
-      return res.redirect(redirectUrl);
+      // Return success response with user info
+      return res.status(200).json({
+        success: true,
+        message: "Token verified successfully",
+        userId: user._id,
+        email: user.email,
+      });
     } catch (tokenError) {
       console.error("Token verification error:", tokenError);
-      // If token is invalid or expired, redirect to frontend with error
-      const errorUrl = `${process.env.CLIENT_URL}/auth/reset-password-error`;
-      return res.redirect(errorUrl);
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired token",
+        redirectUrl: `${process.env.CLIENT_URL}/auth/reset-password-error`,
+      });
     }
   } catch (error) {
     console.error("Error in resetPasswordGet:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
 

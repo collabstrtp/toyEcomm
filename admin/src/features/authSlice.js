@@ -9,9 +9,10 @@ export const loginUser = createAsyncThunk(
       const response = await api.post("/api/auth/login", userData);
       return response.data;
     } catch (error) {
-      /*   console.log("Sending login data:", { email, password });
-       */ console.error("Login error:", error);
-      return thunkAPI.rejectWithValue(error.response.data);
+      console.error("Login error:", error);
+      return thunkAPI.rejectWithValue(
+        error.response?.data || { message: "Network error occurred" }
+      );
     }
   }
 );
