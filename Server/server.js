@@ -12,9 +12,7 @@ const blogRoutes = require("./routes/posts");
 const commentRoutes = require("./routes/comments");
 const bannerRoutes = require("./routes/banner");
 const categoryRoutes = require("./routes/category");
-const liveClassRoutes = require("./routes/liveClassRoutes");
-const workshopRoutes = require("./routes/workshop");
-const aboutpageRoutes = require("./routes/about");
+
 const contactRoutes = require("./routes/contact");
 
 dotenv.config();
@@ -57,14 +55,6 @@ app.use("/api/categories", categoryRoutes);
 
 //use comment route
 app.use("/api/comments", commentRoutes);
-
-//use live class route
-app.use("/api/liveclasses", liveClassRoutes);
-
-//use workshops route
-app.use("/api/workshops", workshopRoutes);
-
-app.use("/api/aboutpage", aboutpageRoutes);
 
 app.use("/api/contact", contactRoutes);
 
