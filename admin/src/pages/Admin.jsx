@@ -15,16 +15,7 @@ import AllBlogs from "../components/AllBlogs";
 import EditBlog from "../components/EditBlog";
 import AddCategory from "../components/AddCategory";
 import AllCategories from "../components/AllCategories";
-import AddLiveClasses from "../components/AddLiveClasses";
-import AllLiveClasses from "../components/AllLiveClasses";
-import EditLiveClass from "../components/EditLiveClass";
-import AddWorkshop from "../components/AddWorkshop";
-import EditWorkshop from "../components/EditWorkshop";
-import AllWorkshops from "../components/AllWorkshop";
-import AboutPageEdit from "../components/AboutPageEdit";
 import EditCategory from "../components/EditCategory";
-/* import AllComments from "../components/AllComments"; */
-//
 
 const Admin = () => {
   return (
@@ -48,14 +39,6 @@ const Admin = () => {
           <Route path="editblog/:id" element={<EditBlog />} />
           <Route path="addcategory" element={<AddCategory />} />
           <Route path="allcategories" element={<AllCategories />} />
-          <Route path="addliveclass" element={<AddLiveClasses />} />
-          <Route path="allliveclasses" element={<AllLiveClasses />} />
-
-          <Route path="editliveclass/:id" element={<EditLiveClass />} />
-          <Route path="addworkshop" element={<AddWorkshop />} />
-          <Route path="allworkshops" element={<AllWorkshops />} />
-          <Route path="editworkshop/:id" element={<EditWorkshop />} />
-          <Route path="aboutpagecontent" element={<AboutPageEdit />} />
           <Route path="editcategory/:id" element={<EditCategory />} />
           {/*    <Route path="allcomments" element={<AllComments />} /> */}
         </Routes>

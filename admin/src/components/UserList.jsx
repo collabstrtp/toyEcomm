@@ -38,7 +38,7 @@ const UserList = () => {
           <div className="max-h-[77vh] overflow-auto px-4 text-center">
             <table className="w-full mx-auto">
               <thead>
-                <tr className="overflow-auto border-b-2 border-orange-600">
+                <tr className="overflow-auto border-b-2 border-white-600">
                   <th className="p-2 uppercase">User Name</th>
                   <th className="p-2 uppercase">Email</th>
                   <th className="p-2 uppercase">Phone Number</th>
@@ -47,10 +47,7 @@ const UserList = () => {
               </thead>
               <tbody>
                 {allUsers?.map((user, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-white/40 p-6 medium-14"
-                  >
+                  <tr key={index} className=" p-6 medium-14">
                     <td className="p-2">{user.name}</td>
                     <td className="p-2">{user.email}</td>
                     <td className="p-2">{`+91${user.number}`}</td>
