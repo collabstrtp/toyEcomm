@@ -14,8 +14,6 @@ import authReducer from "../features/authSlice";
 import productReducer from "../features/productSlice";
 import bannerReducer from "../features/bannerSlice";
 import postReducer from "../features/postSlice";
-import liveclassReducer from "../features/liveclassesSlice";
-import workshopsReducer from "../features/workshopsSlice";
 
 const persistConfig = {
   key: "root",
@@ -27,8 +25,6 @@ const rootReducer = combineReducers({
   products: productReducer,
   banner: bannerReducer,
   posts: postReducer,
-  liveClasses: liveclassReducer,
-  workshops: workshopsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
