@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import Faq from "./Faq";
+import Gallery from "../Components/Gallery";
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -309,6 +310,7 @@ const Home = () => {
           <i className="fa-solid fa-angle-right"></i>
         </button>
       </div>
+      <Gallery />
       <Faq />
     </div>
   );
