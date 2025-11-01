@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import auth from "../assets/auth.png";
+import axios from "axios";
+import { BASE_URL } from "../Utils/urlconfig";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });

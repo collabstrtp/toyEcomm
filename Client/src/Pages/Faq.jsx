@@ -96,7 +96,7 @@ const Faq = () => {
   const isAnyOpen = openIndex !== null;
 
   return (
-    <section className="bg-gradient-to-b from-blue-50 to-pink-50 py-16 px-4 sm:px-6 lg:px-8">
+    <section className="py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column: FAQ Items with Staggered Layout */}

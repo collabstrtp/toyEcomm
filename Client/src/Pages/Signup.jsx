@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-/* import axios from "axios";
-import { BASE_URL } from "../Utils/urlconfig"; */
+import axios from "axios";
+import { BASE_URL } from "../Utils/urlconfig";
 import { setCredentials } from "../redux/authSlice";
 /*  import google from "../assets/login/google.svg";
  */
