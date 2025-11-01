@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import Faq from "./Faq";
+import Gallery from "../Components/Gallery";
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -256,6 +257,7 @@ const Home = () => {
           ))}
         </div>
       </div>
+      <Gallery />
       <Faq />
     </div>
   );
