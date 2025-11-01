@@ -3,7 +3,7 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 const Layout = () => {
   return (
-    <div>
+    <div className="bg-gray-50">
       <Navbar />
       <Outlet />
       <Footer />
