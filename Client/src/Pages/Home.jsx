@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+import Faq from "./Faq";
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -204,7 +205,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col overflow-hidden">
       {/* Main Content Container */}
       <div className="flex-1 flex flex-col justify-center items-center py-2">
         {/* Header Section */}
@@ -255,6 +256,7 @@ const Home = () => {
           ))}
         </div>
       </div>
+      <Faq />
     </div>
   );
 };
