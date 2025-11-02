@@ -12,7 +12,7 @@ import logo from "../assets/logo.png";
 
 const Footer = ({ isFixed = false }) => {
   const footerClasses = isFixed
-    ? "fixed bottom-0 w-full bg-orange-600 text-white p-10 z-50 shadow-2xl"
+    ? "fixed bottom-0 w-full bg-orange-600 text-white p-10 z-50 shadow-2xl -mt-10"
     : "relative w-full bg-orange-600 text-white mt-10"; // Default relative positioning
   return (
     <footer className={footerClasses}>

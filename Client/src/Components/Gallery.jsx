@@ -5,7 +5,7 @@ const Gallery = () => {
       <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
 
       {/* Masonry Grid Container */}
-      <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-5 gap-4 p-4 space-y-4 z-5">
+      <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-5 gap-4 space-y-4 z-5 pb-16">
         {/* Image 2 */}
         <div className="relative break-inside-avoid">
           <img
@@ -91,40 +91,41 @@ const Gallery = () => {
 
       {/* Centered Overlay Text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
-        {/*         <h1 className="text-white text-6xl md:text-8xl font-bold text-center leading-tight drop-shadow-2xl">
-          Contact us to get
-        </h1>
-        <h1 className="text-white text-6xl md:text-8xl font-bold text-center leading-tight drop-shadow-2xl">
-          to get in touch
-        </h1> */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4">
-          <h1 className="text-white text-4xl md:text-6xl font-bold text-center leading-tight drop-shadow-2xl">
-            Contact us to get
-          </h1>
-
-          <h1 className="text-white text-4xl md:text-6xl font-bold text-center leading-tight drop-shadow-2xl mb-8">
-            in touch
-          </h1>
+        <div className="absolute inset-0 flex  items-center justify-between z-20 px-10 -mt-25">
+          <div className="flex flex-row w-1/2 justify-left px-10 items-center flex-wrap">
+            <h1 className="text-white text-3xl md:text-6xl font-bold text-center leading-tight drop-shadow-2xl">
+              Contact us to get in touch
+            </h1>
+          </div>
           {/* Contact Form Container */}
-          <form className="bg-white/90 p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md pointer-events-auto">
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-              required
-            />
+          <form className="bg-white p-4 sm:p-6 rounded-xl shadow-2xl  max-w-md pointer-events-auto">
+            <div className="relative flex justify-around gap-1.5 text-center">
+              {" "}
+              <input
+                type="text"
+                placeholder="Your Name"
+                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                required
+              />
+              <input
+                type="number"
+                placeholder="Your Contact No"
+                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                required
+              />
+            </div>
 
             <input
               type="email"
               placeholder="Your Email"
-              className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
               required
             />
 
             <textarea
               placeholder="Your Message"
               rows="4"
-              className="w-full p-3 mb-6 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full p-2 mb-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-red-600"
               required
             ></textarea>
 

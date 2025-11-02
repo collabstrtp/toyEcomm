@@ -18,9 +18,10 @@ const About = () => {
           dedicated to providing you the very best of toys, with an emphasis on
           quality, customer service, and uniqueness.
         </p>
-        <div className="relative">
+
+        <Gallery />
+        <div className="relative -mt-52 z-10 w-full">
           {" "}
-          <Gallery />
           <Footer />
         </div>
       </div>
