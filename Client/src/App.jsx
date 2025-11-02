@@ -23,15 +23,12 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="cart" element={<Cart />} />
-<<<<<<< HEAD
           <Route path="/about" element={<About />} />
           <Route path="/favourites" element={<Favourites />} />
           <Route path="/profile" element={<Profile />} />
-=======
           {/*           <Route path="/about" element={<About />} />
            */}{" "}
           <Route path="favourites" element={<Favourites />} />
->>>>>>> 07d445262b2eee3e1c6a1606ca0e7249b00273bb
         </Route>
       </Routes>
     </Router>
