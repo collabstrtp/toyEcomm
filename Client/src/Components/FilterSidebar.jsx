@@ -1,5 +1,5 @@
-import React from "react";
-import { X } from "lucide-react";
+import React, { useState } from "react";
+import { X, ChevronDown, ChevronUp } from "lucide-react";
 
 const FilterSidebar = ({
   showFilters,
@@ -9,11 +9,24 @@ const FilterSidebar = ({
   handleFilterChange,
   filterOptions,
 }) => {
+  const [showPriceOptions, setShowPriceOptions] = useState(false);
+
   if (!showFilters) return null;
 
+  const priceRanges = [
+    "Under ₹500",
+    "₹500 - ₹1000",
+    "₹1000 - ₹2000",
+    "Above ₹2000",
+  ];
+
+  const handlePriceSelect = (price) => {
+    setFilters((prev) => ({ ...prev, priceRange: price }));
+  };
+
   return (
-    <div className="fixed inset-0  bg-opacity-50 z-50 flex">
-      <div className="bg-white w-full max-w-sm h-full overflow-y-auto">
+    <div className="fixed inset-0  bg-opacity-30 z-50 flex">
+      <div className="bg-white w-full max-w-sm h-full overflow-y-auto shadow-lg animate-slideIn">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">Filters</h2>
@@ -27,26 +40,27 @@ const FilterSidebar = ({
 
         {/* Filter Content */}
         <div className="p-4 space-y-6">
-          {/* Price Range */}
+          {/* Price Range (Dropdown-style) */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-3">Price Range</h3>
-            <div className="space-y-2">
-              <input
-                type="range"
-                min="0"
-                max="700"
-                value={filters.priceRange[1]}
-                onChange={(e) =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    priceRange: [0, Number(e.target.value)],
-                  }))
-                }
-                className="w-full accent-orange-500"
-              />
-              <div className="flex justify-between text-sm text-gray-600">
-                <span>${filters.priceRange[0]}</span>
-                <span>${filters.priceRange[1]}</span>
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-3">Price Range</h3>
+              <div className="space-y-2">
+                {priceRanges.map((range) => (
+                  <label
+                    key={range}
+                    className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                  >
+                    <input
+                      type="checkbox"
+                      name="priceRange"
+                      value={range}
+                      checked={filters.priceRange === range}
+                      onChange={() => handlePriceSelect(range)}
+                      className="w-4 h-4 text-orange-500 accent-orange-500"
+                    />
+                    <span className="text-sm text-gray-700">{range}</span>
+                  </label>
+                ))}
               </div>
             </div>
           </div>
@@ -64,7 +78,7 @@ const FilterSidebar = ({
                     type="checkbox"
                     checked={filters.categories.includes(cat)}
                     onChange={() => handleFilterChange("categories", cat)}
-                    className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500 accent-orange-500"
+                    className="w-4 h-4 text-orange-500 accent-orange-500"
                   />
                   <span className="text-sm text-gray-700">{cat}</span>
                 </label>
@@ -85,7 +99,7 @@ const FilterSidebar = ({
                     type="checkbox"
                     checked={filters.colors.includes(color)}
                     onChange={() => handleFilterChange("colors", color)}
-                    className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500 accent-orange-500"
+                    className="w-4 h-4 text-orange-500 accent-orange-500"
                   />
                   <span className="text-sm text-gray-700">{color}</span>
                 </label>
@@ -106,7 +120,7 @@ const FilterSidebar = ({
                     type="checkbox"
                     checked={filters.materials.includes(material)}
                     onChange={() => handleFilterChange("materials", material)}
-                    className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500 accent-orange-500"
+                    className="w-4 h-4 text-orange-500 accent-orange-500"
                   />
                   <span className="text-sm text-gray-700">{material}</span>
                 </label>
@@ -129,7 +143,7 @@ const FilterSidebar = ({
                     type="checkbox"
                     checked={filters.gender.includes(g)}
                     onChange={() => handleFilterChange("gender", g)}
-                    className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500 accent-orange-500"
+                    className="w-4 h-4 text-orange-500 accent-orange-500"
                   />
                   <span className="text-sm text-gray-700">{g}</span>
                 </label>
@@ -150,7 +164,7 @@ const FilterSidebar = ({
                     type="checkbox"
                     checked={filters.ageGroup.includes(age)}
                     onChange={() => handleFilterChange("ageGroup", age)}
-                    className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500 accent-orange-500"
+                    className="w-4 h-4 text-orange-500 accent-orange-500"
                   />
                   <span className="text-sm text-gray-700">{age}</span>
                 </label>
