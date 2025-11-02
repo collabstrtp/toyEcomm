@@ -717,14 +717,14 @@ function ProductList() {
       />
 
       {/* Filter Sidebar - Only for mobile */}
-      <FilterSidebar
+      {/* <FilterSidebar
         showFilters={showFilters}
         setShowFilters={setShowFilters}
         filters={filters}
         setFilters={setFilters}
         handleFilterChange={handleFilterChange}
         filterOptions={filterOptions}
-      />
+      /> */}
 
       {/* Products Grid */}
       <div className="max-w-7xl mx-auto px-4 py-6">
