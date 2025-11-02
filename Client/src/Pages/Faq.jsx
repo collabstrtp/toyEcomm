@@ -40,7 +40,7 @@ const FAQItem = ({
       >
         <span>{question}</span>
         <ChevronDown
-          className={`h-5 w-5 text-purple-600 transition-transform duration-300 flex-shrink-0 ml-4 ${
+          className={`h-5 w-5 text-purple-600 transition-transform duration-300 flex shrink-0 ml-4 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
