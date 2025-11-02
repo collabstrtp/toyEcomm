@@ -342,7 +342,7 @@ const Home = () => {
         </div>
 
         {/* Cards Container - Aligned at bottom */}
-        <div className="flex items-end justify-center gap-4 md:gap-6 mb-8 max-w-7xl pb-4">
+        <div className="flex items-end justify-center gap-4 md:gap-6 mb-8 max-w-7xl pb-4 ">
           {snacks.map((snack, index) => (
             <div
               key={`${currentSlide}-${snack.id}`}

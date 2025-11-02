@@ -13,18 +13,13 @@ const Product = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handlePrevClick = () =>
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? images.length - 1 : prev - 1
-    );
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
 
   const handleNextClick = () =>
-    setCurrentImageIndex((prev) =>
-      prev === images.length - 1 ? 0 : prev + 1
-    );
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
 
   return (
     <>
-
       {/* Container */}
       <div className="flex flex-col md:flex-row gap-5 p-5">
         <div className="md:w-3/5 flex flex-col md:flex-row items-center justify-between h-[650px] md:h-[653px] overflow-hidden">
@@ -125,7 +120,9 @@ const Product = () => {
           </div>
 
           <div className="bg-gray-100 p-4 rounded-md">
-            <p className="font-semibold mb-4 text-[15px]">Actual colors: Gray</p>
+            <p className="font-semibold mb-4 text-[15px]">
+              Actual colors: Gray
+            </p>
             <div className="flex justify-around flex-wrap gap-3">
               {[
                 "#10458C",

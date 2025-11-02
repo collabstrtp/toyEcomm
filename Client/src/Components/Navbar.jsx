@@ -80,7 +80,7 @@ const Navbar = ({ setShowProfile }) => {
           >
             <NavLinkComponent to="/">Home</NavLinkComponent>
             <NavLinkComponent to="/about">About Us</NavLinkComponent>
-            <NavLinkComponent to="/products">Products</NavLinkComponent>
+            <NavLinkComponent to="/productlist">Products</NavLinkComponent>
           </motion.ul>
         )}
       </AnimatePresence>

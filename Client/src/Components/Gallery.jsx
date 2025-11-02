@@ -1,11 +1,11 @@
 const Gallery = () => {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen ">
       {/* Semi-transparent Overlay */}
       <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
 
       {/* Masonry Grid Container */}
-      <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-5 gap-4 p-4 space-y-4">
+      <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-5 gap-4 space-y-4 z-5 pb-16">
         {/* Image 2 */}
         <div className="relative break-inside-avoid">
           <img
@@ -14,6 +14,7 @@ const Gallery = () => {
             className="w-full rounded-lg"
           />
         </div>
+
         {/* Image 3 */}
         <div className="relative break-inside-avoid">
           <img
@@ -79,40 +80,64 @@ const Gallery = () => {
             className="w-full rounded-lg"
           />
         </div>
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&h=600&fit=crop"
+            alt="Building Blocks"
+            className="w-full rounded-lg"
+          />
+        </div>
       </div>
 
       {/* Centered Overlay Text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
-        <h1 className="text-white text-6xl md:text-8xl font-bold text-center leading-tight drop-shadow-2xl">
-          Sign up to get
-        </h1>
-        <h1 className="text-white text-6xl md:text-8xl font-bold text-center leading-tight drop-shadow-2xl">
-          your ideas
-        </h1>
-        <button className="mt-8 px-8 py-4 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold rounded-full pointer-events-auto transition-colors cursor-pointer shadow-xl">
-          Sign Up
-        </button>
-      </div>
+        <div className="absolute inset-0 flex  items-center justify-between z-20 px-10 -mt-25">
+          <div className="flex flex-row w-1/2 justify-left px-10 items-center flex-wrap">
+            <h1 className="text-white text-3xl md:text-6xl font-bold text-center leading-tight drop-shadow-2xl">
+              Contact us to get in touch
+            </h1>
+          </div>
+          {/* Contact Form Container */}
+          <form className="bg-white p-4 sm:p-6 rounded-xl shadow-2xl  max-w-md pointer-events-auto">
+            <div className="relative flex justify-around gap-1.5 text-center">
+              {" "}
+              <input
+                type="text"
+                placeholder="Your Name"
+                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
+                required
+              />
+              <input
+                type="number"
+                placeholder="Your Contact No"
+                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
+                required
+              />
+            </div>
 
-      {/* Scroll to Top Button */}
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="fixed bottom-8 right-8 bg-pink-600 hover:bg-pink-700 text-white p-4 rounded-full shadow-lg transition-colors z-50"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M5 10l7-7m0 0l7 7m-7-7v18"
-          />
-        </svg>
-      </button>
+            <input
+              type="email"
+              placeholder="Your Email"
+              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
+              required
+            />
+
+            <textarea
+              placeholder="Your Message"
+              rows="4"
+              className="w-full p-2 mb-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-orange-600"
+              required
+            ></textarea>
+
+            <button
+              type="submit"
+              className="w-full px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white text-xl font-semibold rounded-full transition-colors shadow-lg"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
