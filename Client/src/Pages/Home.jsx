@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef  } from "react";
 import { ChevronDown } from "lucide-react";
 import Faq from "./Faq";
 import Gallery from "../Components/Gallery";
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+// Add these imports at the top of your file:
+import { Heart, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const scrollContainerRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  const navigate = useNavigate();
+   const [favorites, setFavorites] = useState([]);
+   const [notification, setNotification] = useState("");
+   const [showFilters, setShowFilters] = useState(false);
+  
   // Multiple sets of images for different slides
   const slideImages = [
     [
@@ -265,8 +272,82 @@ const Home = () => {
 
   const snacks = slideImages[currentSlide];
 
-  const scrollToContent = () => {
-    window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+  const toggleFavorite = (e, product) => {
+    e.stopPropagation();
+    const isFavorited = favorites.some((fav) => fav.id === product.id);
+    if (isFavorited) {
+      setFavorites(favorites.filter((fav) => fav.id !== product.id));
+    } else {
+      setFavorites([...favorites, product]);
+    }
+  };
+
+  const isFavorited = (productId) =>
+    favorites.some((fav) => fav.id === productId);
+
+  const addToCart = (e, product) => {
+    e.stopPropagation();
+  };
+
+ 
+
+
+
+  const products = [
+    {
+      id: 1,
+      image: "https://i5.walmartimages.com/seo/Electric-Shaver-Men-Women-4-1-Rechargeable-Razor-Waterproof-Painless-Epilator-Nose-Hair-Removal-Remover-Facial-Body-Bikini-Eyebrow-Beard-Sideburn-Mus_048f2612-82aa-400b-9169-567099c8e89c.f2dec29f5c99bab88dd706023c55419a.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "Electric shaver for Men & Women, 4-in-1 Rechargeable...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    },
+    {
+      id: 2,
+      image: "https://i5.walmartimages.com/seo/KingSo-22-inch-Wood-Burning-Fire-Pit-Camping-Picnic-Bonfire-Patio-Outside-Backyard-Garden-Small-Steel-Firepit-Bowl-Spark-Screen-Log-Grate-Poker_fa1c9c62-d182-468b-8f17-6624ac721b3e.d317b2c08cf5ba62ca1c48cb4efb76f1.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "KingSo 22 inch Wood Burning Fire Pit for Camping...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    },
+    {
+      id: 3,
+      image: "https://i5.walmartimages.com/seo/LEGO-Speed-Champions-2-Fast-Furious-Nissan-Skyline-GT-R-R34-76917-Race-Car-Toy-Model-Building-Kit-Collectible-Racer-Minifigure-2023-Set-Kids_1078c4bd-27ad-49f8-8757-7336d6887d69.587429381fb543fdf9f69cf12c616532.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "LEGO Speed Champions 2 Fast 2 Furious Nissan Skyline...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    },
+    {
+      id: 4,
+      image: "https://i5.walmartimages.com/seo/LEGO-Classic-LEGO-Medium-Creative-Brick-Box-10696_f7af88f3-04c1-4c77-8237-e5cccc466ab4.2422f9b4d28481d4ffbc684d1357be85.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "LEGO Classic LEGO Medium Creative Brick Box 10696",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    },
+    {
+      id: 5,
+      image: "https://i5.walmartimages.com/seo/Better-Homes-Gardens-Oaklee-2-Drawer-Nightstand-for-bedroom-Charcoal-Finish_4daaa94e-a1d5-45ec-8893-092a1289c2dd.3e44901795490ec5efab0fc6859d5192.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF",
+      title: "Better Homes & Gardens Oaklee 2-Drawer Nightstand...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    },
+    {
+      id: 6,
+      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    }
+  ];
+
+  
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 300;
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
   };
 
 
@@ -422,7 +503,7 @@ const Home = () => {
         {promoCards.map((card) => (
           <div
             key={card.id}
-            className={`relative bg-gradient-to-br ${card.bgGradient} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer h-72`}
+            className={`relative bg-gradient-to-br ${card.bgGradient} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer h-72 p-4`}
           >
             {/* Decorative clouds */}
             <div className="absolute top-4 left-8 w-16 h-8 bg-white rounded-full opacity-80"></div>
@@ -470,58 +551,98 @@ const Home = () => {
       </div>
     </div>
 
-      <h2 className="ml-10 mb-10 mt-5 text-2xl sm:text-xl">
-        Continue your shopping
-      </h2>
+<div className="w-full py-6">
+  <h2 className="px-10 mb-6 text-2xl font-semibold text-gray-800">
+    Continue your shopping
+  </h2>
 
-      <div className="relative flex items-center justify-between gap-10 px-10 mb-10 sm:gap-5">
-        {/* Product Item */}
-        {[
-          "https://i5.walmartimages.com/seo/Electric-Shaver-Men-Women-4-1-Rechargeable-Razor-Waterproof-Painless-Epilator-Nose-Hair-Removal-Remover-Facial-Body-Bikini-Eyebrow-Beard-Sideburn-Mus_048f2612-82aa-400b-9169-567099c8e89c.f2dec29f5c99bab88dd706023c55419a.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
-          "https://i5.walmartimages.com/seo/KingSo-22-inch-Wood-Burning-Fire-Pit-Camping-Picnic-Bonfire-Patio-Outside-Backyard-Garden-Small-Steel-Firepit-Bowl-Spark-Screen-Log-Grate-Poker_fa1c9c62-d182-468b-8f17-6624ac721b3e.d317b2c08cf5ba62ca1c48cb4efb76f1.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
-          "https://i5.walmartimages.com/seo/LEGO-Speed-Champions-2-Fast-Furious-Nissan-Skyline-GT-R-R34-76917-Race-Car-Toy-Model-Building-Kit-Collectible-Racer-Minifigure-2023-Set-Kids_1078c4bd-27ad-49f8-8757-7336d6887d69.587429381fb543fdf9f69cf12c616532.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
-          "https://i5.walmartimages.com/seo/LEGO-Classic-LEGO-Medium-Creative-Brick-Box-10696_f7af88f3-04c1-4c77-8237-e5cccc466ab4.2422f9b4d28481d4ffbc684d1357be85.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
-          "https://i5.walmartimages.com/seo/Better-Homes-Gardens-Oaklee-2-Drawer-Nightstand-for-bedroom-Charcoal-Finish_4daaa94e-a1d5-45ec-8893-092a1289c2dd.3e44901795490ec5efab0fc6859d5192.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF",
-          "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
-        ].map((img, index) => (
-          <div
-            key={index}
-            className="relative min-w-[250px] bg-white p-4 rounded-2xl shadow-md flex flex-col items-start"
+  <div className="relative px-10">
+    {/* Scrollable Container */}
+    <div
+      ref={scrollContainerRef}
+      className="flex gap-4 overflow-x-auto scroll-smooth"
+      style={{ 
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        WebkitOverflowScrolling: 'touch'
+      }}
+    >
+      {products.map((product) => (
+        <div
+          key={product.id}
+          className="flex-shrink-0 w-64 flex flex-col border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all cursor-pointer relative"
+          onClick={() => navigate("/product")}
+        >
+          {/* Favorite Button */}
+          <button
+            onClick={(e) => toggleFavorite(e, product)}
+            className="absolute top-3 right-3 z-10 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:scale-110 transition-all"
+            aria-label={`Toggle favorite for ${product.title}`}
           >
-            {/* Heart Button */}
-            <button className="absolute top-0 right-5 bg-white border-none h-[30px] w-[30px] rounded-full flex items-center justify-center shadow-sm">
-              <i className="fa-solid fa-heart text-[20px] text-gray-300"></i>
-            </button>
+            <Heart
+              className={`w-5 h-5 transition-all ${
+                isFavorited(product.id)
+                  ? "fill-red-500 text-red-500"
+                  : "text-gray-400"
+              }`}
+            />
+          </button>
 
-            {/* Image */}
-            <img src={img} alt="product" className="h-[170px] ml-[23px] mb-2" />
-
-            <p className="text-[13px] font-light mb-1">Sponsored</p>
-
-            <h2 className="font-normal text-[19px] mb-1">
-              <span className="text-green-600">Now $16.99 </span>$52.99
-            </h2>
-
-            <p className="font-normal text-[14px] w-[210px] mb-6">
-              Electric shaver for Men & Women, 4-in-1 Rechargeable...
-            </p>
-
-            <button className="px-6 py-2 rounded-full border border-black hover:bg-gray-100">
-              + Add
-            </button>
-
-            <i className="fa-solid fa-xmark text-gray-500 text-[30px] absolute bottom-[108px] right-80px"></i>
+          {/* Product Image */}
+          <div className="relative w-full aspect-square bg-gray-100">
+            <img
+              src={product.image}
+              alt={product.title}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
           </div>
-        ))}
 
-        {/* Navigation Buttons */}
-        <button className="absolute left-7 sm:left-2 h-10 w-10 border border-black rounded-full flex items-center justify-center">
-          <i className="fa-solid fa-angle-left"></i>
-        </button>
-        <button className="absolute right-7 sm:right-2 h-10 w-10 border border-black rounded-full flex items-center justify-center">
-          <i className="fa-solid fa-angle-right"></i>
-        </button>
-      </div>
+          {/* Product Details */}
+          <div className="p-4 flex-1 flex flex-col">
+            <p className="text-xs text-orange-600 font-medium mb-2">
+              {product.category || "Toys"}
+            </p>
+            <h3 className="text-sm font-medium text-gray-800 mb-2 line-clamp-2 flex-1">
+              {product.title}
+            </h3>
+
+            <div className="mt-auto space-y-2">
+              <p className="text-xl font-bold text-gray-900">
+                ${product.currentPrice.toFixed(2)}
+              </p>
+
+              <button
+                onClick={(e) => addToCart(e, product)}
+                disabled={!product.inStock}
+                className={`w-full py-2.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
+                  product.inStock
+                    ? "bg-orange-500 text-white hover:bg-orange-600"
+                    : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                }`}
+                aria-label={`Add ${product.title} to cart`}
+              >
+                <ShoppingCart className="w-4 h-4" />
+                {product.inStock ? "Add to Cart" : "Out of Stock"}
+              </button>
+
+              <div className="text-xs text-center text-gray-600">
+                {product.reviews || "⭐ 4.5 (200 reviews)"}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <style jsx>{`
+    div[style*="scrollbarWidth"]::-webkit-scrollbar {
+      display: none;
+    }
+  `}</style>
+</div>
+
       {/* <Gallery /> */}
       <Faq />
     </div>

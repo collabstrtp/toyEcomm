@@ -20,8 +20,7 @@ const Navbar = ({ setShowProfile }) => {
   };
 
   const handleProfile = () => {
-    if (setShowProfile) setShowProfile(true);
-    setIsOpen(false);
+    navigate("/profile");
   };
 
   const handleBooking = () => {
