@@ -80,7 +80,7 @@ const Navbar = ({ setShowProfile }) => {
           >
             <NavLinkComponent to="/">Home</NavLinkComponent>
             <NavLinkComponent to="/about">About Us</NavLinkComponent>
-            <NavLinkComponent to="/services">Products</NavLinkComponent>
+            <NavLinkComponent to="/products">Products</NavLinkComponent>
           </motion.ul>
         )}
       </AnimatePresence>
@@ -119,10 +119,16 @@ const Navbar = ({ setShowProfile }) => {
 
         {isAuthenticated ? (
           <>
-            <button className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100 transition-colors">
+            <button
+              className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100 transition-colors"
+              onClick={() => navigate("/cart")}
+            >
               <ShoppingCart size={20} />
             </button>
-            <button className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100 transition-colors">
+            <button
+              className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100 transition-colors"
+              onClick={() => navigate("/favourites")}
+            >
               <Heart size={20} />
             </button>
             <button onClick={handleProfile} className="cursor-pointer mr-4">

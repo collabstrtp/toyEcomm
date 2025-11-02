@@ -1,153 +1,118 @@
-import { NavLink } from "react-router-dom";
-
-// A reusable styled wrapper for all grid items
-const GridCard = ({ className = "", children }) => (
-  <div
-    className={`relative overflow-hidden rounded-lg p-4 shadow-md ${className}`}
-  >
-    {children}
-  </div>
-);
-
-// Individual item for the horizontal carousel
-const BannerItem = ({ title, img, ar }) => (
-  <div className="flex-shrink-0 w-32 md:w-40 p-3 bg-white border border-gray-100 rounded-lg mr-4 text-center">
-    {/* Placeholder for Product Image */}
-    <img
-      src={img}
-      alt={title}
-      className="w-full h-20 object-contain mx-auto mb-1"
-    />
-    <h4 className="font-semibold text-xs mt-1 text-gray-800">{title}</h4>
-    {ar && <p className="text-[10px] text-green-600 font-medium">✨ AR View</p>}
-  </div>
-);
-
 const Gallery = () => {
   return (
-    // Grid Container: lg:grid-cols-4, auto-rows-min for flexible height
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 lg:p-8 auto-rows-min">
-      {/* 1. Floor Care - Top Left (lg:col-span-1, lg:row-span-3) */}
-      <GridCard className="bg-[#E6CFA7] lg:col-span-1 lg:row-span-3 flex flex-col justify-between">
-        <h2 className="text-xl font-bold mb-1">Floor care for so much less</h2>
-        <NavLink to="/deals" className="underline text-black text-sm">
-          Shop now
-        </NavLink>
-        <div className="w-full mt-4 flex justify-end">
-          <div className="w-40 h-auto bg-white rounded-full p-2"></div>
-        </div>
-      </GridCard>
+    <div className="relative min-h-screen">
+      {/* Semi-transparent Overlay */}
+      <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
 
-      {/* 2. Furniture Showcase - THE CENTRAL BANNER (lg:col-span-2, lg:row-span-5) */}
-      <GridCard className="bg-white lg:col-span-2 lg:row-span-5 flex flex-col border border-gray-200 p-0">
-        <div className="flex overflow-x-scroll whitespace-nowrap pt-4 px-4 custom-scrollbar">
-          <BannerItem title="Clay Vase" img="placeholder-vase.jpg" />
-          <BannerItem title="Two Door Cabinet" img="placeholder-cabinet.jpg" />
-          <BannerItem
-            title="Wooden Chair"
-            img="placeholder-chair.jpg"
-            ar={true}
+      {/* Masonry Grid Container */}
+      <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-5 gap-4 p-4 space-y-4">
+        {/* Image 2 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&h=600&fit=crop"
+            alt="Building Blocks"
+            className="w-full rounded-lg"
           />
-          <BannerItem title="Sofa" img="placeholder-sofa.jpg" />
         </div>
-        <div className="flex-grow flex items-end justify-center pt-4 overflow-hidden">
-          <div className="w-full h-full bg-blue-100/50 flex items-center justify-center"></div>
+        {/* Image 3 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1563396983906-b3795482a59a?w=600&h=500&fit=crop"
+            alt="Plush Toys"
+            className="w-full rounded-lg"
+          />
         </div>
-      </GridCard>
-
-      {/* 3. Personal Care - Top Right (lg:col-span-1, lg:row-span-2) */}
-      <GridCard className="bg-[#e7edf6] lg:col-span-1 lg:row-span-2 flex flex-col justify-between">
-        <h2 className="text-xl font-bold mb-1">Save on personal care</h2>
-        <NavLink to="/deals" className="underline text-black text-sm">
-          Shop now
-        </NavLink>
-        <div className="w-full mt-2 flex justify-end"></div>
-      </GridCard>
-
-      {/* 4. Top Styles - Staggered Left (lg:col-span-1, lg:row-span-4) */}
-      <GridCard className="bg-[#d9e4f5] lg:col-span-1 lg:row-span-4 flex flex-col justify-between">
-        <div>
-          <h2 className="text-xl font-bold mb-1">Top styles, low Prices</h2>
-          <h2 className="text-xl font-bold my-1">$45</h2>
-          <NavLink to="/deals" className="underline text-black text-sm">
-            Shop now
-          </NavLink>
+        {/* Image 4 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=600&h=700&fit=crop"
+            alt="Colorful Toys"
+            className="w-full rounded-lg"
+          />
         </div>
-        <div className="w-full flex justify-end"></div>
-      </GridCard>
-
-      {/* 5. Apple Savings - Staggered Right (Under Personal Care) (lg:col-span-1, lg:row-span-3) */}
-      <GridCard className="bg-[#feeadf] lg:col-span-1 lg:row-span-3 flex flex-col justify-between">
-        <h2 className="text-xl font-bold mb-1">Apple savings up to $150 off</h2>
-        <NavLink to="/deals" className="underline text-black text-sm">
-          Shop now
-        </NavLink>
-        <div className="w-full mt-2 flex justify-end"></div>
-      </GridCard>
-
-      {/* 6. Budget Friendly Furniture - Under Central Banner, Left (lg:col-span-1, lg:row-span-3) */}
-      <GridCard className="bg-gray-200 lg:col-span-1 lg:row-span-3 flex flex-col justify-between p-0">
-        <div className="p-4">
-          <h2 className="text-xl font-bold mb-1">Budget friendly furniture</h2>
-          <NavLink to="/deals" className="underline text-black text-sm">
-            Shop now
-          </NavLink>
-          <div className="mt-2 w-full h-8 bg-gray-700 rounded-md"></div>
+        {/* Image 6 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1530325553241-4f6e7690cf36?w=600&h=550&fit=crop"
+            alt="Stuffed Animals"
+            className="w-full rounded-lg"
+          />
         </div>
-        <div className="w-full h-3/4 bg-gray-700"></div>
-      </GridCard>
 
-      {/* 7. Up to 40% Off - Under Central Banner, Right (lg:col-span-1, lg:row-span-2) */}
-      <GridCard className="bg-[#fde77f] lg:col-span-1 lg:row-span-2 flex flex-col justify-between">
-        <h2 className="text-xl font-bold mb-1">Up to 40% off</h2>
-        <NavLink to="/deals" className="underline text-black text-sm">
-          Shop now
-        </NavLink>
-        <div className="w-full mt-2 flex justify-center"></div>
-      </GridCard>
+        {/* Image 8 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=600&fit=crop"
+            alt="Arts and Crafts"
+            className="w-full rounded-lg"
+          />
+        </div>
+        {/* Image 9 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=600&h=500&fit=crop"
+            alt="Action Figures"
+            className="w-full rounded-lg"
+          />
+        </div>
+        {/* Image 10 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=600&h=450&fit=crop"
+            alt="Gift Sets"
+            className="w-full rounded-lg"
+          />
+        </div>
+        {/* Image 11 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&h=550&fit=crop"
+            alt="Pretend Play"
+            className="w-full rounded-lg"
+          />
+        </div>
+        {/* Image 12 */}
+        <div className="relative break-inside-avoid">
+          <img
+            src="https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=600&h=400&fit=crop"
+            alt="Board Games"
+            className="w-full rounded-lg"
+          />
+        </div>
+      </div>
 
-      {/* 11. 🌟 NEW ITEM: Seasonal Deals (Added below Item 7) 🌟 */}
-      {/* This new item balances the grid height against the tall left column (Item 4) */}
-      <GridCard className="bg-orange-200 lg:col-span-1 lg:row-span-2">
-        <h2 className="text-xl font-bold mb-1">Seasonal Deals!</h2>
-        <NavLink to="/deals" className="underline text-black text-sm">
-          Shop now
-        </NavLink>
-        <div className="w-full mt-2 flex justify-center"></div>
-      </GridCard>
+      {/* Centered Overlay Text */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
+        <h1 className="text-white text-6xl md:text-8xl font-bold text-center leading-tight drop-shadow-2xl">
+          Sign up to get
+        </h1>
+        <h1 className="text-white text-6xl md:text-8xl font-bold text-center leading-tight drop-shadow-2xl">
+          your ideas
+        </h1>
+        <button className="mt-8 px-8 py-4 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold rounded-full pointer-events-auto transition-colors cursor-pointer shadow-xl">
+          Sign Up
+        </button>
+      </div>
 
-      {/* 8. Sports & Outdoors - Bottom Right (lg:col-span-1, lg:row-span-4) */}
-      <GridCard className="bg-blue-300 lg:col-span-1 lg:row-span-4 flex flex-col justify-between">
-        <h2 className="text-xl font-bold mb-1">
-          Sports & outdoors for way less
-        </h2>
-        <NavLink to="/deals" className="underline text-black text-sm">
-          Shop now
-        </NavLink>
-        <div className="w-full mt-2 flex justify-center"></div>
-      </GridCard>
-
-      {/* 9. Let's Play - Bottom Left Corner Stagger (lg:col-span-1, lg:row-span-2) */}
-      <GridCard className="bg-purple-200 lg:col-span-1 lg:row-span-2 flex flex-col justify-between">
-        <h2 className="text-xl font-bold mb-1">Let's play under $25</h2>
-        <NavLink to="/deals" className="underline text-black text-sm">
-          Shop now
-        </NavLink>
-        <div className="w-full mt-2 flex justify-end"></div>
-      </GridCard>
-
-      {/* 10. Same-day delivery - BOTTOM BANNER (lg:col-span-4, lg:row-span-1) - Spans full width */}
-      <GridCard className="bg-[#ffc21f] lg:col-span-2 lg:row-span-1 flex justify-between items-center">
-        <h2 className="text-xl font-bold">
-          Enjoy Free Same-day delivery low prices!
-        </h2>
-        <NavLink
-          to="/deals"
-          className="underline text-black text-sm font-semibold"
+      {/* Scroll to Top Button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className="fixed bottom-8 right-8 bg-pink-600 hover:bg-pink-700 text-white p-4 rounded-full shadow-lg transition-colors z-50"
+      >
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
-          Join Now
-        </NavLink>
-      </GridCard>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M5 10l7-7m0 0l7 7m-7-7v18"
+          />
+        </svg>
+      </button>
     </div>
   );
 };

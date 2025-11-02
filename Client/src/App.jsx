@@ -7,17 +7,22 @@ import ProductList from "./Pages/Product";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Cart from "./Pages/Cart";
+import Favourites from "./Pages/Favourites";
+import About from "./Pages/About";
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="product" element={<Product />} />
+          <Route path="products" element={<Product />} />
           <Route path="productlist" element={<ProductList />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Route>
       </Routes>
     </Router>

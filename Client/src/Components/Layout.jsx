@@ -4,13 +4,15 @@ import Footer from "../Components/Footer";
 import bg from "../assets/bg.png";
 const Layout = () => {
   return (
-<div
+    <div
       className="mt-0 pt-2 overflow-hidden bg-center bg-no-repeat"
-      style={{ 
+      style={{
         backgroundImage: `url(${bg})`,
         backgroundSize: "cover",
       }}
-    >      <Navbar />
+    >
+      {" "}
+      <Navbar />
       <Outlet />
       <Footer />
     </div>
