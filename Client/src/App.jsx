@@ -9,6 +9,7 @@ import Signup from "./Pages/Signup";
 import Cart from "./Pages/Cart";
 import Favourites from "./Pages/Favourites";
 import About from "./Pages/About";
+import Profile from "./Pages/Profile";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/favourites" element={<Favourites />} />
+          <Route path="/profile" element={<Profile />} />
           {/*           <Route path="/about" element={<About />} />
            */}{" "}
           <Route path="favourites" element={<Favourites />} />
