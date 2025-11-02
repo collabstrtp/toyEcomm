@@ -131,15 +131,15 @@ const Footer = ({ isFixed = false }) => {
             </h4>
             <ul className="space-y-3 text-sm text-orange-100">
               <li className="flex items-start">
-                <MapPin size={16} className="mr-2 mt-1 flex-shrink-0" />
+                <MapPin size={16} className="mr-2 mt-1 flex shrink-0" />
                 <span>123 Shopping Street, Commerce City, CC 12345</span>
               </li>
               <li className="flex items-center">
-                <Phone size={16} className="mr-2 flex-shrink-0" />
+                <Phone size={16} className="mr-2 flex shrink-0" />
                 <span>+1 (555) 123-4567</span>
               </li>
               <li className="flex items-center">
-                <Mail size={16} className="mr-2 flex-shrink-0" />
+                <Mail size={16} className="mr-2 flex shrink-0" />
                 <span>support@shophub.com</span>
               </li>
             </ul>
