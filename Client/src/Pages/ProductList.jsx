@@ -149,7 +149,7 @@ function ProductList() {
           <div
             key={product.id}
             className="flex flex-col items-center border border-gray-300 rounded-xl overflow-hidden max-w-[250px] m-3 bg-white shadow-md transition-transform hover:scale-[1.02] relative cursor-pointer"
-            onClick={() => navigate("/productlist")}
+            onClick={() => navigate("/product")}
           >
             {/* Like Button */}
             <button

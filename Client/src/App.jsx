@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Layout from "./Components/Layout";
 import Home from "./Pages/Home";
-import Product from "./Pages/ProductList";
-import ProductList from "./Pages/Product";
+import ProductList from "./Pages/ProductList";
+import Product from "./Pages/Product";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Cart from "./Pages/Cart";
@@ -17,8 +17,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="products" element={<Product />} />
           <Route path="productlist" element={<ProductList />} />
+          <Route path="product" element={<Product />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="cart" element={<Cart />} />
