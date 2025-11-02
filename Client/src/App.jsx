@@ -14,6 +14,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/about" element={<About />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="products" element={<Product />} />
@@ -21,8 +22,9 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="cart" element={<Cart />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/favourites" element={<Favourites />} />
+          {/*           <Route path="/about" element={<About />} />
+           */}{" "}
+          <Route path="favourites" element={<Favourites />} />
         </Route>
       </Routes>
     </Router>
