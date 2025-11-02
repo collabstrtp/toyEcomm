@@ -104,13 +104,13 @@ const Gallery = () => {
               <input
                 type="text"
                 placeholder="Your Name"
-                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
                 required
               />
               <input
                 type="number"
                 placeholder="Your Contact No"
-                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
                 required
               />
             </div>
@@ -118,20 +118,20 @@ const Gallery = () => {
             <input
               type="email"
               placeholder="Your Email"
-              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
               required
             />
 
             <textarea
               placeholder="Your Message"
               rows="4"
-              className="w-full p-2 mb-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full p-2 mb-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-orange-600"
               required
             ></textarea>
 
             <button
               type="submit"
-              className="w-full px-8 py-3 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold rounded-full transition-colors shadow-lg"
+              className="w-full px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white text-xl font-semibold rounded-full transition-colors shadow-lg"
             >
               Send Message
             </button>
