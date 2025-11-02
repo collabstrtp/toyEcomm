@@ -62,7 +62,7 @@ const Cart = () => {
                   <div key={item.id} className="p-6">
                     <div className="flex gap-4">
                       {/* Product Image */}
-                      <div className="flex-shrink-0">
+                      <div className="flex shrink-0">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -167,7 +167,7 @@ const Cart = () => {
               <div className="p-4 bg-gray-50 border-t flex gap-3">
                 <Shield
                   size={20}
-                  className="text-gray-600 flex-shrink-0 mt-1"
+                  className="text-gray-600 flex shrink-0 mt-1"
                 />
                 <p className="text-xs text-gray-600 leading-relaxed">
                   Safe and Secure Payments. Easy returns. 100% Authentic

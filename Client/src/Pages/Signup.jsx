@@ -81,7 +81,7 @@ const Signup = () => {
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 my-10 md:w-[60%] mx-auto w-[90%]">
         {/* Left Side - Signup Form */}
-        <div className="flex flex-col justify-center items-center bg-orange-200 p-8 md:p-16 md:rounded-[0px] rounded-xl md:rounded-l-3xl">
+        <div className="flex flex-col justify-center items-center bg-orange-200 p-8 md:p-16 md:rounded-10px rounded-xl md:rounded-l-3xl">
           <h1 className="text-3xl font-semibold">Hi there!</h1>
           <p className="text-center text-sm mt-2">
             Welcome to Mumvets. Community Dashboard
@@ -98,9 +98,9 @@ const Signup = () => {
           </button>
 
           <div className="flex items-center w-full my-4">
-            <hr className="flex-grow border-gray-400" />
+            <hr className="flex grow border-gray-400" />
             <span className="mx-2 text-sm">or</span>
-            <hr className="flex-grow border-gray-400" />
+            <hr className="flex grow border-gray-400" />
           </div>
 
           <form onSubmit={handleSubmit} className="w-full">

@@ -243,7 +243,7 @@ const Home = () => {
           {snacks.map((snack, index) => (
             <div
               key={`${currentSlide}-${snack.id}`}
-              className={`flex-shrink-0 w-32 md:w-48 lg:w-56 ${snack.height} rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer`}
+              className={`flex shrink-0 w-32 md:w-48 lg:w-56 ${snack.height} rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer`}
               style={{
                 animation: `fadeIn 0.5s ease-out ${index * 0.1}s both`,
               }}
@@ -298,7 +298,7 @@ const Home = () => {
               + Add
             </button>
 
-            <i className="fa-solid fa-xmark text-gray-500 text-[30px] absolute bottom-[108px] right-[80px]"></i>
+            <i className="fa-solid fa-xmark text-gray-500 text-[30px] absolute bottom-[108px] right-80px"></i>
           </div>
         ))}
 
