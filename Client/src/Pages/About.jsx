@@ -41,7 +41,7 @@ const About = () => {
 
   return (
     <>
-      <Navbar />
+      {/*  <Navbar /> */}
 
       {/* Hero Section */}
       <div
@@ -118,10 +118,6 @@ const About = () => {
                 : "opacity-0 translate-y-10"
             }`}
           >
-            {" "}
-            <span className="inline-block  bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-              CORE VALUES
-            </span>
             <h2 className="text-4xl font-bold md:text-5xl text-gray-900 mb-10">
               What We Offer ?
             </h2>
@@ -166,72 +162,7 @@ const About = () => {
             </div>
           </div>
         </section>
-        {/*  <section id="values" className="animate-on-scroll  text-white py-20">
-          <div
-            className={`max-w-6xl mx-auto px-6 transition-all duration-1000 ${
-              isVisible.values
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <div className="text-center mb-12">
-              <span className="inline-block bg-orange-500 text-gray-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                CORE VALUES
-              </span>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Why Choose ToyEcom
-              </h2>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  icon: Shield,
-                  title: "Safety First",
-                  desc: "Every product rigorously tested and certified for child safety standards",
-                },
-                {
-                  icon: Award,
-                  title: "Premium Quality",
-                  desc: "Handpicked items from trusted brands with proven durability",
-                },
-                {
-                  icon: Heart,
-                  title: "Curated Selection",
-                  desc: "Expert-chosen toys that balance fun with developmental value",
-                },
-                {
-                  icon: Users,
-                  title: "Customer Care",
-                  desc: "Dedicated support team ready to assist with any questions",
-                },
-                {
-                  icon: TrendingUp,
-                  title: "Best Prices",
-                  desc: "Competitive pricing without compromising on quality",
-                },
-                {
-                  icon: CheckCircle,
-                  title: "Age-Appropriate",
-                  desc: "Products matched to developmental stages for safe engagement",
-                },
-              ].map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="bg-orange-50 rounded-xl p-6  transition-all"
-                  >
-                    <Icon className="w-12 h-12 text-orange-400 mb-4" />
-                    <h3 className="text-gray-900 text-xl font-bold mb-3">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-600">{item.desc}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section> */}
+
         {/* Testimonials */}
         <section
           id="testimonials"
@@ -245,9 +176,6 @@ const About = () => {
             }`}
           >
             <div className="text-center mb-12">
-              <span className="inline-block bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                TESTIMONIALS
-              </span>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                 What People Say ?
               </h2>
@@ -280,14 +208,7 @@ const About = () => {
             </div>
           </div>
         </section>
-
-        {/* Gallery & Footer */}
-        <div className="flex-col">
-          <Gallery />
-          <div className="relative -mt-52 z-10 w-full">
-            <Footer />
-          </div>
-        </div>
+        <Gallery />
       </div>
     </>
   );
