@@ -408,7 +408,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart } from "lucide-react";
 import FilterBar from "../Components/FilterBar";
-import FilterSidebar from "../Components/FilterSidebar";
+/* import FilterSidebar from "../Components/FilterSidebar"; */
 
 const products = [
   {
@@ -694,7 +694,7 @@ function ProductList() {
     filters.ageGroup.length;
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen overflow-visible">
       {/* Notification */}
       {notification && (
         <div className="fixed bottom-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50">
@@ -715,16 +715,6 @@ function ProductList() {
         filterOptions={filterOptions}
         className=""
       />
-
-      {/* Filter Sidebar - Only for mobile */}
-      {/* <FilterSidebar
-        showFilters={showFilters}
-        setShowFilters={setShowFilters}
-        filters={filters}
-        setFilters={setFilters}
-        handleFilterChange={handleFilterChange}
-        filterOptions={filterOptions}
-      /> */}
 
       {/* Products Grid */}
       <div className="max-w-7xl mx-auto px-4 py-6">

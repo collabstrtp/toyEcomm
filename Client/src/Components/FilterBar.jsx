@@ -171,26 +171,8 @@ const FilterBar = ({
       <div className="max-w-7xl mx-auto px-4 py-4">
         {/* Main Filter Bar */}
         <div className="flex items-center justify-between gap-4">
-          {/* Mobile Filter Button */}
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="lg:hidden flex items-center gap-2 px-6 py-3 rounded-full transition-all shadow-md hover:shadow-lg font-semibold"
-            style={{
-              background: "linear-gradient(180deg, #FFF5E6  0%,  #F97316 100%)",
-              color: "#1a202c",
-            }}
-          >
-            <Filter className="w-5 h-5" />
-            Filters
-            {activeFilterCount > 0 && (
-              <span className="bg-white text-orange-600 px-2 py-0.5 rounded-full text-xs font-bold">
-                {activeFilterCount}
-              </span>
-            )}
-          </button>
-
-          {/* Desktop Filter Dropdowns - Centered */}
-          <div className="hidden lg:flex items-center justify-center gap-3 flex-1">
+          {/* Filter Dropdowns - Responsive */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1 justify-center">
             <PriceDropdown />
             <FilterDropdown
               name="categories"
@@ -230,7 +212,7 @@ const FilterBar = ({
             >
               <button
                 onClick={() => toggleDropdown("sortOrder")}
-                className="flex items-center gap-2 px-6 py-3 rounded-full transition-all text-sm font-semibold whitespace-nowrap shadow-md hover:shadow-lg"
+                className="flex items-center gap-2 px-4 sm:px-6 py-3 rounded-full transition-all text-sm font-semibold whitespace-nowrap shadow-md hover:shadow-lg"
                 style={{
                   background:
                     "linear-gradient(180deg, #FFF5E6 0%, #F97316 100%)",
@@ -285,29 +267,8 @@ const FilterBar = ({
             </div>
           </div>
 
-          {/* Mobile Sort */}
-          <div className="relative flex items-center gap-2 lg:hidden">
-            <select
-              value={filters.sortOrder}
-              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
-              className="px-4 py-2 rounded-full text-sm font-semibold shadow-md outline-none appearance-none cursor-pointer"
-              style={{
-                background:
-                  "linear-gradient(180deg, #FFF5E6  0%,  #F97316 100%)",
-                color: "#1a202c",
-                paddingRight: "2rem",
-              }}
-            >
-              <option value="featured">Featured</option>
-              <option value="priceLowHigh">Price: Low to High</option>
-              <option value="priceHighLow">Price: High to Low</option>
-              <option value="nameAZ">Name: A to Z</option>
-            </select>
-            <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-700 pointer-events-none" />
-          </div>
-
-          {/* Product Count - Desktop only */}
-          <div className="text-sm text-gray-600 hidden lg:block whitespace-nowrap">
+          {/* Product Count */}
+          <div className="text-sm text-gray-600 whitespace-nowrap">
             <span className="font-semibold text-gray-900">
               {filteredProductsCount}
             </span>{" "}
