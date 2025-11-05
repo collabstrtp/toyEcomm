@@ -335,6 +335,34 @@ const Home = () => {
       title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
       currentPrice: 16.99,
       originalPrice: 52.99
+    },
+    {
+      id: 6,
+      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    },
+    {
+      id: 6,
+      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    },
+    {
+      id: 6,
+      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
+    },
+    {
+      id: 6,
+      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
+      currentPrice: 16.99,
+      originalPrice: 52.99
     }
   ];
 
@@ -551,7 +579,8 @@ const Home = () => {
         ))}
       </div>
     </div>
-{/* product list */}
+{/* Product List */}
+{/* Recently Viewed / Continue Shopping */}
 <div className="w-full py-6">
   <h2 className="md:px-10 px-5 mb-6 text-2xl font-semibold text-gray-800">
     Continue your shopping
@@ -561,88 +590,48 @@ const Home = () => {
     {/* Scrollable Container */}
     <div
       ref={scrollContainerRef}
-      className="flex gap-4 overflow-x-auto scroll-smooth"
-      style={{ 
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none',
-        WebkitOverflowScrolling: 'touch'
-      }}
+      className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide"
     >
       {products.map((product) => (
         <div
           key={product.id}
-          className="flex-shrink-0 w-64 flex flex-col border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all cursor-pointer relative"
+          className="flex-shrink-0 w-36 sm:w-44 md:w-48 lg:w-52 flex flex-col border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-all cursor-pointer"
           onClick={() => navigate("/product")}
         >
-          {/* Favorite Button */}
-          <button
-            onClick={(e) => toggleFavorite(e, product)}
-            className="absolute top-3 right-3 z-10 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:scale-110 transition-all"
-            aria-label={`Toggle favorite for ${product.title}`}
-          >
-            <Heart
-              className={`w-5 h-5 transition-all ${
-                isFavorited(product.id)
-                  ? "fill-red-500 text-red-500"
-                  : "text-gray-400"
-              }`}
-            />
-          </button>
-
           {/* Product Image */}
-          <div className="relative w-full aspect-square bg-gray-100">
+          <div className="relative w-full aspect-[4/5] bg-gray-50">
             <img
               src={product.image}
               alt={product.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain p-3"
               loading="lazy"
             />
           </div>
 
           {/* Product Details */}
-          <div className="p-4 flex-1 flex flex-col">
-            <p className="text-xs text-orange-600 font-medium mb-2">
-              {product.category || "Toys"}
-            </p>
-            <h3 className="text-sm font-medium text-gray-800 mb-2 line-clamp-2 flex-1">
+          <div className="px-3 py-2">
+            <h3 className="text-sm font-medium text-gray-800 truncate mb-1">
               {product.title}
             </h3>
 
-            <div className="mt-auto space-y-2">
-              <p className="text-xl font-bold text-gray-900">
-                ${product.currentPrice.toFixed(2)}
+            <div className="flex items-center gap-2">
+              <p className="text-base font-semibold text-gray-900">
+                ₹{product.currentPrice}
               </p>
-
-              <button
-                onClick={(e) => addToCart(e, product)}
-                disabled={!product.inStock}
-                className={`w-full py-2.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
-                  product.inStock
-                    ? "bg-orange-500 text-white hover:bg-orange-600"
-                    : "bg-gray-200 text-gray-500 cursor-not-allowed"
-                }`}
-                aria-label={`Add ${product.title} to cart`}
-              >
-                <ShoppingCart className="w-4 h-4" />
-                {product.inStock ? "Add to Cart" : "Out of Stock"}
-              </button>
-
-              <div className="text-xs text-center text-gray-600">
-                {product.reviews || "⭐ 4.5 (200 reviews)"}
-              </div>
+              {product.originalPrice && (
+                <p className="text-sm text-gray-500 line-through">
+                  ₹{product.originalPrice}
+                </p>
+              )}
             </div>
           </div>
         </div>
       ))}
     </div>
   </div>
-
-  <style jsx>{`
-    div[style*="scrollbarWidth"]::-webkit-scrollbar {
-      display: none;
-    }
-  `}</style>
 </div>
+
+
 
       {/* <Gallery /> */}
       <Faq />
