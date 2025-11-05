@@ -42,12 +42,12 @@ export default function ProfileSection() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50 p-4 md:p-8">
+    <div className="min-h-screen  p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div className=" rounded-2xl shadow-xl overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-0">
             {/* Sidebar */}
-            <div className="md:col-span-1 bg-gradient-to-b from-gray-50 to-gray-100 border-r border-gray-200 p-6">
+            <div className="md:col-span-1 p-6">
               <div className="space-y-2">
                 {menuItems.map(item => (
                   <button
