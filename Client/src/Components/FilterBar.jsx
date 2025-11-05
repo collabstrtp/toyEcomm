@@ -172,7 +172,7 @@ const FilterBar = ({
         {/* Main Filter Bar */}
         <div className="flex items-center justify-between gap-4">
           {/* Filter Dropdowns - Responsive */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1 justify-center">
+          <div className="flex items-center gap-3 sm:gap-4 flex-nowrap overflow-x-auto scrollbar-hide w-full py-2">
             <PriceDropdown />
             <FilterDropdown
               name="categories"
@@ -268,7 +268,7 @@ const FilterBar = ({
           </div>
 
           {/* Product Count */}
-          <div className="text-sm text-gray-600 whitespace-nowrap">
+          <div className="text-sm text-gray-600 whitespace-nowrap hidden md:block">
             <span className="font-semibold text-gray-900">
               {filteredProductsCount}
             </span>{" "}
