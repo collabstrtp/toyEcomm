@@ -443,9 +443,9 @@ const Home = () => {
       </div>
 
    
-
+{/* banner slider */}
     <div className="w-full max-w-7xl mx-auto p-4">
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[500px] group">
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl md:h-[500px] h-[200px] group">
         {/* Slides */}
         {slides.map((slide, index) => (
           <div
@@ -497,13 +497,14 @@ const Home = () => {
         </div>
       </div>
     </div>
-
+{/* category card */}
       <div className="w-full p-4">
+   
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-7xl mx-auto">
         {promoCards.map((card) => (
           <div
             key={card.id}
-            className={`relative bg-gradient-to-br ${card.bgGradient} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer h-72 p-4`}
+            className={`relative bg-gradient-to-br ${card.bgGradient} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer md:h-72 h-50 p-4`}
           >
             {/* Decorative clouds */}
             <div className="absolute top-4 left-8 w-16 h-8 bg-white rounded-full opacity-80"></div>
@@ -536,12 +537,12 @@ const Home = () => {
               </div>
 
               {/* Image Content */}
-              <div className="flex-1 flex items-end justify-center pb-4">
-                <div className="bg-white rounded-2xl shadow-lg p-2 max-w-[200px]">
+              <div className="flex-1 flex items-end justify-center pb-0 md:pb-4">
+                <div className="bg-white rounded-2xl shadow-lg p-1 md:p-2 max-w-[200px]">
                   <img
                     src={card.image}
                     alt={card.imageAlt}
-                    className="w-full h-48 object-cover rounded-xl"
+                    className="w-full md:h-48 h-40 object-cover rounded-xl"
                   />
                 </div>
               </div>
@@ -550,13 +551,13 @@ const Home = () => {
         ))}
       </div>
     </div>
-
+{/* product list */}
 <div className="w-full py-6">
-  <h2 className="px-10 mb-6 text-2xl font-semibold text-gray-800">
+  <h2 className="md:px-10 px-5 mb-6 text-2xl font-semibold text-gray-800">
     Continue your shopping
   </h2>
 
-  <div className="relative px-10">
+  <div className="relative px-0 md:px-10">
     {/* Scrollable Container */}
     <div
       ref={scrollContainerRef}

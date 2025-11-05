@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from "react";
-import bg from "../assets/bg.png";
 import image from "../assets/image.png";
 import Navbar from "../Components/Navbar";
 import Gallery from "../Components/Gallery";
@@ -45,8 +44,7 @@ const About = () => {
 
       {/* Hero Section */}
       <div
-        className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center text-center"
-        style={{ backgroundImage: `url(${bg})` }}
+        className=" flex flex-col items-center justify-center bg-cover bg-center text-center"
       >
         <div className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center text-center">
           <h1 className="text-5xl font-extrabold m-6 text-orange-600 drop-shadow-md">

@@ -1,11 +1,11 @@
 const Gallery = () => {
   return (
-    <div className="relative z-0">
+    <div className="relative z-0 h-[600px] overflow-hidden">
       {/* Semi-transparent Overlay */}
       <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
 
       {/* Masonry Grid Container */}
-      <div className="columns-2 md:columns-3 lg:columns-3 xl:columns-4 gap-4 space-y-4 z-5 px-10">
+      <div className="columns-2 md:columns-3 lg:columns-3 xl:columns-4 gap-4 space-y-4 z-5 px-0">
         {/* Image 2 */}
         <div className="relative break-inside-avoid">
           <img
