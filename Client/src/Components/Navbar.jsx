@@ -4,7 +4,7 @@ import { Menu, X, ShoppingCart, Heart, Search } from "lucide-react";
 import User from "../assets/User.svg";
 import logo from "../assets/logo.png";
 import logo2 from "../assets/logo2.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Navbar = ({ setShowProfile }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,13 +53,13 @@ const Navbar = ({ setShowProfile }) => {
   };
 
   const NavLinkComponent = ({ to, children, onClick }) => (
-    <a
-      href={to}
+    <Link
+      to={to}
       onClick={onClick}
       className="hover:text-orange-500 transition-colors"
     >
       {children}
-    </a>
+    </Link>
   );
 
   return (
@@ -211,17 +211,13 @@ const Navbar = ({ setShowProfile }) => {
 
         <ul className="flex flex-col items-center space-y-4 p-4 text-gray-800 font-medium">
           {isAuthenticated ? (
-            <button onClick={handleProfile} className="hover:text-orange-500">
+            <NavLinkComponent to="/profile" onClick={() => setIsOpen(false)}>
               Profile
-            </button>
+            </NavLinkComponent>
           ) : (
-            <a
-              href="/login"
-              onClick={() => setIsOpen(false)}
-              className="hover:text-orange-500"
-            >
+            <NavLinkComponent to="/login" onClick={() => setIsOpen(false)}>
               Log In
-            </a>
+            </NavLinkComponent>
           )}
           <NavLinkComponent to="/" onClick={() => setIsOpen(false)}>
             Home
@@ -229,16 +225,13 @@ const Navbar = ({ setShowProfile }) => {
           <NavLinkComponent to="/about" onClick={() => setIsOpen(false)}>
             About Us
           </NavLinkComponent>
-          <NavLinkComponent to="/services" onClick={() => setIsOpen(false)}>
+          <NavLinkComponent to="/productlist" onClick={() => setIsOpen(false)}>
             Products
           </NavLinkComponent>
-          <button
-            onClick={handleBooking}
-            className="text-left hover:text-orange-500"
-          >
+          <NavLinkComponent to="/cart" onClick={() => setIsOpen(false)}>
             Cart
-          </button>
-          <NavLinkComponent to="/contact-us" onClick={() => setIsOpen(false)}>
+          </NavLinkComponent>
+          <NavLinkComponent to="/favourites" onClick={() => setIsOpen(false)}>
             Wishlist
           </NavLinkComponent>
 

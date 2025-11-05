@@ -1,11 +1,11 @@
 const Gallery = () => {
   return (
-    <div className="relative min-h-screen ">
+    <div className="relative z-0">
       {/* Semi-transparent Overlay */}
       <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
 
       {/* Masonry Grid Container */}
-      <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-5 gap-4 space-y-4 z-5 pb-16">
+      <div className="columns-2 md:columns-3 lg:columns-3 xl:columns-4 gap-4 space-y-4 z-5 px-10">
         {/* Image 2 */}
         <div className="relative break-inside-avoid">
           <img
@@ -73,47 +73,32 @@ const Gallery = () => {
           />
         </div>
         {/* Image 12 */}
-        <div className="relative break-inside-avoid">
-          <img
-            src="https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=600&h=400&fit=crop"
-            alt="Board Games"
-            className="w-full rounded-lg"
-          />
-        </div>
-        <div className="relative break-inside-avoid">
-          <img
-            src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&h=600&fit=crop"
-            alt="Building Blocks"
-            className="w-full rounded-lg"
-          />
-        </div>
       </div>
 
       {/* Centered Overlay Text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
-        <div className="absolute inset-0 flex  items-center justify-between z-20 px-10 -mt-25">
-          <div className="flex flex-row w-1/2 justify-left px-10 items-center flex-wrap">
-            <h1 className="text-white text-3xl md:text-6xl font-bold text-center leading-tight drop-shadow-2xl">
+        <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center md:justify-between z-20 px-4 md:px-10 py-8 md:py-0">
+          <div className="flex w-full md:w-1/2 justify-center md:justify-start px-4 md:px-10 items-center flex-wrap mb-6 md:mb-0">
+            <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-center md:text-left leading-tight drop-shadow-2xl">
               Contact us to get in touch
             </h1>
           </div>
           {/* Contact Form Container */}
-          <form className="bg-white p-4 sm:p-6 rounded-xl shadow-2xl  max-w-md pointer-events-auto">
-            <div className="relative flex justify-around gap-1.5 text-center">
-              {" "}
-              <input
-                type="text"
-                placeholder="Your Name"
-                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
-                required
-              />
-              <input
-                type="number"
-                placeholder="Your Contact No"
-                className=" p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
-                required
-              />
-            </div>
+          <form className="bg-white p-4 sm:p-6 rounded-xl shadow-2xl w-auto md:w-96 pointer-events-auto min-h-[500px] flex flex-col justify-center">
+            {/*  <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-1.5 mb-2"> */}
+            <input
+              type="text"
+              placeholder="Your Name"
+              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
+              required
+            />
+            <input
+              type="tel"
+              placeholder="Your Contact No"
+              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
+              required
+            />
+            {/* </div> */}
 
             <input
               type="email"
@@ -131,7 +116,7 @@ const Gallery = () => {
 
             <button
               type="submit"
-              className="w-full px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white text-xl font-semibold rounded-full transition-colors shadow-lg"
+              className="w-full px-6 sm:px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white text-lg sm:text-xl font-semibold rounded-full transition-colors shadow-lg"
             >
               Send Message
             </button>

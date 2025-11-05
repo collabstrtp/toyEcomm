@@ -12,12 +12,12 @@ import logo from "../assets/logo.png";
 
 const Footer = ({ isFixed = false }) => {
   const footerClasses = isFixed
-    ? "fixed bottom-0 w-full bg-orange-600 text-white p-10 z-50 shadow-2xl -mt-10"
-    : "relative w-full bg-orange-600 text-white mt-10"; // Default relative positioning
+    ? "fixed bottom-0 w-full bg-orange-600 text-white  z-50 shadow-2xl -mt-10"
+    : "relative w-full bg-orange-600 text-white -mt-20"; // Default relative positioning
   return (
     <footer className={footerClasses}>
       {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-12 ">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>

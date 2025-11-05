@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/* import React, { useState } from "react";
 import { X, ChevronDown, ChevronUp } from "lucide-react";
 
 const FilterSidebar = ({
@@ -27,7 +27,7 @@ const FilterSidebar = ({
   return (
     <div className="fixed inset-0  bg-opacity-30 z-50 flex">
       <div className="bg-white w-full max-w-sm h-full overflow-y-auto shadow-lg animate-slideIn">
-        {/* Header */}
+       
         <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">Filters</h2>
           <button
@@ -38,9 +38,9 @@ const FilterSidebar = ({
           </button>
         </div>
 
-        {/* Filter Content */}
+    
         <div className="p-4 space-y-6">
-          {/* Price Range (Dropdown-style) */}
+         
           <div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">Price Range</h3>
@@ -65,7 +65,7 @@ const FilterSidebar = ({
             </div>
           </div>
 
-          {/* Categories */}
+  
           <div>
             <h3 className="font-semibold text-gray-900 mb-3">Categories</h3>
             <div className="space-y-2">
@@ -86,7 +86,7 @@ const FilterSidebar = ({
             </div>
           </div>
 
-          {/* Colors */}
+       
           <div>
             <h3 className="font-semibold text-gray-900 mb-3">Colors</h3>
             <div className="space-y-2">
@@ -107,7 +107,7 @@ const FilterSidebar = ({
             </div>
           </div>
 
-          {/* Materials */}
+        
           <div>
             <h3 className="font-semibold text-gray-900 mb-3">Materials</h3>
             <div className="space-y-2">
@@ -128,7 +128,7 @@ const FilterSidebar = ({
             </div>
           </div>
 
-          {/* Gender / Interest */}
+          
           <div>
             <h3 className="font-semibold text-gray-900 mb-3">
               Gender / Interest
@@ -151,7 +151,7 @@ const FilterSidebar = ({
             </div>
           </div>
 
-          {/* Age Group */}
+        
           <div>
             <h3 className="font-semibold text-gray-900 mb-3">Age Group</h3>
             <div className="space-y-2">
@@ -172,7 +172,7 @@ const FilterSidebar = ({
             </div>
           </div>
 
-          {/* Apply Button */}
+          
           <button
             onClick={() => setShowFilters(false)}
             className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors shadow-md hover:shadow-lg"
@@ -182,10 +182,11 @@ const FilterSidebar = ({
         </div>
       </div>
 
-      {/* Click outside to close */}
+   
       <div className="flex-1" onClick={() => setShowFilters(false)}></div>
     </div>
   );
 };
 
 export default FilterSidebar;
+ */
