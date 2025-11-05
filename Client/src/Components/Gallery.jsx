@@ -1,6 +1,6 @@
 const Gallery = () => {
   return (
-    <div className="relative z-0 h-[600px] overflow-hidden">
+    <div className="relative z-0 h-[720px] md:h-[600px] overflow-hidden">
       {/* Semi-transparent Overlay */}
       <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
 
@@ -78,49 +78,69 @@ const Gallery = () => {
       {/* Centered Overlay Text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
         <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center md:justify-between z-20 px-4 md:px-10 py-8 md:py-0">
-          <div className="flex w-full md:w-1/2 justify-center md:justify-start px-4 md:px-10 items-center flex-wrap mb-6 md:mb-0">
-            <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-center md:text-left leading-tight drop-shadow-2xl">
-              Contact us to get in touch
-            </h1>
-          </div>
+          <div className="text-white max-w-lg text-center lg:text-left lg:mr-auto">
+  <h2 className="text-4xl sm:text-5xl font-extrabold mb-4">
+    We’re Here for You
+  </h2>
+  <p className="text-lg text-gray-200 mb-2">
+    Have a question about our products, shipping, or returns?  
+    Send us a message and we’ll get back to you as soon as possible.
+  </p>
+</div>
+
+
           {/* Contact Form Container */}
-          <form className="bg-white p-4 sm:p-6 rounded-xl shadow-2xl w-auto md:w-96 pointer-events-auto min-h-[500px] flex flex-col justify-center">
-            {/*  <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-1.5 mb-2"> */}
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
-              required
-            />
-            <input
-              type="tel"
-              placeholder="Your Contact No"
-              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
-              required
-            />
-            {/* </div> */}
+  <form className="bg-white/90 backdrop-blur-lg p-6 sm:p-8 rounded-2xl shadow-2xl w-full max-w-md pointer-events-auto flex flex-col space-y-4 border border-orange-100">
+    
+    {/* Heading */}
+    <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-2">
+      Get in Touch
+    </h2>
+    <p className="text-gray-500 text-center mb-4">
+      We’d love to hear from you! Fill out the form below.
+    </p>
 
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
-              required
-            />
+    {/* Name */}
+    <input
+      type="text"
+      placeholder="Your Name"
+      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+      required
+    />
 
-            <textarea
-              placeholder="Your Message"
-              rows="4"
-              className="w-full p-2 mb-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-orange-600"
-              required
-            ></textarea>
+    {/* Contact Number */}
+    <input
+      type="tel"
+      placeholder="Your Contact Number"
+      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+      required
+    />
 
-            <button
-              type="submit"
-              className="w-full px-6 sm:px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white text-lg sm:text-xl font-semibold rounded-full transition-colors shadow-lg"
-            >
-              Send Message
-            </button>
-          </form>
+    {/* Email */}
+    <input
+      type="email"
+      placeholder="Your Email"
+      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+      required
+    />
+
+    {/* Message */}
+    <textarea
+      placeholder="Your Message"
+      rows="4"
+      className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+      required
+    ></textarea>
+
+    {/* Submit Button */}
+    <button
+      type="submit"
+      className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-0.5"
+    >
+      Send Message
+    </button>
+  </form>
+
         </div>
       </div>
     </div>
