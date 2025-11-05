@@ -134,7 +134,7 @@ const Favourites = () => {
             </button>
           </div>
         ) : (
-<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0 max-w-7xl mx-auto px-0">
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0 max-w-7xl mx-auto px-1">
             {favouriteItems.map((product) => (
               <div
                 key={product.id}
