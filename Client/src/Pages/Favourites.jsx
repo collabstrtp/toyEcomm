@@ -134,11 +134,11 @@ const Favourites = () => {
             </button>
           </div>
         ) : (
-<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  max-w-7xl mx-auto px-2">
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0 max-w-7xl mx-auto px-0">
             {favouriteItems.map((product) => (
               <div
                 key={product.id}
-                className="flex flex-col items-center border border-gray-300 rounded-xl overflow-hidden max-w-[200px] m-3 bg-white shadow-md transition-transform hover:scale-[1.02] relative"
+                className="flex flex-col items-center border border-gray-300 rounded-xl overflow-hidden max-w-[200px] m-1 bg-white shadow-md transition-transform hover:scale-[1.02] relative"
               >
                 {/* Remove Button (Filled Heart) */}
                 <button
