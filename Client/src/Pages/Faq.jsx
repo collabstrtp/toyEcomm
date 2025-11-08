@@ -100,7 +100,7 @@ const Faq = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column: FAQ Items with Staggered Layout */}
-          <div className="lg:order-1 order-2">
+          <div className="lg:order-1 order-1">
             <h2 className="text-5xl md:text-6xl font-extrabold text-gray-800 mb-12">
               FAQ
             </h2>
@@ -122,7 +122,7 @@ const Faq = () => {
           </div>
 
           {/* Right Column: Laptop/Screen Mockup */}
-          <div className="lg:order-2 order-1 flex justify-center items-center">
+          <div className="lg:order-2 order-2 flex justify-center items-center">
             {/* Laptop Frame */}
             <div className="relative flex justify-center items-center lg:order-2 order-1 min-h-[300px] lg:min-h-[500px]  p-4">
               {gifSrc ? (

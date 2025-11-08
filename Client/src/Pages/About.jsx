@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from "react";
-import bg from "../assets/bg.png";
 import image from "../assets/image.png";
 import Navbar from "../Components/Navbar";
 import Gallery from "../Components/Gallery";
@@ -45,11 +44,10 @@ const About = () => {
 
       {/* Hero Section */}
       <div
-        className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center text-center"
-        style={{ backgroundImage: `url(${bg})` }}
+        className=" flex flex-col items-center justify-center bg-cover bg-center text-center"
       >
-        <div className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center text-center">
-          <h1 className="text-5xl font-extrabold m-6 text-orange-600 drop-shadow-md">
+        <div className=" flex flex-col items-center justify-center bg-cover bg-center text-center">
+          <h1 className="text-5xl font-extrabold m-6 text-orange-600 drop-shadow-md  mt-10">
             About Return Treasure
           </h1>
           <p className="text-lg text-gray-800 max-w-3xl mb-10 leading-relaxed">
@@ -62,7 +60,7 @@ const About = () => {
             parent.
           </p>
 
-          <div className="w-[80%] border-4 border-orange-200 rounded-2xl p-6 shadow-xl  backdrop-blur">
+          <div className="md:w-[80%] w-[100%] border-4 border-orange-200 rounded-2xl p-2 md:p-6 shadow-xl  backdrop-blur">
             <video
               src={abtvideo}
               className="w-full rounded-xl shadow-lg"
@@ -76,7 +74,7 @@ const About = () => {
         </div>
 
         {/* Story Section */}
-        <section className="flex flex-col md:flex-row items-center justify-center my-20 px-8 md:px-20">
+        <section className="flex flex-col md:flex-row items-center justify-center md:my-20 my-0 mt-10 md:mt-20  px-8 md:px-20">
           <div className="md:w-1/2 text-center md:text-left mb-10 md:mb-0">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-snug">
               Our Mission. <br />
@@ -101,7 +99,7 @@ const About = () => {
             <img
               src={image}
               alt="Kids playing with toys"
-              className="rounded-3xl shadow-2xl w-[90%] md:w-[80%] object-cover"
+              className="rounded-3xl shadow-2xl w-[99%] md:w-[80%] object-cover"
             />
           </div>
         </section>
@@ -109,7 +107,7 @@ const About = () => {
         {/* Categories Section */}
         <section
           id="categories"
-          className="animate-on-scroll py-16   text-center "
+          className="animate-on-scroll py-0   text-center "
         >
           <div
             className={`transition-all duration-1000 ${
@@ -118,7 +116,7 @@ const About = () => {
                 : "opacity-0 translate-y-10"
             }`}
           >
-            <h2 className="text-4xl font-bold md:text-5xl text-gray-900 mb-10">
+            <h2 className="text-4xl font-bold md:text-5xl text-gray-900 mb-10 md:mt-0 mt-10">
               What We Offer ?
             </h2>
             <div className="grid md:grid-cols-4 gap-6 mx-8">

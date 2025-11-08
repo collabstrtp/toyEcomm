@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ShoppingCart, Heart, Search } from "lucide-react";
 import User from "../assets/User.svg";
 import logo from "../assets/logo.png";
+import logo2 from "../assets/logo2.png";
 import { useNavigate, Link } from "react-router-dom";
 
 const Navbar = ({ setShowProfile }) => {
@@ -64,9 +65,15 @@ const Navbar = ({ setShowProfile }) => {
   return (
     <div className="bg-white shadow-xl py-0 px-6 rounded-full flex justify-between items-center mx-auto max-w-7xl mt-4 relative overflow-hidden">
       {/* Logo */}
-      <div className="flex items-center">
-        <img src={logo} alt="Mumvets Logo" className="h-15 w-auto" />
-      </div>
+      {!showMobileSearch ? (
+        <div className="flex items-center">
+          <img src={logo} alt="Mumvets Logo" className="h-15 w-auto" />
+        </div>
+      ) : (
+        <div className="flex items-center">
+          <img src={logo2} alt="Mumvets Logo" className="h-15 w-auto" />
+        </div>
+      )}
 
       {/* Desktop Navigation Links - Hidden when search is active */}
       <AnimatePresence>

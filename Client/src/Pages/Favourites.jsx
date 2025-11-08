@@ -40,6 +40,42 @@ const Favourites = () => {
       reviews: "⭐⭐⭐⭐☆ (4.4)",
       inStock: false,
     },
+    {
+      id: 1,
+      name: "Homall Convertible Sectional Sofa Couch, Modern Linen Fabric L-Shaped Couch 3-Seat Sofa.",
+      image:
+        "https://i5.walmartimages.com/seo/Homall-Convertible-Sectional-Sofa-Couch-Modern-Linen-Fabric-L-Shaped-Couch-3-Seat-Reversible-Chaise-Small-Living-Room-Apartment-Space-Dark-Gray_580e12a9-825b-4586-87df-e275ea527e67.78b035bcf5754d1e6b0f1aa872ff576a.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF",
+      price: "$499.99",
+      reviews: "⭐⭐⭐⭐☆ (4.5)",
+      inStock: true,
+    },
+    {
+      id: 3,
+      name: "Zinus 76 Harmony Indoor Fabric Sofa, Dark Gray.",
+      image:
+        "https://i5.walmartimages.com/seo/Zinus-Harmony-Indoor-Fabric-Sofa-Dark-Gray_6e34aeaa-bb0e-41cc-84aa-d9c11458daca.8d83b4f1c97d5d919f3f5bb36b88fdbc.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF",
+      price: "$299.99",
+      reviews: "⭐⭐⭐⭐☆ (4.8)",
+      inStock: true,
+    },
+    {
+      id: 5,
+      name: "COMHOMA Convertible Futon Sofa Bed Upholstered Futon Couch Fabric Sleeper Sofa, Gray.",
+      image:
+        "https://i5.walmartimages.com/seo/COMHOMA-Convertible-Futon-Sofa-Bed-Upholstered-Futon-Couch-Fabric-Sleeper-Sofa-Gray_492b9567-40b6-4f98-8dfe-222ad8667e49.260426d1d61d2db517a2eb335f716bfb.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF",
+      price: "$599.99",
+      reviews: "⭐⭐⭐⭐☆ (4.6)",
+      inStock: true,
+    },
+    {
+      id: 7,
+      name: "87 Corduroy Sofa,3 Seater Sofa with Extra Deep Seats,Neche Comfy Upholstered Couch for Living Room,2 Pillows,Green.",
+      image:
+        "https://i5.walmartimages.com/seo/87-Corduroy-Sofa-3-Seater-Sofa-with-Extra-Deep-Seats-Neche-Comfy-Upholstered-Couch-for-Living-Room-2-Pillows-Green_15a5f04b-e374-4505-91e5-fe403e4db106.0bc81d68599ca9c2df51ff7ec978e0ef.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF",
+      price: "$399.99",
+      reviews: "⭐⭐⭐⭐☆ (4.4)",
+      inStock: false,
+    },
   ]);
 
   const [notification, setNotification] = useState("");
@@ -68,16 +104,15 @@ const Favourites = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen py-5">
       {/* Notification */}
       {notification && (
         <div className="fixed bottom-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in">
           {notification}
         </div>
       )}
-
       {/* Main Content */}
-      <div className="m-0 p-8 overflow-x-hidden font-sans text-gray-800">
+      <div className="m-0 p-0 overflow-x-hidden font-sans text-gray-800">
         {favouriteItems.length === 0 ? (
           // Empty State
           <div className="flex flex-col items-center justify-center py-16">
@@ -99,11 +134,11 @@ const Favourites = () => {
             </button>
           </div>
         ) : (
-          <div className="flex flex-wrap justify-center">
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0 max-w-7xl mx-auto px-1">
             {favouriteItems.map((product) => (
               <div
                 key={product.id}
-                className="flex flex-col items-center border border-gray-300 rounded-xl overflow-hidden max-w-[250px] m-3 bg-white shadow-md transition-transform hover:scale-[1.02] relative"
+                className="flex flex-col items-center border border-gray-300 rounded-xl overflow-hidden max-w-[200px] m-1 bg-white shadow-md transition-transform hover:scale-[1.02] relative"
               >
                 {/* Remove Button (Filled Heart) */}
                 <button
@@ -132,10 +167,10 @@ const Favourites = () => {
 
                 {/* Main content */}
                 <div className="p-4 text-center w-full">
-                  <p className="text-sm text-gray-600">
-                    Our collection promotes balance and calm.
-                  </p>
-                  <div className="mt-2">
+                  <div className="flex items-center px-3 py-0 border-t border-gray-200 bg-gray-50 w-full">
+                  <p className="text-sm text-gray-700 truncate">{product.name}</p>
+                </div>
+                  <div className="mt-1">
                     <h2 className="text-lg font-semibold text-gray-800">
                       {product.price}
                     </h2>
@@ -144,7 +179,7 @@ const Favourites = () => {
                   <button
                     onClick={(e) => addToCart(e, product)}
                     disabled={!product.inStock}
-                    className={`mt-3 w-full py-2.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
+                    className={`mt-2 w-full py-1 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
                       product.inStock
                         ? "bg-orange-500 text-white hover:bg-orange-600"
                         : "bg-gray-200 text-gray-500 cursor-not-allowed"
@@ -158,9 +193,7 @@ const Favourites = () => {
                 </div>
 
                 {/* Product name */}
-                <div className="flex items-center px-3 py-2 border-t border-gray-200 bg-gray-50 w-full">
-                  <p className="text-sm text-gray-700">{product.name}</p>
-                </div>
+                
               </div>
             ))}
           </div>
