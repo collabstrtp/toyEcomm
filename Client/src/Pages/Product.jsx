@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import {
+  Heart,
+  ZoomIn,
+  ChevronLeft,
+  ChevronRight,
+  MessageCircle,
+  X,
+} from "lucide-react";
 
 const Product = () => {
   const images = [
@@ -11,6 +19,9 @@ const Product = () => {
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const handlePrevClick = () =>
     setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -18,12 +29,47 @@ const Product = () => {
   const handleNextClick = () =>
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
 
+  const handleAddToCart = () => {
+    alert(`Added ${quantity} item(s) to cart`);
+  };
+
+  const toggleFavorite = () => {
+    setIsFavorited(!isFavorited);
+  };
+
+  const handleZoom = () => {
+    setIsZoomed(true);
+  };
+
+  const closeZoom = () => {
+    setIsZoomed(false);
+  };
+
   return (
     <>
+      {/* Zoom Modal */}
+      {isZoomed && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="relative max-w-4xl max-h-full p-4">
+            <button
+              onClick={closeZoom}
+              className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img
+              src={images[currentImageIndex]}
+              alt="Zoomed Product"
+              className="max-w-full max-h-full object-contain"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Container */}
       <div className="flex flex-col md:flex-row gap-5 p-5">
-        <div className="md:w-3/5 flex flex-col md:flex-row items-center justify-between h-[650px] md:h-[653px] overflow-hidden">
-          <div className="flex md:flex-col w-full md:w-[13%] gap-4 md:gap-5 mb-4 md:mb-0">
+        <div className="md:w-3/5 flex flex-col md:flex-row items-center justify-between min-h-[650px] md:min-h-[653px] overflow-hidden">
+          <div className="flex md:flex-col w-full md:w-[13%] gap-4 md:gap-5 mb-4 md:mb-0 order-2 md:order-1">
             {images.map((image, i) => (
               <img
                 key={i}
@@ -34,12 +80,12 @@ const Product = () => {
                   currentImageIndex === i
                     ? "border-blue-500 scale-105"
                     : "border-transparent"
-                } w-[60px] h-[60px] md:w-auto`}
+                } w-[60px] h-[60px] md:w-full md:h-[60px]`}
               />
             ))}
           </div>
 
-          <div className="relative flex justify-center items-center w-full md:w-[87%] px-0 md:px-20 h-[500px] md:h-full">
+          <div className="relative flex justify-center items-center w-full md:w-[87%] px-0 md:px-20 h-[500px] md:h-full order-1 md:order-2">
             {currentImageIndex === 2 ? (
               <Canvas shadows camera={{ position: [0, 0, 5], fov: 30 }}>
                 <color attach="background" args={["#232323"]} />
@@ -53,23 +99,33 @@ const Product = () => {
             )}
 
             {/* Buttons */}
-            <button className="absolute right-2 top-2 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent text-gray-400 hover:text-gray-700">
-              <i className="fa-solid fa-heart"></i>
+            <button
+              onClick={toggleFavorite}
+              className={`absolute right-2 top-2 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent hover:text-gray-700 transition-colors ${
+                isFavorited ? "text-red-500" : "text-gray-400"
+              }`}
+            >
+              <Heart
+                className={`w-5 h-5 ${isFavorited ? "fill-current" : ""}`}
+              />
             </button>
-            <button className="absolute right-2 top-14 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent text-gray-400 hover:text-gray-700">
-              <i className="fa-solid fa-magnifying-glass-plus"></i>
+            <button
+              onClick={handleZoom}
+              className="absolute right-2 top-14 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent text-gray-400 hover:text-gray-700 transition-colors"
+            >
+              <ZoomIn className="w-5 h-5" />
             </button>
             <button
               onClick={handlePrevClick}
               className="absolute left-2 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent text-gray-400 hover:text-gray-700"
             >
-              <i className="fa-solid fa-angle-left"></i>
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={handleNextClick}
               className="absolute right-2 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent text-gray-400 hover:text-gray-700"
             >
-              <i className="fa-solid fa-angle-right"></i>
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -109,17 +165,48 @@ const Product = () => {
             </button>
           </p>
 
-          {/* Add to Cart */}
+          {/* Quantity and Add to Cart */}
+          <div className="flex items-center mb-4 gap-4">
+            <div className="flex items-center border border-gray-300 rounded-full">
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="px-3 py-2 text-gray-600 hover:text-gray-800"
+              >
+                -
+              </button>
+              <span className="px-4 py-2 text-center min-w-[50px]">
+                {quantity}
+              </span>
+              <button
+                onClick={() => setQuantity(quantity + 1)}
+                className="px-3 py-2 text-gray-600 hover:text-gray-800"
+              >
+                +
+              </button>
+            </div>
+          </div>
           <div className="flex items-center mb-10 gap-4">
-            <button className="px-8 py-3 rounded-full bg-[#0073C3] text-white font-medium hover:bg-blue-700">
+            <button
+              onClick={handleAddToCart}
+              className="px-8 py-3 rounded-full bg-[#0073C3] text-white font-medium hover:bg-blue-700"
+            >
               Add to cart
             </button>
-            <button className="px-4 py-3 rounded-full bg-[#0073C3] text-white">
-              <i className="fa-solid fa-vr-cardboard"></i>
+
+            <button
+              onClick={() =>
+                window.open(
+                  "https://wa.me/1234567890?text=Hello, I am interested in this product.",
+                  "_blank"
+                )
+              }
+              className="px-4 py-3 rounded-full bg-green-500 text-white hover:bg-green-600"
+            >
+              <MessageCircle />
             </button>
           </div>
 
-          <div className="bg-gray-100 p-4 rounded-md">
+          {/* <div className="bg-gray-100 p-4 rounded-md">
             <p className="font-semibold mb-4 text-[15px]">
               Actual colors: Gray
             </p>
@@ -146,7 +233,7 @@ const Product = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
