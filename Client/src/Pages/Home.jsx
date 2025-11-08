@@ -16,186 +16,44 @@ const Home = () => {
   
   // Multiple sets of images for different slides
   const slideImages = [
-    [
-      {
-        id: 1,
-        imgSrc:
-          "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=300&h=600&fit=crop",
-        altText: "Action Figures",
-        height: "h-[450px]",
-      },
-      {
-        id: 2,
-        imgSrc:
-          "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&h=500&fit=crop",
-        altText: "Superhero Toys",
-        height: "h-[350px]",
-      },
-      {
-        id: 3,
-        imgSrc:
-          "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=300&h=400&fit=crop",
-        altText: "Robot Toys",
-        height: "h-[250px]",
-      },
-      {
-        id: 4,
-        imgSrc:
-          "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=300&h=500&fit=crop",
-        altText: "Collectible Figures",
-        height: "h-[250px]",
-      },
-      {
-        id: 5,
-        imgSrc:
-          "https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=300&h=600&fit=crop",
-        altText: "Character Toys",
-        height: "h-[350px]",
-      },
-      {
-        id: 6,
-        imgSrc:
-          "https://images.unsplash.com/photo-1560015534-cee980ba7e13?w=300&h=700&fit=crop",
-        altText: "Toy Collection",
-        height: "h-[450px]",
-      },
-    ],
-    // Slide 1 - Building Blocks & Construction
-    [
-      {
-        id: 1,
-        imgSrc:
-          "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=300&h=600&fit=crop",
-        altText: "LEGO Bricks",
-        height: "h-[450px]",
-      },
-      {
-        id: 2,
-        imgSrc:
-          "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=300&h=500&fit=crop",
-        altText: "Building Blocks",
-        height: "h-[350px]",
-      },
-      {
-        id: 3,
-        imgSrc:
-          "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=400&fit=crop",
-        altText: "Construction Set",
-        height: "h-[250px]",
-      },
-      {
-        id: 4,
-        imgSrc:
-          "https://images.unsplash.com/photo-1559825481-12a05cc00344?w=300&h=500&fit=crop",
-        altText: "Creative Building",
-        height: "h-[250px]",
-      },
-      {
-        id: 5,
-        imgSrc:
-          "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?w=300&h=600&fit=crop",
-        altText: "Block Tower",
-        height: "h-[350px]",
-      },
-      {
-        id: 6,
-        imgSrc:
-          "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=300&h=700&fit=crop",
-        altText: "STEM Toys",
-        height: "h-[450px]",
-      },
-    ],
-    // Slide 2 - Dolls & Stuffed Animals
-    [
-      {
-        id: 1,
-        imgSrc:
-          "https://images.unsplash.com/photo-1563454392212-c9226e966e3b?w=300&h=600&fit=crop",
-        altText: "Teddy Bears",
-        height: "h-[450px]",
-      },
-      {
-        id: 2,
-        imgSrc:
-          "https://images.unsplash.com/photo-1530325553241-4f6e7690cf36?w=300&h=500&fit=crop",
-        altText: "Plush Toys",
-        height: "h-[350px]",
-      },
-      {
-        id: 3,
-        imgSrc:
-          "https://images.unsplash.com/photo-1587912921042-4a6363c0b29c?w=300&h=400&fit=crop",
-        altText: "Dolls",
-        height: "h-[250px]",
-      },
-      {
-        id: 4,
-        imgSrc:
-          "https://images.unsplash.com/photo-1519897831810-a9a01aceccd1?w=300&h=500&fit=crop",
-        altText: "Stuffed Animals",
-        height: "h-[250px]",
-      },
-      {
-        id: 5,
-        imgSrc:
-          "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=300&h=600&fit=crop",
-        altText: "Soft Toys",
-        height: "h-[350px]",
-      },
-      {
-        id: 6,
-        imgSrc:
-          "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=300&h=700&fit=crop",
-        altText: "Cuddly Toys",
-        height: "h-[450px]",
-      },
-    ],
-    // Slide 3 - Educational & Board Games
-    [
-      {
-        id: 1,
-        imgSrc:
-          "https://images.unsplash.com/photo-1611371805429-8b5c1b2c34ba?w=300&h=600&fit=crop",
-        altText: "Board Games",
-        height: "h-[450px]",
-      },
-      {
-        id: 2,
-        imgSrc:
-          "https://images.unsplash.com/photo-1606503153255-59d8b8b82176?w=300&h=500&fit=crop",
-        altText: "Puzzle Games",
-        height: "h-[350px]",
-      },
-      {
-        id: 3,
-        imgSrc:
-          "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=300&h=400&fit=crop",
-        altText: "Educational Toys",
-        height: "h-[250px]",
-      },
-      {
-        id: 4,
-        imgSrc:
-          "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=300&h=500&fit=crop",
-        altText: "Learning Games",
-        height: "h-[250px]",
-      },
-      {
-        id: 5,
-        imgSrc:
-          "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=600&fit=crop",
-        altText: "Family Games",
-        height: "h-[350px]",
-      },
-      {
-        id: 6,
-        imgSrc:
-          "https://images.unsplash.com/photo-1559825481-12a05cc00344?w=300&h=700&fit=crop",
-        altText: "Strategy Games",
-        height: "h-[450px]",
-      },
-    ],
-  ];
+  // Slide 1
+  [
+    { id: 1, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0400.jpg", altText: "Action Figures", height: "h-[450px]" },
+    { id: 2, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0401.jpg", altText: "Superhero Toys", height: "h-[350px]" },
+    { id: 3, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0402.jpg", altText: "Robot Toys", height: "h-[250px]" },
+    { id: 4, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0403.jpg", altText: "Collectible Figures", height: "h-[250px]" },
+    { id: 5, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0404.jpg", altText: "Character Toys", height: "h-[350px]" },
+    { id: 6, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0405.jpg", altText: "Toy Collection", height: "h-[450px]" },
+  ],
+  // Slide 2
+  [
+    { id: 1, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0406.jpg", altText: "LEGO Bricks", height: "h-[450px]" },
+    { id: 2, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0407.jpg", altText: "Building Blocks", height: "h-[350px]" },
+    { id: 3, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0408.jpg", altText: "Construction Set", height: "h-[250px]" },
+    { id: 4, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0409.jpg", altText: "Creative Building", height: "h-[250px]" },
+    { id: 5, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0410.jpg", altText: "Block Tower", height: "h-[350px]" },
+    { id: 6, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0411.jpg", altText: "STEM Toys", height: "h-[450px]" },
+  ],
+  // Slide 3
+  [
+    { id: 1, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0412.jpg", altText: "Teddy Bears", height: "h-[450px]" },
+    { id: 2, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0413.jpg", altText: "Plush Toys", height: "h-[350px]" },
+    { id: 3, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0414.jpg", altText: "Dolls", height: "h-[250px]" },
+    { id: 4, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0415.jpg", altText: "Stuffed Animals", height: "h-[250px]" },
+    { id: 5, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0416.jpg", altText: "Soft Toys", height: "h-[350px]" },
+    { id: 6, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0417.jpg", altText: "Cuddly Toys", height: "h-[450px]" },
+  ],
+  // Slide 4
+  [
+    { id: 1, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0418.jpg", altText: "Teddy Bears", height: "h-[450px]" },
+    { id: 2, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0419.jpg", altText: "Plush Toys", height: "h-[350px]" },
+    { id: 3, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0420.jpg", altText: "Dolls", height: "h-[250px]" },
+    { id: 4, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0421.jpg", altText: "Stuffed Animals", height: "h-[250px]" },
+    { id: 5, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0422.jpg", altText: "Soft Toys", height: "h-[350px]" },
+    { id: 6, imgSrc: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0423.jpg", altText: "Cuddly Toys", height: "h-[450px]" },
+  ],
+];
+
 
   const promoCards = [
     {
@@ -204,7 +62,7 @@ const Home = () => {
       title: 'Action Figures',
       highlight: 'Superheroes & More',
       subtitle: '',
-      image: 'https://images.unsplash.com/photo-1581829081203-9ce2c3c0454f?w=400&h=300&fit=crop',
+      image: 'https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0424.jpg',
       imageAlt: 'Action Figures',
       badge: null
     },
@@ -214,7 +72,7 @@ const Home = () => {
       title: 'Building Blocks',
       highlight: 'LEGO & Construction',
       subtitle: '',
-      image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&h=300&fit=crop',
+      image: 'https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0425.jpg',
       imageAlt: 'Building Blocks',
       badge: null
     },
@@ -224,7 +82,7 @@ const Home = () => {
       title: 'Dolls & Plush',
       highlight: 'Soft & Cuddly Friends',
       subtitle: '',
-      image: 'https://images.unsplash.com/photo-1563396983906-b3795482a59a?w=400&h=300&fit=crop',
+      image: 'https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0426.jpg',
       imageAlt: 'Dolls and Plush Toys',
       badge: null
     },
@@ -234,7 +92,7 @@ const Home = () => {
       title: 'Remote Control',
       highlight: 'Cars, Drones & Robots',
       subtitle: '',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
+      image: 'https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0427.jpg',
       imageAlt: 'Remote Control Toys',
       badge: null
     },
@@ -244,7 +102,7 @@ const Home = () => {
       title: 'Board Games',
       highlight: 'Family Fun Time',
       subtitle: '',
-      image: 'https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=400&h=300&fit=crop',
+      image: 'https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0428.jpg',
       imageAlt: 'Board Games',
       badge: null
     },
@@ -254,7 +112,7 @@ const Home = () => {
       title: 'Educational Toys',
       highlight: 'Learn & Play',
       subtitle: '',
-      image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&h=300&fit=crop',
+      image: 'https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0429.jpg',
       imageAlt: 'Educational Toys',
       badge: null
     }
@@ -296,70 +154,70 @@ const Home = () => {
   const products = [
     {
       id: 1,
-      image: "https://i5.walmartimages.com/seo/Electric-Shaver-Men-Women-4-1-Rechargeable-Razor-Waterproof-Painless-Epilator-Nose-Hair-Removal-Remover-Facial-Body-Bikini-Eyebrow-Beard-Sideburn-Mus_048f2612-82aa-400b-9169-567099c8e89c.f2dec29f5c99bab88dd706023c55419a.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0430.jpg",
       title: "Electric shaver for Men & Women, 4-in-1 Rechargeable...",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
       id: 2,
-      image: "https://i5.walmartimages.com/seo/KingSo-22-inch-Wood-Burning-Fire-Pit-Camping-Picnic-Bonfire-Patio-Outside-Backyard-Garden-Small-Steel-Firepit-Bowl-Spark-Screen-Log-Grate-Poker_fa1c9c62-d182-468b-8f17-6624ac721b3e.d317b2c08cf5ba62ca1c48cb4efb76f1.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0431.jpg",
       title: "KingSo 22 inch Wood Burning Fire Pit for Camping...",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
       id: 3,
-      image: "https://i5.walmartimages.com/seo/LEGO-Speed-Champions-2-Fast-Furious-Nissan-Skyline-GT-R-R34-76917-Race-Car-Toy-Model-Building-Kit-Collectible-Racer-Minifigure-2023-Set-Kids_1078c4bd-27ad-49f8-8757-7336d6887d69.587429381fb543fdf9f69cf12c616532.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0432.jpg",
       title: "LEGO Speed Champions 2 Fast 2 Furious Nissan Skyline...",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
       id: 4,
-      image: "https://i5.walmartimages.com/seo/LEGO-Classic-LEGO-Medium-Creative-Brick-Box-10696_f7af88f3-04c1-4c77-8237-e5cccc466ab4.2422f9b4d28481d4ffbc684d1357be85.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0433.jpg",
       title: "LEGO Classic LEGO Medium Creative Brick Box 10696",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
       id: 5,
-      image: "https://i5.walmartimages.com/seo/Better-Homes-Gardens-Oaklee-2-Drawer-Nightstand-for-bedroom-Charcoal-Finish_4daaa94e-a1d5-45ec-8893-092a1289c2dd.3e44901795490ec5efab0fc6859d5192.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF",
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0434.jpg",
       title: "Better Homes & Gardens Oaklee 2-Drawer Nightstand...",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
       id: 6,
-      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0435.jpg",
       title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
-      id: 6,
-      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      id: 7,
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0436.jpg",
       title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
-      id: 6,
-      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      id: 8,
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0437.jpg",
       title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
-      id: 6,
-      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      id: 9,
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0438.jpg",
       title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
       currentPrice: 16.99,
       originalPrice: 52.99
     },
     {
-      id: 6,
-      image: "https://i5.walmartimages.com/seo/Fisher-Price-Laugh-Learn-Wake-Up-Learn-Coffee-Mug-Baby-Toddler-Toy-with-Music-Lights_04856f59-6129-4e43-aa3f-ff839bc67fab.93bc2a4f8cee212664e7434f55c1b091.jpeg?odnHeight=117&odnWidth=117&odnBg=FFFFFF",
+      id: 10,
+      image: "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0439.jpg",
       title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
       currentPrice: 16.99,
       originalPrice: 52.99
@@ -599,11 +457,11 @@ const Home = () => {
           onClick={() => navigate("/product")}
         >
           {/* Product Image */}
-          <div className="relative w-full aspect-[4/5] bg-gray-50">
+          <div className="relative w-full md:h-50 h-35  bg-gray-50">
             <img
               src={product.image}
               alt={product.title}
-              className="w-full h-full object-contain p-3"
+              className="w-full h-full object-cover p-3"
               loading="lazy"
             />
           </div>
