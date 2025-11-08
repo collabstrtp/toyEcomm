@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Filter, X, ChevronDown } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
 
 const FilterBar = ({
   showFilters,
@@ -15,6 +15,9 @@ const FilterBar = ({
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRefs = useRef({});
 
+  // For dropdown position calculation
+  const [dropdownPosition, setDropdownPosition] = useState({});
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (openDropdown && dropdownRefs.current[openDropdown]) {
@@ -23,10 +26,28 @@ const FilterBar = ({
         }
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openDropdown]);
+
+  // Calculate dropdown position (simple: below button)
+  const toggleDropdown = (dropdownName) => {
+    if (openDropdown === dropdownName) {
+      setOpenDropdown(null);
+      setDropdownPosition({});
+    } else {
+      const rect = dropdownRefs.current[dropdownName]?.getBoundingClientRect();
+      setDropdownPosition(
+        rect
+          ? {
+              top: rect.bottom + window.scrollY,
+              left: rect.left + window.scrollX,
+            }
+          : {}
+      );
+      setOpenDropdown(dropdownName);
+    }
+  };
 
   const allActiveFilters = [
     ...filters.categories,
@@ -47,10 +68,6 @@ const FilterBar = ({
       handleFilterChange("ageGroup", filter);
   };
 
-  const toggleDropdown = (dropdownName) => {
-    setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
-  };
-
   const getActiveCount = (filterType) => {
     return filters[filterType]?.length || 0;
   };
@@ -62,6 +79,29 @@ const FilterBar = ({
     { label: "Over $600", min: 600, max: 700 },
   ];
 
+  // Render dropdown as fixed for visibility
+  const DropdownMenu = ({ children }) =>
+    openDropdown ? (
+      <div
+        style={{
+          position: "fixed",
+          top: dropdownPosition.top,
+          left: dropdownPosition.left,
+          zIndex: 99999, // highest stacking, always visible
+          minWidth: 200,
+          maxHeight: 300,
+          background: "white",
+          border: "1px solid #e2e8f0",
+          borderRadius: 8,
+          boxShadow: "0 5px 24px rgba(0,0,0,0.10)",
+          overflowY: "auto",
+        }}
+      >
+        {children}
+      </div>
+    ) : null;
+
+  // FilterDropdown for each filter type (unchanged design)
   const FilterDropdown = ({ name, label, options, filterType }) => (
     <div className="relative" ref={(el) => (dropdownRefs.current[name] = el)}>
       <button
@@ -84,9 +124,8 @@ const FilterBar = ({
           }`}
         />
       </button>
-
       {openDropdown === name && (
-        <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[200px] max-h-[300px] overflow-y-auto">
+        <DropdownMenu>
           <div className="p-2">
             {options.map((option) => (
               <label
@@ -103,18 +142,18 @@ const FilterBar = ({
               </label>
             ))}
           </div>
-        </div>
+        </DropdownMenu>
       )}
     </div>
   );
 
+  // PriceDropdown
   const PriceDropdown = () => {
     const selectedRange = priceRanges.find(
       (range) =>
         filters.priceRange[0] === range.min &&
         filters.priceRange[1] === range.max
     );
-
     return (
       <div
         className="relative"
@@ -135,9 +174,8 @@ const FilterBar = ({
             }`}
           />
         </button>
-
         {openDropdown === "price" && (
-          <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 w-[200px]">
+          <DropdownMenu>
             <div className="p-2">
               {priceRanges.map((range, idx) => (
                 <label
@@ -160,18 +198,17 @@ const FilterBar = ({
                 </label>
               ))}
             </div>
-          </div>
+          </DropdownMenu>
         )}
       </div>
     );
   };
 
+  // Main return (design/structurally unchanged)
   return (
-    <div className="border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+    <div className="fixed top-20  z-99 justify-self-center flex">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        {/* Main Filter Bar */}
         <div className="flex items-center justify-between gap-4">
-          {/* Filter Dropdowns - Responsive */}
           <div className="flex items-center gap-3 sm:gap-4 flex-nowrap overflow-x-auto scrollbar-hide w-full py-2">
             <PriceDropdown />
             <FilterDropdown
@@ -204,8 +241,6 @@ const FilterBar = ({
               options={filterOptions.ageGroups}
               filterType="ageGroup"
             />
-
-            {/* Sort Dropdown */}
             <div
               className="relative"
               ref={(el) => (dropdownRefs.current["sortOrder"] = el)}
@@ -233,9 +268,8 @@ const FilterBar = ({
                   }`}
                 />
               </button>
-
               {openDropdown === "sortOrder" && (
-                <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[200px]">
+                <DropdownMenu>
                   <div className="p-2">
                     {[
                       { label: "Featured", value: "featured" },
@@ -262,12 +296,10 @@ const FilterBar = ({
                       </label>
                     ))}
                   </div>
-                </div>
+                </DropdownMenu>
               )}
             </div>
           </div>
-
-          {/* Product Count */}
           <div className="text-sm text-gray-600 whitespace-nowrap hidden md:block">
             <span className="font-semibold text-gray-900">
               {filteredProductsCount}
@@ -275,8 +307,6 @@ const FilterBar = ({
             / {totalProductsCount}
           </div>
         </div>
-
-        {/* Active Filters */}
         {activeFilterCount > 0 && (
           <div className="flex items-center gap-2 mt-3 flex-wrap justify-center">
             <span className="text-sm font-medium text-gray-700">
