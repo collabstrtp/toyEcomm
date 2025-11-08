@@ -63,7 +63,7 @@ const Navbar = ({ setShowProfile }) => {
   );
 
   return (
-    <div className="bg-white shadow-xl py-0 px-6 rounded-full flex justify-between items-center mx-auto max-w-7xl mt-4 relative overflow-hidden">
+    <div className="bg-white fixed shadow-xl py-0 px-6 rounded-full flex justify-between justify-self-center items-center mx-auto  w-full  max-w-6xl top-5 z-100 overflow-hidden">
       {/* Logo */}
       {!showMobileSearch ? (
         <div className="flex items-center">

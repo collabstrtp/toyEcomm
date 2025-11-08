@@ -713,11 +713,11 @@ function ProductList() {
         totalProductsCount={products.length}
         activeFilterCount={activeFilterCount}
         filterOptions={filterOptions}
-        className=""
+        className="z-1000"
       />
 
       {/* Products Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="max-w-7xl mx-auto px-4 py-6 pt-24 mt-20">
         {filteredProducts.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-xl text-gray-500 mb-4">
