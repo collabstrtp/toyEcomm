@@ -195,7 +195,7 @@ const About = () => {
                   text: "The return gifts were loved by all kids. Beautiful packaging and timely delivery!",
                 },
               ].map((item, idx) => (
-                <div key={idx} className="rounded-xl p-6 shadow-lg">
+                <div key={idx} className="bg-white rounded-xl p-6 shadow-lg">
                   <div className="flex text-orange-500 mb-4 justify-center">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-5 h-5 fill-current" />
