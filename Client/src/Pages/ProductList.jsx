@@ -409,6 +409,7 @@ import { useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart } from "lucide-react";
 import FilterBar from "../Components/FilterBar";
 /* import FilterSidebar from "../Components/FilterSidebar"; */
+import Navbar from "../Components/Navbar";
 
 const products = [
   {
@@ -553,7 +554,7 @@ const products = [
   },
 ];
 
-function ProductList() {
+function ProductList({ fixed = true }) {
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
   const [notification, setNotification] = useState("");

@@ -6,7 +6,7 @@ import logo from "../assets/logo.png";
 import logo2 from "../assets/logo2.png";
 import { useNavigate, Link } from "react-router-dom";
 
-const Navbar = ({ setShowProfile }) => {
+const Navbar = ({ setShowProfile, fixed = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
@@ -63,7 +63,13 @@ const Navbar = ({ setShowProfile }) => {
   );
 
   return (
-    <div className="bg-white fixed shadow-xl py-0 px-6 rounded-full flex justify-between justify-self-center items-center mx-auto  w-full  max-w-6xl top-5 z-100 overflow-hidden">
+    <div
+      className={`bg-white ${
+        fixed ? "fixed" : "relative"
+      } shadow-xl py-0 px-6 rounded-full flex justify-between justify-self-center items-center mx-auto  w-full  max-w-6xl ${
+        fixed ? "top-5" : "top-0"
+      } z-100 overflow-hidden`}
+    >
       {/* Logo */}
       {!showMobileSearch ? (
         <div className="flex items-center">
