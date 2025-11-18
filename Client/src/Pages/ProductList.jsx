@@ -717,8 +717,11 @@ function ProductList({ fixed = true }) {
         className="z-1000"
       />
 
+      {/* Horizontal Bar */}
+      <div className="border-t border-gray-300 h-1 mt-40 bg-gray-100"></div>
+
       {/* Products Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-6 pt-24 mt-20">
+      <div className="max-w-7xl mx-auto px-4 py-6 pt-10 max-h-[calc(100vh-120px)] overflow-y-auto scrollbar-hide">
         {filteredProducts.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-xl text-gray-500 mb-4">

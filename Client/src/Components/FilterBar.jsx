@@ -206,10 +206,10 @@ const FilterBar = ({
 
   // Main return (design/structurally unchanged)
   return (
-    <div className="fixed top-20  z-99 justify-self-center flex">
+    <div className="fixed top-20 left-0 right-0 z-99 overflow-x-auto scrollbar-hide">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 sm:gap-4 flex-nowrap overflow-x-auto scrollbar-hide w-full py-2">
+        <div className="flex items-center justify-center lg:justify-center gap-4 min-w-max">
+          <div className="flex items-center gap-3 sm:gap-4 flex-nowrap py-2">
             <PriceDropdown />
             <FilterDropdown
               name="categories"
