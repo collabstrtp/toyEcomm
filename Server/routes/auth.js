@@ -34,5 +34,7 @@ router.post(
 
 // Update user profile
 router.put("/profile", authMiddleware, authController.updateProfile);
+router.post("/google", authController.googleAuth);
+
 
 module.exports = router;

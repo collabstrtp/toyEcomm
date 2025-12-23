@@ -3,9 +3,11 @@ import { setCredentials } from "../redux/authSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import auth from "../assets/auth.png";
+import authimg from "../assets/authimg.png";
 import axios from "axios";
 import { BASE_URL } from "../Utils/urlconfig";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider, facebookProvider } from "../Utils/firebase";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -38,31 +40,63 @@ const Login = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
+      // Step 1: Firebase popup
+      const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken();
 
-      // Send the Google token to the backend
+      // Step 2: Send token to backend for verification
       const response = await axios.post(`${BASE_URL}/auth/google`, {
-        idToken: idToken,
+        idToken,
       });
 
+      // Step 3: Store backend token and user info
       const { token, user } = response.data;
-
-      // Store user data and token in Redux and local storage
       dispatch(setCredentials({ user, token }));
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
 
-      alert("Google Sign-in successful!");
+      // Step 4: Navigate to home
+      alert("✅ Google sign-in successful!");
       navigate("/");
     } catch (error) {
-      console.error("Google Sign-In Error:", error.message);
-      alert("Google sign-in failed. Please try again.");
+      console.error("Google Sign-In Error:", error);
+      alert("❌ Google sign-in failed. Please try again.");
     }
   };
 
+  // const handleFacebookSignIn = async () => {
+  //   try {
+  //     const result = await signInWithPopup(auth, facebookProvider);
+  //     const idToken = await result.user.getIdToken();
+
+  //     const response = await axios.post(`${BASE_URL}/auth/facebook`, {
+  //       idToken,
+  //     });
+
+  //     const { token, user } = response.data;
+  //     dispatch(setCredentials({ user, token }));
+  //     localStorage.setItem("token", token);
+  //     localStorage.setItem("user", JSON.stringify(user));
+
+  //     alert("✅ Facebook sign-in successful!");
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error("Facebook Sign-In Error:", error);
+  //     alert("❌ Facebook sign-in failed. Please try again.");
+  //   }
+  // };
+
+
+  const handleFacebookLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, facebookProvider);
+      console.log("Facebook User:", result.user);
+    } catch (error) {
+      console.error("Facebook login error:", error);
+    }
+  };
   const handleForgotPasswordClick = () => {
     navigate("/resetpassword");
   };
@@ -78,12 +112,21 @@ const Login = () => {
           </p>
 
           <button
-            onClick={handleGoogleSignIn}
+            onClick={handleGoogleLogin}
             className="mt-6 flex items-center justify-center bg-white text-black px-6 py-2 rounded shadow"
           >
             {/*             <img src={google} alt="Google Icon" className="w-5 h-5 mr-2" />
              */}{" "}
             Log in with Google
+          </button>
+
+          <button
+            onClick={handleFacebookLogin}
+            className="mt-6 flex items-center justify-center bg-white text-black px-6 py-2 rounded shadow"
+          >
+            {/*             <img src={google} alt="Google Icon" className="w-5 h-5 mr-2" />
+             */}{" "}
+            Log in with facebook
           </button>
 
           <div className="flex items-center w-full my-4">
@@ -139,7 +182,7 @@ const Login = () => {
         <div className="hidden md:block w-full h-full md:rounded-r-3xl">
           {
             <img
-              src={auth}
+              src={authimg}
               alt="Dog"
               className="w-full h-full object-cover object-center md:rounded-r-3xl"
             />

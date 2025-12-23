@@ -4,6 +4,9 @@ const otpUtils = require("../utils/otpUtils");
 const smsUtils = require("../utils/smsUtils");
 const argon2 = require("argon2");
 const nodemailer = require("nodemailer");
+const admin = require("../config/firebase");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 exports.register = async (req, res) => {
   try {
@@ -709,5 +712,64 @@ exports.updateProfile = async (req, res) => {
     res.status(200).json({ success: true, user: updatedUser });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+exports.googleAuth = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+
+    if (!idToken) {
+      return res.status(400).json({ message: "ID token missing" });
+    }
+
+    // 1️⃣ Verify Firebase token
+    const decoded = await admin.auth().verifyIdToken(idToken);
+
+    const { email, name, picture, uid } = decoded;
+
+    if (!email) {
+      return res.status(400).json({ message: "Google email not found" });
+    }
+
+    // 2️⃣ Check if user already exists
+    let user = await User.findOne({ email });
+
+    // 3️⃣ If new user → create record
+    if (!user) {
+      const randomPassword = crypto.randomBytes(16).toString("hex"); // auto password for required field
+
+      user = await User.create({
+        name: name || "Google User",
+        email,
+        password: randomPassword,  // required field
+        number: "",                // since required: false
+        profilePic: picture || "",
+        role: "user",
+        isVerified: true,          // Google email = verified
+        isPhoneVerified: false,
+        googleId: uid,
+      });
+    }
+
+    // 4️⃣ Create backend JWT
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.status(200).json({
+      message: "Google login successful",
+      token,
+      user,
+    });
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    res.status(500).json({ message: "Authentication failed", error });
   }
 };

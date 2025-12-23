@@ -6,7 +6,7 @@ import { BASE_URL } from "../Utils/urlconfig";
 import { setCredentials } from "../redux/authSlice";
 /*  import google from "../assets/login/google.svg";
  */
-import auth from "../assets/auth.png";
+import authimg from "../assets/authimg.png";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -152,7 +152,7 @@ const Signup = () => {
         <div className="hidden md:block w-full h-full md:rounded-r-3xl">
           {
             <img
-              src={auth}
+              src={authimg}
               alt="Dog"
               className="w-full h-full  object-cover md:rounded-r-3xl"
             />

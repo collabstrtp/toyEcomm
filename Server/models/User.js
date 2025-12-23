@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     unique: true,
     sparse: true,
-    required: true,
+    required: false,
   },
   address: {
     type: String,
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     default: "",
   },
   profilePic: {
-    type: String, // URL or path to the profile picture
+    type: String,
     default: "",
   },
   role: {
