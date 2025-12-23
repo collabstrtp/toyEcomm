@@ -419,6 +419,7 @@ const Home = () => {
                       <p className="text-gray-600">{card.badge.subtext}</p>
                     </div>
                   </div>
+                  
                 )}
               </div>
 
