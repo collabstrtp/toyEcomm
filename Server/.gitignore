@@ -24,3 +24,5 @@ yarn-error.log*
 .env
 
 serviceAccountKey.json
+# secrets
+Server/config/serviceAccountKey.json
