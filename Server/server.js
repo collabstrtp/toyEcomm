@@ -38,7 +38,6 @@ app.use(express.urlencoded({ extended: true }));
 //connect to mongoDB atlas
 connectDB();
 
-//ROUTES
 //use products routes
 app.use("/api/products", productRoutes);
 
