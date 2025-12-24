@@ -5,6 +5,8 @@ import User from "../assets/User.svg";
 import logo from "../assets/logo.png";
 import logo2 from "../assets/logo2.png";
 import { useNavigate, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../redux/authSlice"; // adjust path
 
 const Navbar = ({ setShowProfile, fixed = false }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,12 +14,18 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const dispatch = useDispatch();
+
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    setIsOpen(false);
+    if (window.confirm("Are you sure you want to logout?")) {
+      dispatch(logOut()); // clears redux + localStorage
+      setIsOpen(false); // close mobile menu
+      navigate("/login"); // redirect
+    }
   };
 
   const handleProfile = () => {
@@ -132,19 +140,21 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
         {isAuthenticated ? (
           <>
             <button
-              className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100 transition-colors"
+              className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100"
               onClick={() => navigate("/cart")}
             >
               <ShoppingCart size={20} />
             </button>
+
             <button
-              className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100 transition-colors"
+              className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100"
               onClick={() => navigate("/favourites")}
             >
               <Heart size={20} />
             </button>
+
             <button onClick={handleProfile} className="cursor-pointer mr-4">
-              <img src={User} alt="" className="w-9" />
+              <img src={User} alt="User" className="w-9" />
             </button>
           </>
         ) : (
@@ -152,7 +162,7 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
             className="bg-orange-500 text-white px-5 py-2 rounded-full font-medium shadow-md hover:bg-orange-600"
             onClick={() => navigate("/login")}
           >
-            Login/Signup
+            Login / Signup
           </button>
         )}
       </div>

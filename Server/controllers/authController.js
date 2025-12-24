@@ -723,7 +723,6 @@ exports.googleAuth = async (req, res) => {
       return res.status(400).json({ message: "ID token missing" });
     }
 
-    // 1️⃣ Verify Firebase token
     const decoded = await admin.auth().verifyIdToken(idToken);
 
     const { email, name, picture, uid } = decoded;
@@ -732,27 +731,24 @@ exports.googleAuth = async (req, res) => {
       return res.status(400).json({ message: "Google email not found" });
     }
 
-    // 2️⃣ Check if user already exists
     let user = await User.findOne({ email });
 
-    // 3️⃣ If new user → create record
     if (!user) {
       const randomPassword = crypto.randomBytes(16).toString("hex"); // auto password for required field
 
       user = await User.create({
         name: name || "Google User",
         email,
-        password: randomPassword,  // required field
-        number: "",                // since required: false
+        password: randomPassword, 
+        number: "", 
         profilePic: picture || "",
         role: "user",
-        isVerified: true,          // Google email = verified
+        isVerified: true,          
         isPhoneVerified: false,
         googleId: uid,
       });
     }
 
-    // 4️⃣ Create backend JWT
     const token = jwt.sign(
       {
         id: user._id,

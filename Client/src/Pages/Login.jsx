@@ -42,22 +42,19 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      // Step 1: Firebase popup
       const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken();
 
-      // Step 2: Send token to backend for verification
       const response = await axios.post(`${BASE_URL}/auth/google`, {
         idToken,
       });
 
-      // Step 3: Store backend token and user info
       const { token, user } = response.data;
+      console.log("Google Auth Response:", response.data);
       dispatch(setCredentials({ user, token }));
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
 
-      // Step 4: Navigate to home
       alert("✅ Google sign-in successful!");
       navigate("/");
     } catch (error) {

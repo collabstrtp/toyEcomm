@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logOut } from "../redux/authSlice"; // adjust path
+
 import { User, Package, MapPin, Settings, LogOut, Edit2, Camera, Save, Eye, EyeOff } from 'lucide-react';
 
 import Address from '../Components/Address';
@@ -7,6 +11,8 @@ import Setting from '../Components/Setting';
 import Order from '../Components/Order';
 
 export default function ProfileSection() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
 
   const menuItems = [
@@ -34,12 +40,14 @@ export default function ProfileSection() {
     }
   };
 
-  const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
-      // Add logout logic here
-      alert('Logged out successfully!');
-    }
-  };
+const handleLogout = () => {
+  const confirmLogout = window.confirm("Are you sure you want to logout?");
+  
+  if (confirmLogout) {
+    dispatch(logOut());          
+    navigate("/login"); 
+  }
+};
 
   return (
     <div className="min-h-screen  p-4 md:p-8">
