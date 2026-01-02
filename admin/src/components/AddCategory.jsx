@@ -84,7 +84,7 @@ const AddCategory = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: "light",
           transition: Zoom,
         });
       } else {
@@ -112,7 +112,7 @@ const AddCategory = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Zoom,
       });
       setShowLoader(false);
@@ -120,7 +120,7 @@ const AddCategory = () => {
   };
 
   return (
-    <div className="text-white font-anta p-8 box-border bg-black/15 w-full rounded-sm mt-4 lg:m-7">
+    <div className="text-black font-anta p-8 box-border bg-white w-full rounded-sm mt-4 lg:m-7 border border-gray-200">
       <h1 className="bold-22 font-anta text-center mb-5">
         CATEGORY ADDING FORM!
       </h1>
@@ -132,7 +132,7 @@ const AddCategory = () => {
           type="text"
           name="name"
           placeholder="Type here..."
-          className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+          className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
           value={categoryData.name}
           onChange={handleInputChange}
         />
@@ -148,7 +148,7 @@ const AddCategory = () => {
             name="available"
             checked={categoryData.available}
             onChange={handleInputChange}
-            className="form-checkbox cursor-pointer h-5 w-5 text-white mr-2 custom-checkbox"
+            className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300 mr-2"
           />
           <label htmlFor="available" className="font-anta text-sm">
             Available
@@ -166,14 +166,14 @@ const AddCategory = () => {
             </h4>
             <label
               htmlFor="thumbnail-input"
-              className="flex justify-center items-center max-w-50 w-full flex-col border-2 border-2-white rounded-md bg-black/50 cursor-pointer"
+              className="flex justify-center items-center max-w-50 w-full flex-col border-2 border-gray-300 rounded-md bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
             >
               <img
                 src={Upload_area}
                 alt="upload"
                 className="w-32 rouned-sm inline-block"
               />
-              <h4 className="font-anta py-3 text-white">Upload</h4>
+              <h4 className="font-anta py-3 text-black">Upload</h4>
             </label>
             <input
               onChange={handleImageChange2}
@@ -182,7 +182,7 @@ const AddCategory = () => {
               name="thumbnailImages"
               multiple
               hidden
-              className="bg-black/50 text-white outline-none max-w-80 w-full py-3 px-4 rounded-md"
+              className="bg-gray-100 text-black outline-none max-w-80 w-full py-3 px-4 rounded-md"
             />
           </div>
         ) : null}
@@ -200,11 +200,11 @@ const AddCategory = () => {
                   <img
                     src={url}
                     alt={`Selected ${index + 1}`}
-                    className="w-32 h-32 object-cover rounded-md"
+                    className="w-32 h-32 object-cover rounded-md border border-gray-300"
                   />
                   <button
                     onClick={() => setShowUpload2(true)}
-                    className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center"
+                    className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
                   >
                     Select New Images
                   </button>
@@ -221,14 +221,14 @@ const AddCategory = () => {
           <h4 className="font-anta bold-18 pb-2">Add Category Banner Image:</h4>
           <label
             htmlFor="banner-input"
-            className="flex justify-center items-center max-w-50 w-full flex-col border-2 border-2-white rounded-md bg-black/50 cursor-pointer"
+            className="flex justify-center items-center max-w-50 w-full flex-col border-2 border-gray-300 rounded-md bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
           >
             <img
               src={Upload_area}
               alt="upload"
               className="w-32 rouned-sm inline-block"
             />
-            <h4 className="font-anta py-3 text-white">Upload</h4>
+            <h4 className="font-anta py-3 text-black">Upload</h4>
           </label>
           <input
             onChange={handleImageChange3}
@@ -237,7 +237,7 @@ const AddCategory = () => {
             name="bannerImage"
             multiple
             hidden
-            className="bg-black/50 text-white outline-none max-w-50 w-full py-3 px-4 rounded-md"
+            className="bg-gray-100 text-black outline-none max-w-50 w-full py-3 px-4 rounded-md"
           />
         </div>
       ) : null}
@@ -253,11 +253,11 @@ const AddCategory = () => {
                 <img
                   src={url}
                   alt={`Selected ${index + 1}`}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-md border border-gray-300"
                 />
                 <button
                   onClick={() => setShowUpload3(true)}
-                  className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center"
+                  className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
                 >
                   Select New Images
                 </button>
@@ -269,14 +269,14 @@ const AddCategory = () => {
 
       <button
         onClick={handleSubmit}
-        className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center"
+        className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
       >
         <PlusOutlined className="font-anta" />
         Add Category
       </button>
 
       {showLoader && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/80">
           <div className="spinner"></div>
         </div>
       )}

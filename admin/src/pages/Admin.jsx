@@ -19,30 +19,27 @@ import EditCategory from "../components/EditCategory";
 
 const Admin = () => {
   return (
-    <div className="bg-gradient-to-b from-primary via-secondary to-primary">
-      <div></div>
-      <div className="lg:flex">
-        <Sidebar />
+    <div className="lg:flex bg-white">
+      <Sidebar />
 
-        <Routes>
-          {/* Adjusted paths to be relative */}
-          <Route path="addproduct" element={<AddProduct />} />
-          <Route path="" element={<Home />} />
-          <Route path="productlist" element={<ProductList />} />
-          <Route path="editproduct/:id" element={<EditProduct />} />
-          <Route path="userlist" element={<UserList />} />
-          <Route path="bannersection" element={<BannerSection />} />
-          <Route path="allbanners" element={<AllBanners />} />
-          <Route path="editbanner/:id" element={<EditBanner />} />
-          <Route path="addblog" element={<AddBlog />} />
-          <Route path="allblogs" element={<AllBlogs />} />
-          <Route path="editblog/:id" element={<EditBlog />} />
-          <Route path="addcategory" element={<AddCategory />} />
-          <Route path="allcategories" element={<AllCategories />} />
-          <Route path="editcategory/:id" element={<EditCategory />} />
-          {/*    <Route path="allcomments" element={<AllComments />} /> */}
-        </Routes>
-      </div>
+      <Routes>
+        {/* Adjusted paths to be relative */}
+        <Route path="addproduct" element={<AddProduct />} />
+        <Route path="" element={<Home />} />
+        <Route path="productlist" element={<ProductList />} />
+        <Route path="editproduct/:id" element={<EditProduct />} />
+        <Route path="userlist" element={<UserList />} />
+        <Route path="bannersection" element={<BannerSection />} />
+        <Route path="allbanners" element={<AllBanners />} />
+        <Route path="editbanner/:id" element={<EditBanner />} />
+        <Route path="addblog" element={<AddBlog />} />
+        <Route path="allblogs" element={<AllBlogs />} />
+        <Route path="editblog/:id" element={<EditBlog />} />
+        <Route path="addcategory" element={<AddCategory />} />
+        <Route path="allcategories" element={<AllCategories />} />
+        <Route path="editcategory/:id" element={<EditCategory />} />
+        {/*    <Route path="allcomments" element={<AllComments />} /> */}
+      </Routes>
     </div>
   );
 };

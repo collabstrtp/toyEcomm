@@ -93,7 +93,7 @@ const EditBlog = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: "light",
           transition: Zoom,
         });
 
@@ -111,7 +111,7 @@ const EditBlog = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Zoom,
       });
     } finally {
@@ -120,7 +120,7 @@ const EditBlog = () => {
   };
 
   return (
-    <div className="text-white font-anta p-8 box-border bg-black/15 w-full rounded-sm mt-4 lg:m-7">
+    <div className="text-black font-anta p-8 box-border bg-white w-full rounded-sm mt-4 lg:m-7 border border-gray-200">
       <h1 className="bold-22 font-anta text-center mb-5">EDIT BLOG</h1>
 
       {/*  TITLE, AUTHOR, QUOTE */}
@@ -132,7 +132,7 @@ const EditBlog = () => {
             type="text"
             name="title"
             placeholder="Type here..."
-            className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={blogData.title}
             onChange={handleInputChange}
           />
@@ -145,7 +145,7 @@ const EditBlog = () => {
             type="text"
             name="author"
             placeholder="Type here..."
-            className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={blogData.author}
             onChange={handleInputChange}
           />
@@ -158,7 +158,7 @@ const EditBlog = () => {
             type="text"
             name="quote"
             placeholder="Type here..."
-            className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={blogData.quote}
             onChange={handleInputChange}
           />
@@ -172,9 +172,10 @@ const EditBlog = () => {
           id="content"
           placeholder="Type here..."
           name="content"
-          className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+          className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
           value={blogData.content}
           onChange={handleInputChange}
+          rows="6"
         />
       </div>
 
@@ -184,14 +185,14 @@ const EditBlog = () => {
           <h4 className="font-anta bold-18 pb-2">Add Blog Image:</h4>
           <label
             htmlFor="blog-images-input"
-            className="flex justify-center items-center flex-col border-2 border-2-white bg-black/50 rounded-md cursor-pointer"
+            className="flex justify-center items-center flex-col border-2 border-gray-300 bg-gray-50 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
           >
             <img
               src={Upload_area}
               alt="upload"
               className="w-32 rouned-sm inline-block"
             />
-            <h4 className="font-anta py-3 text-white">Upload</h4>
+            <h4 className="font-anta py-3 text-black">Upload</h4>
           </label>
           <input
             onChange={handleImageChange}
@@ -200,7 +201,7 @@ const EditBlog = () => {
             name="blogImage"
             multiple
             hidden
-            className="bg-black/50 text-white outline-none max-w-80 w-full py-3 px-4 rounded-md"
+            className="bg-gray-100 text-black outline-none max-w-80 w-full py-3 px-4 rounded-md"
           />
         </div>
       ) : null}
@@ -216,7 +217,7 @@ const EditBlog = () => {
                 <img
                   src={url}
                   alt={`Selected ${index + 1}`}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-md border border-gray-300"
                 />
               </div>
             ))}
@@ -226,7 +227,7 @@ const EditBlog = () => {
       {!showUpload ? (
         <button
           onClick={() => setShowUpload(true)}
-          className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center"
+          className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
         >
           Select New Images
         </button>
@@ -234,14 +235,14 @@ const EditBlog = () => {
 
       <button
         onClick={handleSubmit}
-        className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center"
+        className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
       >
         <PlusOutlined className="font-anta" />
         Update Blog
       </button>
 
       {showLoader && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/80">
           <div className="spinner"></div>
         </div>
       )}

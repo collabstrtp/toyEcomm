@@ -126,7 +126,7 @@ const EditProduct = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Zoom,
       });
 
@@ -159,7 +159,7 @@ const EditProduct = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Zoom,
       });
       setShowLoader(false);
@@ -167,7 +167,11 @@ const EditProduct = () => {
   };
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen bg-white text-black">
+        Loading...
+      </div>
+    );
   }
 
   // Now it's safe to access product properties
@@ -177,7 +181,7 @@ const EditProduct = () => {
     oldPrice > 0 ? ((oldPrice - newPrice) / oldPrice) * 100 : 0;
 
   return (
-    <div className="text-white font-anta p-8 box-border bg-black/15 w-full rounded-sm mt-4 lg:m-7">
+    <div className="text-black font-anta p-8 box-border bg-white w-full rounded-sm mt-4 lg:m-7 border border-gray-200">
       <h1 className="bold-22 font-anta text-center mb-5">
         PRODUCT EDITING FORM!
       </h1>
@@ -191,7 +195,7 @@ const EditProduct = () => {
             type="text"
             name="name"
             placeholder="Type here..."
-            className="bg-primary outline-none w-full py-3 px-4 rounded-md text-black"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={productData.name}
             onChange={handleInputChange}
           />
@@ -204,7 +208,7 @@ const EditProduct = () => {
             name="categoryId"
             value={productData.categoryId}
             onChange={handleInputChange}
-            className="bg-primary outline-none w-full py-3 px-4 rounded-md text-black"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
@@ -225,7 +229,7 @@ const EditProduct = () => {
               name="available"
               checked={productData.available}
               onChange={handleInputChange}
-              className="form-checkbox cursor-pointer h-5 w-5 text-gray-600 mr-2"
+              className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300 mr-2"
             />
             <label htmlFor="available" className="font-anta text-sm">
               Available
@@ -238,7 +242,7 @@ const EditProduct = () => {
               name="unavailable"
               checked={!productData.available}
               onChange={handleInputChange}
-              className="form-checkbox cursor-pointer h-5 w-5 text-gray-600 mr-2"
+              className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300 mr-2"
             />
             <label htmlFor="unavailable" className="font-anta text-sm">
               Unavailable
@@ -254,7 +258,7 @@ const EditProduct = () => {
             name="popular"
             checked={productData.popular}
             onChange={handleInputChange}
-            className="form-checkbox cursor-pointer h-5 w-5 text-gray-600 mr-2"
+            className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300 mr-2"
           />
           <label htmlFor="popular" className="font-anta text-sm">
             Mark as Popular
@@ -271,7 +275,7 @@ const EditProduct = () => {
             type="number"
             name="new_price"
             placeholder="Type here..."
-            className="bg-primary outline-none w-full py-3 px-4 rounded-md text-black"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={productData.new_price}
             onChange={handleInputChange}
           />
@@ -284,7 +288,7 @@ const EditProduct = () => {
             type="number"
             name="old_price"
             placeholder="Type here..."
-            className="bg-primary outline-none w-full py-3 px-4 rounded-md text-black"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={productData.old_price}
             onChange={handleInputChange}
           />
@@ -297,7 +301,7 @@ const EditProduct = () => {
         <textarea
           name="description"
           placeholder="Type here..."
-          className="bg-primary outline-none w-full py-3 px-4 rounded-md text-black"
+          className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
           rows="5"
           value={productData.description}
           onChange={handleInputChange}
@@ -321,7 +325,7 @@ const EditProduct = () => {
               <input
                 type="checkbox"
                 id={size}
-                className="form-checkbox cursor-pointer h-5 w-5 text-gray-600"
+                className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300"
                 value={size}
                 name="sizes"
                 onChange={handleSizeChange}
@@ -344,7 +348,7 @@ const EditProduct = () => {
               key={index}
               src={url}
               alt={`Product ${index + 1}`}
-              className="h-20 w-20 object-cover rounded-md"
+              className="h-20 w-20 object-cover rounded-md border border-gray-300"
             />
           ))}
           {showUpload && (
@@ -352,7 +356,7 @@ const EditProduct = () => {
               <img
                 src={Upload_area}
                 alt="Upload Area"
-                className="h-20 w-20 object-cover rounded-md border border-dotted border-gray-500"
+                className="h-20 w-20 object-cover rounded-md border border-dashed border-gray-400 hover:border-black transition-colors"
               />
               <input
                 type="file"
@@ -366,9 +370,9 @@ const EditProduct = () => {
           {!showUpload && (
             <div
               onClick={() => setShowUpload(true)}
-              className="h-20 w-20 flex items-center justify-center rounded-md border border-dotted border-gray-500 cursor-pointer"
+              className="h-20 w-20 flex items-center justify-center rounded-md border border-dashed border-gray-400 cursor-pointer hover:border-black hover:bg-gray-50 transition-colors"
             >
-              <PlusOutlined className="text-4xl text-gray-500" />
+              <PlusOutlined className="text-4xl text-gray-400" />
             </div>
           )}
         </div>
@@ -377,7 +381,7 @@ const EditProduct = () => {
       {/* BUTTONS */}
       <div className="flex justify-between">
         <button
-          className="bg-white font-anta bold-20 px-8 py-3 text-black rounded-sm cursor-pointer"
+          className="bg-black font-anta bold-20 px-8 py-3 text-white rounded-sm cursor-pointer hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           onClick={handleSubmit}
           disabled={showLoader}
         >

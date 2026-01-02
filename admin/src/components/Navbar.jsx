@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/logo2.png";
-import image from "../assets/image.png";
+import logo from "../assets/logo.png";
 import { useDispatch } from "react-redux";
 import { logout } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +27,7 @@ const Navbar = () => {
   return (
     <nav className="max_padd_container flexBetween bg-black py-1 px-4 relative">
       <div className="font-anta text-white">
-        <img src={image} alt="logo" height={48} width={48} />
+        <img src={logo} alt="logo" height={48} width={48} />
       </div>
       <div className="font-anta text-white bold-22 bg-[black]/60 px-3 rounded-md tracking-widest line-clamp-1 max-xs:bold-18 max-xs:py-2 max-xs:px-1">
         ADMIN PANEL
