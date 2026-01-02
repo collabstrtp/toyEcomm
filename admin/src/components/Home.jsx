@@ -114,7 +114,7 @@ const Home = () => {
     plugins: {
       legend: {
         labels: {
-          color: "white",
+          color: "black",
         },
       },
     },
@@ -144,20 +144,20 @@ const Home = () => {
       y: {
         beginAtZero: true,
         ticks: {
-          color: "white", // y-axis values
+          color: "black", // y-axis values
         },
       },
       x: {
         beginAtZero: true,
         ticks: {
-          color: "white", //x-axis values
+          color: "black", //x-axis values
         },
       },
     },
     plugins: {
       legend: {
         labels: {
-          color: "white",
+          color: "black",
         },
       },
       tooltip: {
@@ -205,7 +205,7 @@ const Home = () => {
     plugins: {
       legend: {
         labels: {
-          color: "white",
+          color: "black",
         },
       },
     },
@@ -217,9 +217,9 @@ const Home = () => {
       {
         label: "Number of Products",
         data: [11, 5, 8, 3, 1, 5],
-        backgroundColor: "rgba(255, 9, 0, 0.3)",
-        borderColor: "white",
-        borderWidth: 1,
+        backgroundColor: "rgba(0, 0, 0, 0.1)",
+        borderColor: "black",
+        borderWidth: 2,
       },
     ],
   };
@@ -229,35 +229,41 @@ const Home = () => {
       r: {
         beginAtZero: true,
         ticks: {
-          color: "white",
+          color: "black",
+        },
+        grid: {
+          color: "rgba(0, 0, 0, 0.1)",
+        },
+        pointLabels: {
+          color: "black",
         },
       },
     },
     plugins: {
       legend: {
         labels: {
-          color: "white",
+          color: "black",
         },
       },
     },
   };
 
   return (
-    <div className="text-white flex flex-col w-full rounded-sm mt-4 lg:m-7 p-8 box-border">
+    <div className="bg-white text-black flex flex-col w-full rounded-sm mt-4 lg:m-7 p-8 box-border">
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <div className="p-5 text-center ring-1 ring-white rounded-md">
+        <div className="p-5 text-center ring-1 ring-black rounded-md bg-white">
           <h3 className="font-anta text-[24px]">Total Products</h3>
           <div className="font-anta text-[30px] text-extrabold">
             {totalProducts}
           </div>
         </div>
-        <div className="p-5 text-center ring-1 ring-white rounded-md">
+        <div className="p-5 text-center ring-1 ring-black rounded-md bg-white">
           <h3 className="font-anta text-[24px]">No. of Categories</h3>
           <div className="font-anta text-[30px] text-extrabold">
             {numberOfCategories}
           </div>
         </div>
-        <div className="p-5 text-center ring-1 ring-white rounded-md">
+        <div className="p-5 text-center ring-1 ring-black rounded-md bg-white">
           <h3 className="font-anta text-[24px]">No. of Users</h3>
           <div className="font-anta text-[30px] text-extrabold">
             {allUsers.length}
@@ -274,12 +280,12 @@ const Home = () => {
             {productsInEachCategory.map((category, index) => (
               <div
                 key={index}
-                className="p-5 text-center ring-1 ring-white rounded-md"
+                className="p-5 text-center ring-1 ring-black rounded-md bg-white"
               >
                 <h5 className="font-anta text-[24px] capitalize">
                   {category.title}
                 </h5>
-                <p className="font-anta text-white text-[30px] text-extrabold">
+                <p className="font-anta text-black text-[30px] text-extrabold">
                   {category.number}
                 </p>
               </div>
@@ -298,21 +304,21 @@ const Home = () => {
       </div>
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-start">
-        <div className="w-full ring-1 ring-white p-6 rounded-md text-white flex flex-col items-center">
+        <div className="w-full ring-1 ring-black p-6 rounded-md bg-white text-black flex flex-col items-center">
           <h4 className="font-anta text-center mt-4 text-[24px]">
             Products Distribution
           </h4>
           <Pie data={pieData} options={pieOptions} />
         </div>
 
-        <div className="w-full ring-1 ring-white p-6 rounded-md text-white flex flex-col items-center">
+        <div className="w-full ring-1 ring-black p-6 rounded-md bg-white text-black flex flex-col items-center">
           <h4 className="font-anta text-center mt-4 text-[24px]">
             Products by Brand
           </h4>
           <Radar data={radarData} options={radarOptions} />
         </div>
 
-        <div className="w-full ring-1 ring-white p-6 rounded-md text-white flex flex-col items-center">
+        <div className="w-full ring-1 ring-black p-6 rounded-md bg-white text-black flex flex-col items-center">
           <h4 className="font-anta text-center mt-4 text-[24px]">
             User Demographics
           </h4>
@@ -320,7 +326,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="mt-10 w-full ring-1 ring-white p-6 rounded-md">
+      <div className="mt-10 w-full ring-1 ring-black p-6 rounded-md bg-white">
         <h4 className="font-anta text-center mt-4 text-[24px]">
           Products in Each Category
         </h4>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../features/authSlice";
 import { toast, Zoom } from "react-toastify";
-import logo from "../assets/logo2.png";
+import logo from "../assets/logo.png";
 
 const Login = () => {
   const [formData, setFormData] = useState({

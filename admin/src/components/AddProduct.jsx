@@ -105,7 +105,7 @@ const AddProduct = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: "light",
           transition: Zoom,
         });
 
@@ -134,7 +134,7 @@ const AddProduct = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Zoom,
       });
     } finally {
@@ -143,7 +143,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="text-white font-anta p-8 box-border bg-black/15 w-full rounded-sm mt-4 lg:m-7">
+    <div className="text-black font-anta p-8 box-border bg-white w-full rounded-sm mt-4 lg:m-7 border border-gray-200">
       <h1 className="bold-22 font-anta text-center mb-5">
         PRODUCT ADDING FORM!
       </h1>
@@ -157,7 +157,7 @@ const AddProduct = () => {
             type="text"
             name="name"
             placeholder="Type here..."
-            className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={productData.name}
             onChange={handleInputChange}
           />
@@ -170,7 +170,7 @@ const AddProduct = () => {
             name="categoryId"
             value={productData.categoryId}
             onChange={handleInputChange}
-            className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
@@ -195,7 +195,7 @@ const AddProduct = () => {
               name="available"
               checked={productData.available}
               onChange={handleInputChange}
-              className="form-checkbox cursor-pointer h-5 w-5 text-white mr-2 custom-checkbox"
+              className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300 mr-2"
             />
             <label htmlFor="available" className="font-anta text-sm">
               Available
@@ -208,7 +208,7 @@ const AddProduct = () => {
               name="unavailable"
               checked={!productData.available}
               onChange={handleInputChange}
-              className="form-checkbox cursor-pointer h-5 w-5 text-white mr-2 custom-checkbox"
+              className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300 mr-2"
             />
             <label htmlFor="unavailable" className="font-anta text-sm">
               Unavailable
@@ -226,7 +226,7 @@ const AddProduct = () => {
             type="number"
             name="new_price"
             placeholder="Type here..."
-            className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={productData.new_price}
             onChange={handleInputChange}
           />
@@ -239,7 +239,7 @@ const AddProduct = () => {
             type="number"
             name="old_price"
             placeholder="Type here..."
-            className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             value={productData.old_price}
             onChange={handleInputChange}
           />
@@ -253,7 +253,7 @@ const AddProduct = () => {
           id="description"
           placeholder="Type here..."
           name="description"
-          className="bg-black/50 outline-none w-full py-3 px-4 rounded-md text-white"
+          className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
           value={productData.description}
           onChange={handleInputChange}
         />
@@ -276,7 +276,7 @@ const AddProduct = () => {
               <input
                 type="checkbox"
                 id={size}
-                className="form-checkbox cursor-pointer h-5 w-5 text-gray-600"
+                className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300"
                 value={size}
                 name="sizes"
                 onChange={handleSizeChange}
@@ -296,14 +296,14 @@ const AddProduct = () => {
           <h4 className="font-anta bold-18 pb-2">Add Product Images:</h4>
           <label
             htmlFor="product-images-input"
-            className="flex justify-center items-center flex-col border-2 border-2-white bg-black/50 rounded-md cursor-pointer"
+            className="flex justify-center items-center flex-col border-2 border-gray-300 bg-gray-50 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
           >
             <img
               src={Upload_area}
               alt="upload"
               className="w-32 rouned-sm inline-block"
             />
-            <h4 className="font-anta py-3 text-white">Upload</h4>
+            <h4 className="font-anta py-3 text-black">Upload</h4>
           </label>
           <input
             onChange={handleImageChange}
@@ -312,7 +312,7 @@ const AddProduct = () => {
             name="productImage"
             multiple
             hidden
-            className="bg-black/50 text-white outline-none max-w-80 w-full py-3 px-4 rounded-md"
+            className="bg-gray-100 text-black outline-none max-w-80 w-full py-3 px-4 rounded-md"
           />
         </div>
       ) : null}
@@ -330,7 +330,7 @@ const AddProduct = () => {
                 <img
                   src={url}
                   alt={`Selected ${index + 1}`}
-                  className="w-32 h-32 object-cover rounded-md"
+                  className="w-32 h-32 object-cover rounded-md border border-gray-300"
                 />
               </div>
             ))}
@@ -341,7 +341,7 @@ const AddProduct = () => {
       {!showUpload ? (
         <button
           onClick={() => setShowUpload(true)}
-          className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center"
+          className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
         >
           Select New Images
         </button>
@@ -350,7 +350,7 @@ const AddProduct = () => {
       {/* Submit button */}
       <button
         onClick={handleSubmit}
-        className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center"
+        className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
       >
         <PlusOutlined className="font-anta" />
         Add Product
@@ -358,7 +358,7 @@ const AddProduct = () => {
 
       {/* Loader */}
       {showLoader && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/80">
           <div className="spinner"></div>
         </div>
       )}

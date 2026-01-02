@@ -33,7 +33,7 @@ const AllBanners = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: "light",
           transition: Zoom,
         });
       }
@@ -69,7 +69,7 @@ const AllBanners = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Zoom,
       });
       setShowLoader(false);
@@ -84,29 +84,35 @@ const AllBanners = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Zoom,
       });
     }
   };
 
   return (
-    <div className="text-white font-anta p-8 box-border bg-black/15 min-h-screen w-full rounded-sm mt-4 lg:m-7">
+    <div className="text-black font-anta p-8 box-border bg-white min-h-screen w-full rounded-sm mt-4 lg:m-7 border border-gray-200">
       <h1 className="bold-22 font-anta text-center mb-5">All Banners</h1>
       {banners?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {banners.map((banner) => (
             <div
               key={banner._id}
-              className="banner-item ring-1 ring-white p-4 rounded-md bg-black/40 shadow-lg flex flex-col"
+              className="banner-item ring-1 ring-gray-300 p-4 rounded-md bg-white shadow-lg hover:shadow-xl transition-shadow flex flex-col"
             >
               <div className="flex justify-between items-center mb-2">
                 <h2 className="bold-18 font-anta">{banner.pageName}</h2>
                 <div className="gap-x-2 flex">
-                  <button onClick={() => handleEdit(banner._id)}>
+                  <button
+                    onClick={() => handleEdit(banner._id)}
+                    className="hover:text-blue-600 transition-colors"
+                  >
                     <RiEdit2Line className="text-[22px]" />
                   </button>
-                  <button onClick={() => handleRemovebanner(banner._id)}>
+                  <button
+                    onClick={() => handleRemovebanner(banner._id)}
+                    className="hover:text-red-600 transition-colors"
+                  >
                     <TbTrash className="text-[22px]" />
                   </button>
                 </div>
@@ -117,7 +123,7 @@ const AllBanners = () => {
                     key={img + index}
                     src={img}
                     alt={banner.pageName}
-                    className="rounded-md h-32 w-40 object-cover bg-white cursor-pointer transition-transform hover:scale-105"
+                    className="rounded-md h-32 w-40 object-cover bg-white border border-gray-300 cursor-pointer transition-transform hover:scale-105"
                     onClick={() => window.open(img, "_blank")}
                     title="Click to view full size"
                   />
@@ -127,16 +133,16 @@ const AllBanners = () => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center bg-black/60 py-8 rounded-full">
-          <img src={Empty} className="rounded-full h-64" />
-          <p className="font-anta text-white text-center mt-5">
+        <div className="flex flex-col justify-center items-center bg-gray-100 py-8 rounded-lg border border-gray-300">
+          <img src={Empty} className="rounded-full h-64" alt="Empty" />
+          <p className="font-anta text-black text-center mt-5">
             No Banners to show
           </p>
         </div>
       )}
 
       {showLoader && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/80">
           <div className="spinner"></div>
         </div>
       )}
@@ -145,21 +151,21 @@ const AllBanners = () => {
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         contentLabel="Delete Confirmation"
-        className="modal-content"
-        overlayClassName="modal-overlay"
+        className="modal-content bg-white text-black border-2 border-gray-300 rounded-lg p-6 max-w-md mx-auto mt-20"
+        overlayClassName="modal-overlay fixed inset-0 bg-black/50 flex items-center justify-center"
       >
-        <h2>Confirm Deletion</h2>
-        <p>Are you sure you want to delete this product?</p>
+        <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+        <p className="mb-6">Are you sure you want to delete this banner?</p>
         <div className="flex gap-x-5 mt-3">
           <button
             onClick={() => setIsModalOpen(false)}
-            className="btn_dark_rounded"
+            className="btn_dark_rounded bg-gray-300 text-black px-6 py-2 rounded hover:bg-gray-400 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={() => handleDelete(productToDelete)}
-            className="btn_dark_rounded hover:bg-red-600"
+            className="btn_dark_rounded bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition-colors"
           >
             Delete
           </button>
