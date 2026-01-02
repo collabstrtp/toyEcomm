@@ -23,26 +23,51 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  new_price: {
-    type: String,
+  price: {
+    type: Number,
     required: true,
   },
-  old_price: {
+
+  discountPercent: {
+    type: Number,
+  },
+  ageGroup: {
     type: String,
     required: true,
+    enum: ["0-2", "3-5", "6-8", "9-12", "13+"],
   },
-  date: {
-    type: Date,
-    default: Date.now,
+
+  gender: {
+    type: String,
+    required: true,
+    enum: ["boys", "girls", "unisex"],
   },
-  available: {
-    type: Boolean,
-    default: true,
-  },
-  sizes: {
-    type: [String],
+
+  material: {
+    type: [String], // multiple materials allowed
     default: [],
   },
+
+  color: {
+    type: [String], // multiple colors allowed
+    default: [],
+  },
+
+  brand: {
+    type: String,
+  },
+
+  isEducational: {
+    type: Boolean,
+    default: false,
+  },
+
+  stock: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+
   popular: { type: Boolean, default: false },
   ratings: [ratingSchema],
 });
