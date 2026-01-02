@@ -13,14 +13,14 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post("/", async (req, res) => {
-  const { name, email, message } = req.body;
-  if (!name || !email || !message) {
+  const { name, phone, email, message } = req.body;
+  if (!name || !phone || !email || !message) {
     return res.status(400).json({ error: "All fields are required." });
   }
 
   try {
     // 1. Store in database
-    const newMessage = new ContactMessage({ name, email, message });
+    const newMessage = new ContactMessage({ name, phone, email, message });
     await newMessage.save();
 
     // 2. Send email notification
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
       from: email,
       to: process.env.EMAIL_USERNAME, // replace with your email
       subject: `New Contact Form Submission from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      text: `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nMessage: ${message}`,
     };
 
     await transporter.sendMail(mailOptions);

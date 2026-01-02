@@ -1,4 +1,44 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { BASE_URL } from "../Utils/urlconfig";
+
 const Gallery = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setResponseMessage("");
+
+    try {
+      const response = await axios.post(`${BASE_URL}/contact`, formData);
+      setResponseMessage("Message sent successfully!");
+      setFormData({ name: "", phone: "", email: "", message: "" });
+    } catch (error) {
+      setResponseMessage(
+        error.response?.data?.error ||
+          "Failed to send message. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="relative z-0 h-[720px] md:h-[600px] overflow-hidden">
       {/* Semi-transparent Overlay */}
@@ -79,68 +119,94 @@ const Gallery = () => {
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
         <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center md:justify-between z-20 px-4 md:px-10 py-8 md:py-0">
           <div className="text-white max-w-lg text-center lg:text-left lg:mr-auto">
-  <h2 className="text-4xl sm:text-5xl font-extrabold mb-4">
-    We’re Here for You
-  </h2>
-  <p className="text-lg text-gray-200 mb-2">
-    Have a question about our products, shipping, or returns?  
-    Send us a message and we’ll get back to you as soon as possible.
-  </p>
-</div>
-
+            <h2 className="text-4xl sm:text-5xl font-extrabold mb-4">
+              We’re Here for You
+            </h2>
+            <p className="text-lg text-gray-200 mb-2">
+              Have a question about our products, shipping, or returns? Send us
+              a message and we’ll get back to you as soon as possible.
+            </p>
+          </div>
 
           {/* Contact Form Container */}
-  <form className="bg-white/90 backdrop-blur-lg p-6 sm:p-8 rounded-2xl shadow-2xl w-full max-w-md pointer-events-auto flex flex-col space-y-4 border border-orange-100">
-    
-    {/* Heading */}
-    <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-2">
-      Get in Touch
-    </h2>
-    <p className="text-gray-500 text-center mb-4">
-      We’d love to hear from you! Fill out the form below.
-    </p>
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white/90 backdrop-blur-lg p-6 sm:p-8 rounded-2xl shadow-2xl w-full max-w-md pointer-events-auto flex flex-col space-y-4 border border-orange-100"
+          >
+            {/* Heading */}
+            <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-2">
+              Get in Touch
+            </h2>
+            <p className="text-gray-500 text-center mb-4">
+              We’d love to hear from you! Fill out the form below.
+            </p>
 
-    {/* Name */}
-    <input
-      type="text"
-      placeholder="Your Name"
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
-      required
-    />
+            {/* Name */}
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Your Name"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+              required
+            />
 
-    {/* Contact Number */}
-    <input
-      type="tel"
-      placeholder="Your Contact Number"
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
-      required
-    />
+            {/* Contact Number */}
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Your Contact Number"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+              required
+            />
 
-    {/* Email */}
-    <input
-      type="email"
-      placeholder="Your Email"
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
-      required
-    />
+            {/* Email */}
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Your Email"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+              required
+            />
 
-    {/* Message */}
-    <textarea
-      placeholder="Your Message"
-      rows="4"
-      className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
-      required
-    ></textarea>
+            {/* Message */}
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Your Message"
+              rows="4"
+              className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+              required
+            ></textarea>
 
-    {/* Submit Button */}
-    <button
-      type="submit"
-      className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-0.5"
-    >
-      Send Message
-    </button>
-  </form>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Sending..." : "Send Message"}
+            </button>
 
+            {/* Response Message */}
+            {responseMessage && (
+              <p
+                className={`text-center text-sm ${
+                  responseMessage.includes("successfully")
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {responseMessage}
+              </p>
+            )}
+          </form>
         </div>
       </div>
     </div>
