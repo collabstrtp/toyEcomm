@@ -16,82 +16,89 @@ async function uploadToCloudinary(file) {
 }
 
 exports.createProduct = async (req, res) => {
-  if (req.user.role !== "admin") {
-    return res
-      .status(403)
-      .json({ message: "Forbidden: only admins can create products!" });
-  }
   try {
-    // console.log("Starting product upload...");
-
-    // Validate form data
-    const {
-      name,
-      categoryId,
-      new_price,
-      old_price,
-      description,
-      sizes,
-      available,
-      popular,
-    } = req.body;
-    // console.log(req.body);
-    if (
-      !name ||
-      !categoryId ||
-      !new_price ||
-      !old_price ||
-      !description ||
-      !sizes
-    ) {
-      return res.status(400).json({ error: "All fields are required" });
+    if (req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "Forbidden: only admins can create products!" });
     }
 
-    const category = await Category.findById(categoryId);
+    const {
+      name,
+      category,
+      description,
+      price,
+      discountPercent,
+      ageGroup,
+      gender,
+      material,
+      color,
+      brand,
+      isEducational,
+      stock,
+      popular,
+    } = req.body;
 
-    if (!category) {
+    // 🧪 Validation
+    if (
+      !name ||
+      !category ||
+      !description ||
+      !price ||
+      !ageGroup ||
+      !gender ||
+      stock === undefined
+    ) {
+      return res.status(400).json({ error: "Required fields are missing" });
+    }
+
+    // 📂 Category check
+    const categoryExists = await Category.findById(category);
+    if (!categoryExists) {
       return res.status(404).json({ error: "Category not found" });
     }
 
-    // Upload product images to Cloudinary
+    // 🖼️ Upload images
+    if (!req.files || !req.files.images) {
+      return res.status(400).json({ error: "Images are required" });
+    }
+
     const imageUrls = await Promise.all(
-      req.files.images.map(async (file) => {
-        //  console.log("Uploading product file:", file.originalname);
-        return await uploadToCloudinary(file);
-      })
+      req.files.images.map(file => uploadToCloudinary(file))
     );
 
-    // console.log("Collected image URLs:", imageUrls);
-
-    const sizesArray = sizes.split(",").map((size) => size.trim());
-
-    // Create a new product with the collected image URLs and category's id
+    // 📦 Create product
     const product = new Product({
-      name: name,
+      name,
       images: imageUrls,
-      category: category._id, // Updated to match schema
-      new_price: new_price,
-      old_price: old_price,
-      sizes: sizesArray,
-      description: description,
-      available: available,
-      popular: popular,
+      category,
+      description,
+      price,
+      discountPercent,
+      ageGroup,
+      gender,
+      material: material ? material.split(",") : [],
+      color: color ? color.split(",") : [],
+      brand,
+      isEducational,
+      stock,
+      popular,
     });
 
-    // Save the product to MongoDB
     await product.save();
-    // console.log("Saving Product to MongoDB Successful...");
 
-    res.json({
+    return res.status(201).json({
       success: true,
-      name: name,
+      message: "Product created successfully",
       product,
     });
-  } catch (err) {
-    console.error("Error in request handler:", err);
-    res.status(500).json({ error: err.message });
+
+  } catch (error) {
+    console.error("Create product error:", error);
+    res.status(500).json({ error: error.message });
   }
 };
+
 
 exports.getAllProducts = async (req, res) => {
   try {
