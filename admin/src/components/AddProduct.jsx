@@ -12,14 +12,21 @@ const AddProduct = () => {
     name: "",
     categoryId: "",
     new_price: "",
-    old_price: "",
     description: "",
-    sizes: [],
+    ageGroup: "",
+    gender: "",
+    material: "",
+    color: "",
+    brand: "",
+    stock: "", // ✅ ADD THIS
     images: null,
     imageUrls: [],
+    discountPercent: 0,
     available: true,
   });
+
   const [showLoader, setShowLoader] = useState(false);
+  const [specList, setSpecList] = useState([{ key: "", value: "" }]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -47,16 +54,6 @@ const AddProduct = () => {
     }
   };
 
-  const handleSizeChange = (e) => {
-    const { checked, value } = e.target;
-    setProductData((prevState) => ({
-      ...prevState,
-      sizes: checked
-        ? [...prevState.sizes, value]
-        : prevState.sizes.filter((size) => size !== value),
-    }));
-  };
-
   const handleImageChange = (e) => {
     const files = e.target.files;
     const urls = Array.from(files).map((file) => URL.createObjectURL(file));
@@ -73,13 +70,40 @@ const AddProduct = () => {
     setShowLoader(true);
 
     const formData = new FormData();
+
     formData.append("name", productData.name);
-    formData.append("categoryId", productData.categoryId);
-    formData.append("new_price", productData.new_price);
-    formData.append("old_price", productData.old_price);
+    formData.append("category", productData.categoryId);
+    formData.append("price", productData.new_price);
     formData.append("description", productData.description);
-    formData.append("sizes", productData.sizes.join(","));
+    formData.append("ageGroup", productData.ageGroup);
+    formData.append("gender", productData.gender);
+    formData.append("material", productData.material);
+    formData.append("color", productData.color);
+    formData.append("brand", productData.brand);
     formData.append("available", productData.available);
+    formData.append("stock", productData.stock);
+    formData.append("discountPercent", productData.discountPercent);
+
+    const specifications = {};
+    specList.forEach(({ key, value }) => {
+      if (key && value) {
+        specifications[key] = value;
+      }
+    });
+    if (
+      !productData.name ||
+      !productData.categoryId ||
+      !productData.new_price ||
+      !productData.ageGroup ||
+      !productData.gender ||
+      !productData.stock
+    ) {
+      toast.error("Please fill all required fields");
+      setShowLoader(false);
+      return;
+    }
+
+    formData.append("specifications", JSON.stringify(specifications));
 
     if (productData.images) {
       Array.from(productData.images).forEach((file, index) => {
@@ -92,7 +116,6 @@ const AddProduct = () => {
       const response = await api.post("/api/products/addproduct", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
         },
       });
 
@@ -113,13 +136,19 @@ const AddProduct = () => {
           name: "",
           categoryId: "",
           new_price: "",
-          old_price: "",
           description: "",
-          sizes: [],
+          ageGroup: "",
+          gender: "",
+          material: "",
+          color: "",
+          brand: "",
+          stock: "",
           images: null,
           imageUrls: [],
+          discountPercent: 0,
           available: true,
         });
+        setSpecList([{ key: "", value: "" }]);
         setShowUpload(true);
       } else {
         console.error("Unexpected response status:", response.status);
@@ -215,6 +244,17 @@ const AddProduct = () => {
             </label>
           </div>
         </div>
+        <div className="mb-3 max-w-[300px] w-full">
+          <h4 className="font-anta bold-18 pb-2">Stock Quantity:</h4>
+          <input
+            type="number"
+            name="stock"
+            placeholder="Stock Quantity"
+            className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
+            value={productData.stock}
+            onChange={handleInputChange}
+          />
+        </div>
       </div>
 
       {/*  PRICES */}
@@ -234,13 +274,13 @@ const AddProduct = () => {
 
         {/* OLD PRICE */}
         <div className="mb-3 max-w-[700px] w-full">
-          <h4 className="font-anta bold-18 pb-2">Old Price:</h4>
+          <h4 className="font-anta bold-18 pb-2">Discount:</h4>
           <input
             type="number"
-            name="old_price"
-            placeholder="Type here..."
+            name="discountPercent"
+            placeholder="In percent..."
             className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
-            value={productData.old_price}
+            value={productData.discountPercent}
             onChange={handleInputChange}
           />
         </div>
@@ -258,34 +298,117 @@ const AddProduct = () => {
           onChange={handleInputChange}
         />
       </div>
+      {/* //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* SPECIFICATIONS */}
+      <div className="mt-5">
+        <h4 className="font-anta bold-18 pb-2">Specifications:</h4>
 
-      {/* SIZES */}
+        <div className="flex flex-col lg:flex-row gap-x-10">
+          <div className="mb-3 max-w-[300px] w-full">
+            <h4 className="font-anta bold-18 pb-2">Gender:</h4>
+            <select
+              name="gender"
+              value={productData.gender}
+              onChange={handleInputChange}
+              className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
+            >
+              <option value="">Select Gender</option>
+              <option value="boys">Boys</option>
+              <option value="girls">Girls</option>
+              <option value="unisex">Unisex</option>
+            </select>
+          </div>
+
+          <div className="mb-3 max-w-[300px] w-full">
+            <h4 className="font-anta bold-18 pb-2">Material:</h4>
+
+            <input
+              type="text"
+              name="material"
+              placeholder="Material (eg: Plastic)"
+              value={productData.material}
+              onChange={handleInputChange}
+              className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
+            />
+          </div>
+
+          <div className="mb-3 max-w-[300px] w-full">
+            <h4 className="font-anta bold-18 pb-2">Color:</h4>
+
+            <input
+              type="text"
+              name="color"
+              placeholder="Color (eg: Red)"
+              value={productData.color}
+              onChange={handleInputChange}
+              className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
+            />
+          </div>
+
+          <div className="mb-3 max-w-[300px] w-full">
+            <h4 className="font-anta bold-18 pb-2">Brand:</h4>
+
+            <input
+              type="text"
+              name="brand"
+              placeholder="Brand (eg: FunLearn)"
+              value={productData.brand}
+              onChange={handleInputChange}
+              className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
+            />
+          </div>
+        </div>
+
+        {specList.map((spec, index) => (
+          <div key={index} className="flex gap-3 mb-3 max-w-[620px] w-full">
+            <input
+              placeholder="Key (eg: Weight)"
+              value={spec.key}
+              onChange={(e) => {
+                const updated = [...specList];
+                updated[index].key = e.target.value;
+                setSpecList(updated);
+              }}
+              className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
+            />
+
+            <input
+              placeholder="Value (eg: 500g)"
+              value={spec.value}
+              onChange={(e) => {
+                const updated = [...specList];
+                updated[index].value = e.target.value;
+                setSpecList(updated);
+              }}
+              className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
+            />
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={() => setSpecList([...specList, { key: "", value: "" }])}
+          className="mt-2 px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
+        >
+          + Add Specification
+        </button>
+      </div>
+
+      {/* AGE GROUP */}
       <div className="mb-3">
-        <h4 className="font-anta bold-18 pb-2">Sizes:</h4>
-        <div className="grid grid-cols-3 lg:grid-cols-7 gap-4">
-          {[
-            "18'inch",
-            "20'inch",
-            "22'inch",
-            "24'inch",
-            "25'inch",
-            "27'inch",
-            "29'inch",
-          ].map((size) => (
-            <div key={size}>
+        <h4 className="font-anta bold-18 pb-2">Age Group:</h4>
+        <div className="flex gap-4 flex-wrap">
+          {["0-2", "3-5", "6-8", "9-12", "13+"].map((age) => (
+            <label key={age} className="flex items-center gap-2">
               <input
-                type="checkbox"
-                id={size}
-                className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300"
-                value={size}
-                name="sizes"
-                onChange={handleSizeChange}
-                checked={productData.sizes.includes(size)}
+                type="radio"
+                name="ageGroup"
+                value={age}
+                checked={productData.ageGroup === age}
+                onChange={handleInputChange}
               />
-              <label htmlFor={size} className="ml-2 font-anta text-sm">
-                {size}
-              </label>
-            </div>
+              {age}
+            </label>
           ))}
         </div>
       </div>

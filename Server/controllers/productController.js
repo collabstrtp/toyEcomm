@@ -18,9 +18,7 @@ async function uploadToCloudinary(file) {
 exports.createProduct = async (req, res) => {
   try {
     if (req.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ message: "Forbidden: only admins can create products!" });
+      return res.status(403).json({ message: "Forbidden" });
     }
 
     const {
@@ -28,37 +26,45 @@ exports.createProduct = async (req, res) => {
       category,
       description,
       price,
-      discountPercent,
+      discountPercent = 0,
       ageGroup,
       gender,
       material,
       color,
       brand,
-      isEducational,
+      isEducational = false,
       stock,
-      popular,
+      popular = false,
+      available = true,
     } = req.body;
+
+    // 🧪 Parse specifications
+    let specifications = {};
+    if (req.body.specifications) {
+      specifications =
+        typeof req.body.specifications === "string"
+          ? JSON.parse(req.body.specifications)
+          : req.body.specifications;
+    }
 
     // 🧪 Validation
     if (
       !name ||
       !category ||
       !description ||
-      !price ||
+      price === undefined ||
       !ageGroup ||
       !gender ||
       stock === undefined
     ) {
-      return res.status(400).json({ error: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields missing" });
     }
 
-    // 📂 Category check
     const categoryExists = await Category.findById(category);
     if (!categoryExists) {
       return res.status(404).json({ error: "Category not found" });
     }
 
-    // 🖼️ Upload images
     if (!req.files || !req.files.images) {
       return res.status(400).json({ error: "Images are required" });
     }
@@ -67,7 +73,6 @@ exports.createProduct = async (req, res) => {
       req.files.images.map(file => uploadToCloudinary(file))
     );
 
-    // 📦 Create product
     const product = new Product({
       name,
       images: imageUrls,
@@ -77,12 +82,14 @@ exports.createProduct = async (req, res) => {
       discountPercent,
       ageGroup,
       gender,
-      material: material ? material.split(",") : [],
-      color: color ? color.split(",") : [],
+      material: material || "",
+      color: color || "",
       brand,
       isEducational,
       stock,
       popular,
+      specifications,
+      available
     });
 
     await product.save();
@@ -92,12 +99,12 @@ exports.createProduct = async (req, res) => {
       message: "Product created successfully",
       product,
     });
-
   } catch (error) {
     console.error("Create product error:", error);
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
+
 
 
 exports.getAllProducts = async (req, res) => {
