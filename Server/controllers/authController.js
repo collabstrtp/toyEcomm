@@ -689,6 +689,21 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+exports.getProfile = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId).select(
+      "-password -phoneOTP -phoneOTPExpiry"
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 exports.updateProfile = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -739,11 +754,11 @@ exports.googleAuth = async (req, res) => {
       user = await User.create({
         name: name || "Google User",
         email,
-        password: randomPassword, 
-        number: "", 
+        password: randomPassword,
+        number: "",
         profilePic: picture || "",
         role: "user",
-        isVerified: true,          
+        isVerified: true,
         isPhoneVerified: false,
         googleId: uid,
       });
