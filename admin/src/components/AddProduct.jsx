@@ -23,6 +23,7 @@ const AddProduct = () => {
     imageUrls: [],
     discountPercent: 0,
     available: true,
+    popular: false,
   });
 
   const [showLoader, setShowLoader] = useState(false);
@@ -83,6 +84,7 @@ const AddProduct = () => {
     formData.append("available", productData.available);
     formData.append("stock", productData.stock);
     formData.append("discountPercent", productData.discountPercent);
+    formData.append("popular", productData.popular);
 
     const specifications = {};
     specList.forEach(({ key, value }) => {
@@ -147,6 +149,7 @@ const AddProduct = () => {
           imageUrls: [],
           discountPercent: 0,
           available: true,
+          popular: false,
         });
         setSpecList([{ key: "", value: "" }]);
         setShowUpload(true);
@@ -244,6 +247,28 @@ const AddProduct = () => {
             </label>
           </div>
         </div>
+
+        <div className="mb-3 max-w-[300px] w-full">
+          <h4 className="font-anta bold-18 pb-2">Popular Product:</h4>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="popular"
+              name="popular"
+              checked={productData.popular}
+              onChange={handleInputChange}
+              className="form-checkbox cursor-pointer h-5 w-5 text-black border-gray-300"
+            />
+            <label htmlFor="popular" className="font-anta text-sm">
+              Mark as Popular
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/*  PRICES */}
+      <div className="flex flex-col lg:flex-row  gap-x-10">
         <div className="mb-3 max-w-[300px] w-full">
           <h4 className="font-anta bold-18 pb-2">Stock Quantity:</h4>
           <input
@@ -255,13 +280,9 @@ const AddProduct = () => {
             onChange={handleInputChange}
           />
         </div>
-      </div>
-
-      {/*  PRICES */}
-      <div className="flex flex-col lg:flex-row  gap-x-10">
         {/* NEW PRICE */}
         <div className="mb-3 max-w-[700px] w-full">
-          <h4 className="font-anta bold-18 pb-2">New Price:</h4>
+          <h4 className="font-anta bold-18 pb-2">Price:</h4>
           <input
             type="number"
             name="new_price"
@@ -360,7 +381,10 @@ const AddProduct = () => {
         </div>
 
         {specList.map((spec, index) => (
-          <div key={index} className="flex gap-3 mb-3 max-w-[620px] w-full">
+          <div
+            key={index}
+            className="flex items-center gap-3 mb-3 max-w-[620px] w-full"
+          >
             <input
               placeholder="Key (eg: Weight)"
               value={spec.key}
@@ -382,6 +406,18 @@ const AddProduct = () => {
               }}
               className="bg-gray-100 border border-gray-300 outline-none w-full py-3 px-4 rounded-md text-black focus:border-black focus:ring-1 focus:ring-black"
             />
+
+            {/* ❌ REMOVE BUTTON */}
+            <button
+              type="button"
+              onClick={() =>
+                setSpecList(specList.filter((_, i) => i !== index))
+              }
+              className="h-10 w-10 flex items-center justify-center rounded-lg border border-red-200 text-red-500 bg-white hover:bg-red-50 hover:border-red-400 hover:text-red-600 transition-all duration-200 shadow-sm hover:shadow"
+              title="Remove specification"
+            >
+              <span className="text-xl leading-none">×</span>
+            </button>
           </div>
         ))}
 
@@ -444,17 +480,43 @@ const AddProduct = () => {
       {!showUpload && productData?.imageUrls?.length > 0 && (
         <div className="mt-10">
           <h4 className="font-anta bold-18 pb-2">Selected Images:</h4>
-          <div className="grid lg:grid-cols-4 grid-cols-2 gap-x-4">
+
+          <div className="grid lg:grid-cols-4 grid-cols-2 gap-4">
             {productData.imageUrls.map((url, index) => (
-              <div
-                key={index}
-                className="mb-2 flex justify-center items-center text-center"
-              >
+              <div key={index} className="relative group w-32 h-32">
                 <img
                   src={url}
                   alt={`Selected ${index + 1}`}
-                  className="w-32 h-32 object-cover rounded-md border border-gray-300"
+                  className="w-full h-full object-cover rounded-md border border-gray-300"
                 />
+
+                {/* ❌ REMOVE BUTTON */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProductData((prev) => ({
+                      ...prev,
+                      imageUrls: prev.imageUrls.filter((_, i) => i !== index),
+                      images: prev.images
+                        ? Array.from(prev.images).filter((_, i) => i !== index)
+                        : null,
+                    }));
+                  }}
+                  className="
+              absolute -top-2 -right-2
+              h-7 w-7
+              flex items-center justify-center
+              rounded-full
+              bg-red-600 text-white
+              shadow-md
+              opacity-0 group-hover:opacity-100
+              transition-opacity
+              hover:bg-red-700
+            "
+                  title="Remove image"
+                >
+                  ×
+                </button>
               </div>
             ))}
           </div>

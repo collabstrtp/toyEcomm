@@ -118,26 +118,26 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate(
-      "category",
-      "name"
-    );
+    const product = await Product.findById(req.params.id)
+      .populate("category", "name");
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // Calculate average rating and total ratings
-    const ratingsArr = product.ratings.map((r) => r.rating);
-    const averageRating = ratingsArr.length
+    const productObj = product.toObject();
+
+    // 🔥 FIX: Convert Map → Object
+    productObj.specifications = Object.fromEntries(
+      product.specifications || []
+    );
+
+    // Ratings
+    const ratingsArr = product.ratings?.map((r) => r.rating) || [];
+    productObj.averageRating = ratingsArr.length
       ? ratingsArr.reduce((a, b) => a + b, 0) / ratingsArr.length
       : 0;
-    const totalRatings = ratingsArr.length;
-
-    // Add these to the product object
-    const productObj = product.toObject();
-    productObj.averageRating = averageRating;
-    productObj.totalRatings = totalRatings;
+    productObj.totalRatings = ratingsArr.length;
 
     res.status(200).json({ product: productObj });
   } catch (error) {
@@ -145,92 +145,114 @@ exports.getProductById = async (req, res) => {
   }
 };
 
+
 exports.updateProduct = async (req, res) => {
-  if (req.user.role !== "admin") {
-    return res
-      .status(403)
-      .json({ message: "Forbidden: only admins can update products!" });
-  }
   try {
+    // 🔐 Admin check (authMiddleware + adminMiddleware already ran)
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    const productId = req.params.id;
+
     const {
       name,
+      category,
       description,
-      categoryId,
-      new_price,
-      old_price,
-      sizes,
-      available,
-      popular,
+      price,
+      discountPercent = 0,
+      ageGroup,
+      gender,
+      material,
+      color,
+      brand,
+      isEducational = false,
+      stock,
+      popular = false,
+      available = true,
     } = req.body;
-    //  console.log(req.body);
-    if (
-      !name ||
-      !categoryId ||
-      !new_price ||
-      !old_price ||
-      !description ||
-      !sizes
-    ) {
-      return res.status(400).json({ error: "All fields are required" });
-    }
-    const sizesArray = sizes ? sizes.split(",").map((size) => size.trim()) : [];
 
-    // Find the product by ID
-    const productId = req.params.id;
-    //console.log(`Fetching product with custom ID: ${productId}`);
-
-    const product = await Product.findById(req.params.id);
-    // console.log("found froduct:", product);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
+    let specifications = {};
+    if (req.body.specifications) {
+      specifications =
+        typeof req.body.specifications === "string"
+          ? JSON.parse(req.body.specifications)
+          : req.body.specifications;
     }
 
-    const category = await Category.findById(categoryId);
-    if (!category) {
-      return res.status(404).json({ message: "Category not found!" });
+    const removedImages = req.body.removedImages
+      ? JSON.parse(req.body.removedImages)
+      : [];
+
+
+    const existingProduct = await Product.findById(productId);
+    if (!existingProduct) {
+      return res.status(404).json({ error: "Product not found" });
     }
 
-    // Handle file uploads if any are provided
-    let imageUrls = [];
-    let categoryBannerUrl = product.category_banner;
-    let categoryThumbnailUrl = product.category_thumbnail;
 
-    if (req.files?.images && req.files.images.length > 0) {
-      imageUrls = await Promise.all(req.files.images.map(uploadToCloudinary));
+    if (category && category !== existingProduct.category.toString()) {
+      const categoryExists = await Category.findById(category);
+      if (!categoryExists) {
+        return res.status(404).json({ error: "Category not found" });
+      }
     }
 
-    // Update the product document with new values
-    const update = {
-      name,
-      description,
-      category: category._id,
-      new_price,
-      old_price,
-      sizes: sizesArray,
-      available,
-      popular,
-      images: imageUrls.length > 0 ? imageUrls : product.images,
-      // category_banner: categoryBannerUrl ? categoryBannerUrl : product.category_banner,
-      // category_thumbnail: categoryThumbnailUrl ? categoryThumbnailUrl : product.category_thumbnail,
-    };
-    // console.log(update);
-    const updatedProduct = await Product.findOneAndUpdate(
-      { _id: productId },
-      update,
-      { new: true }
-    );
-    if (!updatedProduct) {
-      return res.status(404).json({ message: "Product not found" });
+
+
+    let images = existingProduct.images || [];
+
+    // ❌ Remove deleted images
+    if (removedImages.length > 0) {
+      images = images.filter((img) => !removedImages.includes(img));
     }
-    res.status(200).json({
+
+    // ➕ Add newly uploaded images
+    if (req.files?.images?.length > 0) {
+      const newImageUrls = await Promise.all(
+        req.files.images.map((file) => uploadToCloudinary(file))
+      );
+      images = [...images, ...newImageUrls];
+    }
+
+ 
+
+    existingProduct.name = name ?? existingProduct.name;
+    existingProduct.category = category ?? existingProduct.category;
+    existingProduct.description = description ?? existingProduct.description;
+    existingProduct.price =
+      price !== undefined ? Number(price) : existingProduct.price;
+    existingProduct.discountPercent = Number(discountPercent) || 0;
+    existingProduct.ageGroup = ageGroup ?? existingProduct.ageGroup;
+    existingProduct.gender = gender ?? existingProduct.gender;
+    existingProduct.material = material ?? existingProduct.material;
+    existingProduct.color = color ?? existingProduct.color;
+    existingProduct.brand = brand ?? existingProduct.brand;
+    existingProduct.isEducational =
+      isEducational === "true" || isEducational === true;
+    existingProduct.stock =
+      stock !== undefined ? Number(stock) : existingProduct.stock;
+    existingProduct.popular = popular === "true" || popular === true;
+    existingProduct.available = available === "true" || available === true;
+    existingProduct.specifications = specifications;
+    existingProduct.images = images;
+
+    await existingProduct.save();
+
+    return res.status(200).json({
       success: true,
       message: "Product updated successfully",
-      product: updatedProduct,
+      product: existingProduct,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    console.error("Update product error:", error);
+    return res.status(500).json({ error: error.message });
   }
 };
+
+
+
+
 
 exports.deleteProduct = async (req, res) => {
   if (req.user.role !== "admin") {
