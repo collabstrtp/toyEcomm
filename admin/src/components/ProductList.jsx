@@ -151,8 +151,8 @@ const ProductList = () => {
                 <tr className="overflow-auto border-b-2 border-black">
                   <th className="p-2 font-anta uppercase">Products</th>
                   <th className="p-2 font-anta uppercase">Title</th>
-                  <th className="p-2 font-anta uppercase">Old Price</th>
-                  <th className="p-2 font-anta uppercase">New Price</th>
+                  <th className="p-2 font-anta uppercase">Price</th>
+                  <th className="p-2 font-anta uppercase">Stock</th>
                   <th className="p-2 font-anta uppercase">Category</th>
                   <th className="p-2 font-anta uppercase">Remove/Edit</th>
                   <th className="p-2 font-anta uppercase">Available</th>
@@ -173,10 +173,10 @@ const ProductList = () => {
                     </td>
                     <td className="p-2 font-anta">{product.name}</td>
                     <td className="p-2 font-anta">
-                      &#8377;{product.old_price}
+                      &#8377;{product.price}
                     </td>
                     <td className="p-2 font-anta">
-                      &#8377;{product.new_price}
+                      {product.stock}
                     </td>
                     <td className="p-2 font-anta">
                       {typeof product.category === "object" &&
