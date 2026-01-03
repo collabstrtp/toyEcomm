@@ -90,10 +90,31 @@ const Signup = () => {
           {/* Google Sign-In Button */}
           <button
             onClick={handleGoogleSignIn}
-            className="mt-6 flex items-center justify-center bg-white text-black px-6 py-2 rounded shadow"
+            className="mt-6 flex items-center justify-center bg-white text-black px-6 gap-2 py-2 rounded shadow"
           >
-            {/*             <img src={google} alt="Google Icon" className="w-5 h-5 mr-2" />
-             */}{" "}
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="#EA4335"
+                d="M24 9.5c3.54 0 6.74 1.22 9.27 3.6l6.9-6.9C35.9 2.36 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l8.05 6.26C12.56 13.72 17.82 9.5 24 9.5z"
+              />
+              <path
+                fill="#4285F4"
+                d="M46.5 24.5c0-1.64-.15-3.22-.43-4.75H24v9h12.7c-.55 2.97-2.21 5.49-4.7 7.19l7.26 5.63c4.24-3.9 6.24-9.65 6.24-16.07z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M10.61 28.48c-.48-1.45-.76-2.99-.76-4.48s.27-3.03.76-4.48l-8.05-6.26C.92 16.36 0 20.04 0 24c0 3.96.92 7.64 2.56 10.74l8.05-6.26z"
+              />
+              <path
+                fill="#34A853"
+                d="M24 48c6.48 0 11.9-2.13 15.87-5.81l-7.26-5.63c-2.02 1.35-4.6 2.14-8.61 2.14-6.18 0-11.44-4.22-13.39-9.98l-8.05 6.26C6.51 42.62 14.62 48 24 48z"
+              />
+            </svg>
             Sign up with Google
           </button>
 

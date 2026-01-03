@@ -72,8 +72,8 @@ const Sidebar = () => {
           onClick={closeSidebar}
           className={`font-anta mx-2 flex items-center gap-x-2 ${
             isActive("/admin")
-              ? "border-b-2 border-secondary text-secondary"
-              : "border-b-black hover:border-b-secondary text-white"
+              ? "border-b-2 border-orange-500 text-orange-500"
+              : "border-b-black hover:border-b-orange-500 text-white"
           }`}
         >
           <HomeOutlined />
@@ -91,8 +91,8 @@ const Sidebar = () => {
           onClick={closeSidebar}
           className={`font-anta mx-2 flex items-center gap-x-2 ${
             isActive("/admin/userlist")
-              ? "border-b-2 border-secondary text-secondary"
-              : "border-b-black hover:border-b-secondary text-white"
+              ? "border-b-2 border-orange-500 text-orange-500"
+              : "border-b-black hover:border-b-orange-500 text-white"
           }`}
         >
           <UserOutlined />
@@ -113,9 +113,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: productsExpanded ? "secondary" : "white",
+                color: productsExpanded ? "#f97316" : "white",
                 "&:hover": {
-                  color: "secondary",
+                  color: "#f97316",
                 },
               }}
             />
@@ -125,9 +125,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: productsExpanded ? "secondary" : "white",
+              color: productsExpanded ? "#f97316" : "white",
               "&:hover": {
-                color: "secondary",
+                color: "#f97316",
               },
               fontFamily: "anta",
             }}
@@ -146,8 +146,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/addproduct")
-                      ? "border-b-2 border-secondary text-secondary"
-                      : "border-b-black hover:border-b-secondary text-white"
+                      ? "border-b-2 border-orange-500 text-orange-500"
+                      : "border-b-black hover:border-b-orange-500 text-white"
                   }`}
                 >
                   <PlusOutlined />
@@ -160,8 +160,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/productlist")
-                      ? "border-b-2 border-secondary text-secondary"
-                      : "border-b-black hover:border-b-secondary text-white"
+                      ? "border-b-2 border-orange-500 text-orange-500"
+                      : "border-b-black hover:border-b-orange-500 text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
@@ -186,9 +186,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: categoriesExpanded ? "secondary" : "white",
+                color: categoriesExpanded ? "#f97316" : "white",
                 "&:hover": {
-                  color: "secondary",
+                  color: "#f97316",
                 },
               }}
             />
@@ -198,9 +198,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: categoriesExpanded ? "secondary" : "white",
+              color: categoriesExpanded ? "#f97316" : "white",
               "&:hover": {
-                color: "secondary",
+                color: "#f97316",
               },
               fontFamily: "anta",
             }}
@@ -219,8 +219,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/addcategory")
-                      ? "border-b-2 border-secondary text-secondary"
-                      : "border-b-black hover:border-b-secondary text-white"
+                      ? "border-b-2 border-orange-500 text-orange-500"
+                      : "border-b-black hover:border-b-orange-500 text-white"
                   }`}
                 >
                   <PlusOutlined />
@@ -233,8 +233,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/allcategories")
-                      ? "border-b-2 border-secondary text-secondary"
-                      : "border-b-black hover:border-b-secondary text-white"
+                      ? "border-b-2 border-orange-500 text-orange-500"
+                      : "border-b-black hover:border-b-orange-500 text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
@@ -259,9 +259,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: blogsExpanded ? "secondary" : "white",
+                color: blogsExpanded ? "#f97316" : "white",
                 "&:hover": {
-                  color: "secondary",
+                  color: "#f97316",
                 },
               }}
             />
@@ -271,9 +271,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: blogsExpanded ? "secondary" : "white",
+              color: blogsExpanded ? "#f97316" : "white",
               "&:hover": {
-                color: "secondary",
+                color: "#f97316",
               },
               fontFamily: "anta",
             }}
@@ -293,8 +293,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/addblog")
-                      ? "border-b-2 border-secondary text-secondary"
-                      : "border-b-black hover:border-b-secondary text-white"
+                      ? "border-b-2 border-orange-500 text-orange-500"
+                      : "border-b-black hover:border-b-orange-500 text-white"
                   }`}
                 >
                   <PlusOutlined />
@@ -308,8 +308,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 gap-y-6 ${
                     isActive("/admin/allblogs")
-                      ? "border-b-2 border-secondary text-secondary"
-                      : "border-b-black hover:border-b-secondary text-white"
+                      ? "border-b-2 border-orange-500 text-orange-500"
+                      : "border-b-black hover:border-b-orange-500 text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
@@ -334,9 +334,9 @@ const Sidebar = () => {
           expandIcon={
             <ExpandMoreIcon
               sx={{
-                color: bannersExpanded ? "secondary" : "white",
+                color: bannersExpanded ? "#f97316" : "white",
                 "&:hover": {
-                  color: "secondary",
+                  color: "#f97316",
                 },
               }}
             />
@@ -346,9 +346,9 @@ const Sidebar = () => {
         >
           <Typography
             sx={{
-              color: bannersExpanded ? "secondary" : "white",
+              color: bannersExpanded ? "#f97316" : "white",
               "&:hover": {
-                color: "secondary",
+                color: "#f97316",
               },
               fontFamily: "anta",
             }}
@@ -367,8 +367,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 ${
                     isActive("/admin/bannersection")
-                      ? "border-b-2 border-secondary text-secondary"
-                      : "border-b-black hover:border-b-secondary text-white"
+                      ? "border-b-2 border-orange-500 text-orange-500"
+                      : "border-b-black hover:border-b-orange-500 text-white"
                   }`}
                 >
                   <FlagOutlined />
@@ -381,8 +381,8 @@ const Sidebar = () => {
                   onClick={closeSidebar}
                   className={`font-anta flex justify-center items-center gap-x-2 ${
                     isActive("/admin/allbanners")
-                      ? "border-b-2 border-secondary text-secondary"
-                      : "border-b-black hover:border-b-secondary text-white"
+                      ? "border-b-2 border-orange-500 text-orange-500"
+                      : "border-b-black hover:border-b-orange-500 text-white"
                   }`}
                 >
                   <UnorderedListOutlined />
