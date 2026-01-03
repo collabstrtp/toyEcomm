@@ -30,14 +30,16 @@ router.get("/:id", productController.getProductById);
 //update a product
 router.put(
   "/update/:id",
+  authMiddleware,
+  adminMiddleware,
   upload.fields([
     { name: "images", maxCount: 5 },
     { name: "categoryBanner", maxCount: 10 },
     { name: "categoryThumbnail", maxCount: 1 },
   ]),
-  [authMiddleware, adminMiddleware],
   productController.updateProduct
 );
+
 
 // Toggle product availability
 router.put(

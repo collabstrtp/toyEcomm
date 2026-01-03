@@ -36,6 +36,7 @@ export const fetchProductById = createAsyncThunk(
   async ({ id }) => {
     try {
       const response = await api.get(`/api/products/${id}`);
+      console.log("Fetched product data:", response.data);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -45,25 +46,30 @@ export const fetchProductById = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "products/updateproduct",
-  async ({ id, productData }) => {
+  async ({ id, productData }, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
+
       const response = await api.put(
         `/api/products/update/${id}`,
         productData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
+            // ❌ DO NOT set Content-Type manually
           },
         }
       );
+
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data || "Update failed"
+      );
     }
   }
 );
+
 
 export const deleteProduct = createAsyncThunk(
   "products/deleteproduct",
