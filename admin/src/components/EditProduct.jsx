@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import api from "../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductById, updateProduct } from "../features/productSlice";
-
+import { useNavigate } from "react-router-dom";
 const EditProduct = () => {
   const { id } = useParams();
   const [showLoader, setShowLoader] = useState(false);
@@ -15,6 +15,7 @@ const EditProduct = () => {
   const [categories, setCategories] = useState([]);
   const [specList, setSpecList] = useState([{ key: "", value: "" }]);
   const [removedImages, setRemovedImages] = useState([]);
+  const navigate = useNavigate();
 
 
   const [productData, setProductData] = useState({
@@ -131,8 +132,10 @@ const EditProduct = () => {
 };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setShowLoader(true);
+  e.preventDefault();
+  setShowLoader(true);
+
+  try {
     const formData = new FormData();
 
     formData.append("name", productData.name);
@@ -150,67 +153,36 @@ const EditProduct = () => {
     formData.append("popular", productData.popular);
     formData.append("removedImages", JSON.stringify(removedImages));
 
-
     const specifications = {};
     specList.forEach(({ key, value }) => {
       if (key && value) specifications[key] = value;
     });
     formData.append("specifications", JSON.stringify(specifications));
 
-    if (productData.images && productData.images.length > 0) {
-      Array.from(productData.images).forEach((file, index) => {
+    if (productData.images?.length > 0) {
+      productData.images.forEach((file) => {
         formData.append("images", file);
       });
     }
 
-    try {
-      dispatch(updateProduct({ id: id, productData: formData }));
-      toast.success("🦄 Product Updated", {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Zoom,
-      });
+    // 🔥 WAIT FOR UPLOAD TO FINISH
+    await dispatch(updateProduct({ id, productData: formData })).unwrap();
 
-      window.location.href = "/admin/productlist";
+    toast.success("🦄 Product Updated", {
+      position: "bottom-right",
+      autoClose: 3000,
+      transition: Zoom,
+    });
 
-      // Reset form
-      setProductData({
-        name: "",
-        category: "",
-        price: "",
-        description: "",
-        sizes: [],
-        images: null,
-        imageUrls: [],
-        available: true,
-        popular: false,
-      });
+    navigate("/admin/productlist");
+  } catch (error) {
+    console.error(error);
+    toast.error("Error updating product");
+  } finally {
+    setShowLoader(false);
+  }
+};
 
-      setShowUpload(true);
-      setShowLoader(false);
-    } catch (error) {
-      // console.log(productData);
-      console.error("Error:", error);
-      toast.error("Error updating product. Please try again.", {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Zoom,
-      });
-      setShowLoader(false);
-    }
-  };
 
   if (!product) {
     return (
