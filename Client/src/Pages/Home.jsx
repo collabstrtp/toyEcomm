@@ -11,12 +11,15 @@ import { BASE_URL } from "../Utils/urlconfig";
 const Home = () => {
   const scrollContainerRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [bannerSlide, setBannerSlide] = useState(0);
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
   const [notification, setNotification] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  const [slides, setSlides] = useState([]);
+  const [loadingSlides, setLoadingSlides] = useState(true);
 
   // Multiple sets of images for different slides
   const slideImages = [
@@ -202,75 +205,6 @@ const Home = () => {
     ],
   ];
 
-  const promoCards = [
-    {
-      id: 1,
-      bgGradient: "from-orange-400 to-amber-400",
-      title: "Action Figures",
-      highlight: "Superheroes & More",
-      subtitle: "",
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0424.jpg",
-      imageAlt: "Action Figures",
-      badge: null,
-    },
-    {
-      id: 2,
-      bgGradient: "from-orange-500 to-yellow-400",
-      title: "Building Blocks",
-      highlight: "LEGO & Construction",
-      subtitle: "",
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0425.jpg",
-      imageAlt: "Building Blocks",
-      badge: null,
-    },
-    {
-      id: 3,
-      bgGradient: "from-orange-400 to-amber-400",
-      title: "Dolls & Plush",
-      highlight: "Soft & Cuddly Friends",
-      subtitle: "",
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0426.jpg",
-      imageAlt: "Dolls and Plush Toys",
-      badge: null,
-    },
-    {
-      id: 4,
-      bgGradient: "from-orange-500 to-yellow-400",
-      title: "Remote Control",
-      highlight: "Cars, Drones & Robots",
-      subtitle: "",
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0427.jpg",
-      imageAlt: "Remote Control Toys",
-      badge: null,
-    },
-    {
-      id: 5,
-      bgGradient: "from-orange-400 to-amber-400",
-      title: "Board Games",
-      highlight: "Family Fun Time",
-      subtitle: "",
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0428.jpg",
-      imageAlt: "Board Games",
-      badge: null,
-    },
-    {
-      id: 6,
-      bgGradient: "from-orange-500 to-yellow-400",
-      title: "Educational Toys",
-      highlight: "Learn & Play",
-      subtitle: "",
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0429.jpg",
-      imageAlt: "Educational Toys",
-      badge: null,
-    },
-  ];
-
   // Fetch categories from backend
   useEffect(() => {
     const fetchCategories = async () => {
@@ -289,18 +223,33 @@ const Home = () => {
     fetchCategories();
   }, []);
 
-  // Auto-play functionality
+  // Fetch home page banners
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 4); // Cycles through 0, 1, 2, 3
-    }, 3000); // Changes every 3 seconds
+    const fetchBanners = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/banners/allbanners`);
+        const homeBanners = response.data.filter(
+          (banner) => banner.pageName === "HomePage"
+        );
+        if (homeBanners.length > 0) {
+          const allUrls = homeBanners.flatMap((banner) => banner.urls);
+          const bannerSlides = allUrls.map((url, index) => ({
+            id: index + 1,
+            image: url,
+            alt: `Banner ${index + 1}`,
+          }));
+          setSlides(bannerSlides);
+        }
+        setLoadingSlides(false);
+      } catch (error) {
+        console.error("Error fetching banners:", error);
+        setLoadingSlides(false);
+      }
+    };
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
+    fetchBanners();
   }, []);
-
   const snacks = slideImages[currentSlide];
-
   const toggleFavorite = (e, product) => {
     e.stopPropagation();
     const isFavorited = favorites.some((fav) => fav.id === product.id);
@@ -411,34 +360,24 @@ const Home = () => {
     }
   };
 
-  const slides = [
-    {
-      id: 1,
-      image:
-        "https://images.unsplash.com/photo-1543465077-db45d34b88a5?w=1400&h=600&fit=crop",
-      alt: "Winter Kids Fashion",
-    },
-    {
-      id: 2,
-      image:
-        "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400&h=600&fit=crop",
-      alt: "Fashion Collection",
-    },
-    {
-      id: 3,
-      image:
-        "https://images.unsplash.com/photo-1558769132-cb1aea3c7eb4?w=1400&h=600&fit=crop",
-      alt: "Winter Style",
-    },
-  ];
-
-  // Auto slide functionality
+  // Auto slide functionality for top slider
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setCurrentSlide((prev) => (prev + 1) % slideImages.length);
     }, 3000); // Change slide every 3 seconds
 
     return () => clearInterval(interval);
+  }, []);
+
+  // Auto slide functionality for banner slider
+  useEffect(() => {
+    if (slides.length > 1) {
+      const interval = setInterval(() => {
+        setBannerSlide((prev) => (prev + 1) % slides.length);
+      }, 3000); // Change slide every 3 seconds
+
+      return () => clearInterval(interval);
+    }
   }, [slides.length]);
 
   const nextSlide = () => {
@@ -501,7 +440,6 @@ const Home = () => {
           ))}
         </div>
       </div>
-
       {/* banner slider */}
       <div className="w-full max-w-7xl mx-auto p-4">
         <div className="relative rounded-2xl overflow-hidden shadow-2xl md:h-[500px] h-[200px] group">
@@ -510,7 +448,7 @@ const Home = () => {
             <div
               key={slide.id}
               className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
+                index === bannerSlide ? "opacity-100" : "opacity-0"
               }`}
             >
               <img
@@ -521,32 +459,14 @@ const Home = () => {
             </div>
           ))}
 
-          {/* Previous Button */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 z-10"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft size={28} />
-          </button>
-
-          {/* Next Button */}
-          <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 z-10"
-            aria-label="Next slide"
-          >
-            <ChevronRight size={28} />
-          </button>
-
           {/* Slide Indicators */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
             {slides.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentSlide(index)}
+                onClick={() => setBannerSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentSlide
+                  index === bannerSlide
                     ? "bg-white w-8"
                     : "bg-white/50 hover:bg-white/75"
                 }`}

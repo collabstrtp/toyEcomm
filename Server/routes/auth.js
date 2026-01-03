@@ -32,9 +32,11 @@ router.post(
   authController.verifyPreRegistrationOTP
 );
 
+// Get user profile
+router.get("/profile", authMiddleware, authController.getProfile);
+
 // Update user profile
 router.put("/profile", authMiddleware, authController.updateProfile);
 router.post("/google", authController.googleAuth);
-
 
 module.exports = router;
