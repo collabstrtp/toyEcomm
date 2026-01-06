@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 import {
   Heart,
   ZoomIn,
@@ -10,18 +11,34 @@ import {
 } from "lucide-react";
 
 const Product = () => {
-  const images = [
-    "https://media.istockphoto.com/id/144293437/photo/wooden-chair.jpg?s=612x612&w=0&k=20&c=edjQRvQj8iiXFSW8POirO3z0MImbeXyzPBm69DRms4w=",
-    "https://media.istockphoto.com/id/144293437/photo/wooden-chair.jpg?s=612x612&w=0&k=20&c=edjQRvQj8iiXFSW8POirO3z0MImbeXyzPBm69DRms4w=",
-    "https://media.istockphoto.com/id/144293437/photo/wooden-chair.jpg?s=612x612&w=0&k=20&c=edjQRvQj8iiXFSW8POirO3z0MImbeXyzPBm69DRms4w=",
-    "https://media.istockphoto.com/id/144293437/photo/wooden-chair.jpg?s=612x612&w=0&k=20&c=edjQRvQj8iiXFSW8POirO3z0MImbeXyzPBm69DRms4w=",
-    "https://media.istockphoto.com/id/144293437/photo/wooden-chair.jpg?s=612x612&w=0&k=20&c=edjQRvQj8iiXFSW8POirO3z0MImbeXyzPBm69DRms4w=",
-  ];
+  const id = "695806ca31736efc70aacf22";
+
+  const [product, setProduct] = useState(null);
+  const [images, setImages] = useState([]);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8080/api/products/${id}`);
+        setProduct(res.data.product);
+        setImages(res.data.product.images);
+      } catch (error) {
+        console.error("Failed to fetch product", error);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (!product) return <p className="p-5">Loading...</p>;
+
+  const discountedPrice =
+    product.price - (product.price * product.discountPercent) / 100;
 
   const handlePrevClick = () =>
     setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -30,7 +47,7 @@ const Product = () => {
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
 
   const handleAddToCart = () => {
-    alert(`Added ${quantity} item(s) to cart`);
+    alert(`Added ${quantity} ${product.name}(s) to cart`);
   };
 
   const toggleFavorite = () => {
@@ -68,7 +85,7 @@ const Product = () => {
 
       {/* Container */}
       <div className="flex flex-col md:flex-row gap-5 p-5">
-        <div className="md:w-3/5 flex flex-col md:flex-row items-center justify-between min-h-[650px] md:min-h-[653px] overflow-hidden">
+        <div className="md:w-3/5 h-[400px] flex flex-col md:flex-row items-center justify-between min-h-[650px] md:min-h-[653px] overflow-hidden">
           <div className="flex md:flex-col w-full md:w-[13%] gap-4 md:gap-5 mb-4 md:mb-0 order-2 md:order-1">
             {images.map((image, i) => (
               <img
@@ -86,17 +103,11 @@ const Product = () => {
           </div>
 
           <div className="relative flex justify-center items-center w-full md:w-[87%] px-0 md:px-20 h-[500px] md:h-full order-1 md:order-2">
-            {currentImageIndex === 2 ? (
-              <Canvas shadows camera={{ position: [0, 0, 5], fov: 30 }}>
-                <color attach="background" args={["#232323"]} />
-              </Canvas>
-            ) : (
-              <img
-                src={images[currentImageIndex]}
-                alt="Main Display"
-                className="object-contain h-full rounded-md"
-              />
-            )}
+            <img
+              src={images[currentImageIndex]}
+              alt="Main Display"
+              className="object-contain h-full rounded-md"
+            />
 
             {/* Buttons */}
             <button
@@ -109,18 +120,21 @@ const Product = () => {
                 className={`w-5 h-5 ${isFavorited ? "fill-current" : ""}`}
               />
             </button>
+
             <button
               onClick={handleZoom}
               className="absolute right-2 top-14 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent text-gray-400 hover:text-gray-700 transition-colors"
             >
               <ZoomIn className="w-5 h-5" />
             </button>
+
             <button
               onClick={handlePrevClick}
               className="absolute left-2 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent text-gray-400 hover:text-gray-700"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
+
             <button
               onClick={handleNextClick}
               className="absolute right-2 h-10 w-10 flex items-center justify-center rounded-full border border-gray-300 bg-transparent text-gray-400 hover:text-gray-700"
@@ -136,55 +150,69 @@ const Product = () => {
           </p>
 
           <NavLink className="text-[#0073C3] font-semibold block mb-2">
-            Homall
+            {product.brand}
           </NavLink>
 
           <h2 className="text-lg font-semibold leading-7 mb-2">
-            BestOffice Mesh Chair, Ergonomic Adjustable, Back Support, Rolling
-            Swivel, Black for Women & Men.
+            {product.name}
           </h2>
 
           <p className="mb-2 text-sm">
-            ★★★☆☆ <NavLink className="text-blue-500">(30.1)941 reviews</NavLink>
+            ★★★☆☆ <NavLink className="text-blue-500">(0 reviews)</NavLink>
           </p>
 
-          <h2 className="text-green-600 font-medium mb-2 text-xl">
-            Now $189.99
-          </h2>
+          {/* Price Section */}
+          <div className="mb-6">
+            {/* Original Price */}
+            <p className="text-gray-500 line-through text-sm">
+              MRP ₹{product.price}
+            </p>
 
-          <h3 className="text-[13px] font-medium mb-2">
-            As low as $18/mo <span className="font-light">with</span>{" "}
-            <NavLink className="text-blue-500">Affirm</NavLink>{" "}
-            <NavLink className="text-blue-500">Learn more</NavLink>
-          </h3>
+            {/* Discounted Price */}
+            <h2 className="text-green-600 font-semibold text-xl">
+              Now ₹{discountedPrice}
+            </h2>
+
+            {/* Discount Percent */}
+            {product.discountPercent > 0 && (
+              <p className="text-sm text-green-700 font-medium">
+                You save {product.discountPercent}% on this product
+              </p>
+            )}
+
+            <p className="text-[13px] font-medium text-gray-600 mt-1">
+              Price when purchased online
+            </p>
+          </div>
 
           <p className="text-[13px] font-medium mb-6">
-            Price when purchased online{" "}
-            <button className="px-2 rounded-full border border-gray-400">
-              i
-            </button>
+            Price when purchased online
           </p>
 
-          {/* Quantity and Add to Cart */}
+          {/* Quantity */}
           <div className="flex items-center mb-4 gap-4">
             <div className="flex items-center border border-gray-300 rounded-full">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="px-3 py-2 text-gray-600 hover:text-gray-800"
+                className="px-3 py-2 text-gray-600"
               >
                 -
               </button>
-              <span className="px-4 py-2 text-center min-w-[50px]">
+              <span className="px-4 py-2 min-w-[50px] text-center">
                 {quantity}
               </span>
               <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="px-3 py-2 text-gray-600 hover:text-gray-800"
+                onClick={() =>
+                  setQuantity((q) => Math.min(q + 1, product.stock))
+                }
+                className="px-3 py-2 text-gray-600"
               >
                 +
               </button>
             </div>
           </div>
+
+          {/* Actions */}
           <div className="flex items-center mb-10 gap-4">
             <button
               onClick={handleAddToCart}
@@ -196,7 +224,7 @@ const Product = () => {
             <button
               onClick={() =>
                 window.open(
-                  "https://wa.me/1234567890?text=Hello, I am interested in this product.",
+                  `https://wa.me/+919755390579?text=I am interested in ${product.name}`,
                   "_blank"
                 )
               }
@@ -205,37 +233,166 @@ const Product = () => {
               <MessageCircle />
             </button>
           </div>
+          <div className="mt-10 border-t border-gray-200 pt-6">
+            <h2 className="text-lg font-semibold mb-4">Specifications</h2>
 
-          {/* <div className="bg-gray-100 p-4 rounded-md">
-            <p className="font-semibold mb-4 text-[15px]">
-              Actual colors: Gray
-            </p>
-            <div className="flex justify-around flex-wrap gap-3">
-              {[
-                "#10458C",
-                "rgb(215,174,131)",
-                "rgb(104,106,119)",
-                "rgb(170,167,156)",
-                "#fff",
-              ].map((color, i) => (
-                <div key={i} className="text-center">
-                  <button
-                    className={`h-[55px] w-[55px] rounded-full border-4 ${
-                      i === 2 ? "border-gray-700" : "border-gray-400"
-                    } flex items-center justify-center`}
-                  >
-                    <div
-                      style={{ backgroundColor: color }}
-                      className="h-[45px] w-[45px] rounded-full"
-                    ></div>
-                  </button>
-                  <p className="text-sm mt-1">$169.99</p>
+            {/* General */}
+            <div className="mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-y-3 text-sm">
+                <div className="flex">
+                  <span className="w-40 text-gray-500">Brand</span>
+                  <span className="font-medium">{product.brand}</span>
+                </div>
+
+                <div className="flex">
+                  <span className="w-40 text-gray-500">Age Group</span>
+                  <span className="font-medium">{product.ageGroup} years</span>
+                </div>
+
+                <div className="flex">
+                  <span className="w-40 text-gray-500">Gender</span>
+                  <span className="font-medium capitalize">
+                    {product.gender}
+                  </span>
+                </div>
+
+                <div className="flex">
+                  <span className="w-40 text-gray-500">Material</span>
+                  <span className="font-medium capitalize">
+                    {product.material}
+                  </span>
+                </div>
+
+                <div className="flex">
+                  <span className="w-40 text-gray-500">Color</span>
+                  <span className="font-medium capitalize">
+                    {product.color}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Specifications */}
+            {product.specifications && (
+              <div>
+                <div className="grid grid-cols-1 md:grid-cols-1 gap-y-3 text-sm">
+                  {Object.entries(product.specifications).map(
+                    ([key, value]) => (
+                      <div key={key} className="flex">
+                        <span className="w-40 text-gray-500 capitalize">
+                          {key.replace(/_/g, " ")}
+                        </span>
+                        <span className="font-medium">{value}</span>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Ratings & Reviews */}
+          <div className="mt-12 border-t border-gray-200 pt-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-lg font-semibold">Ratings & Reviews</h2>
+              <button className="border px-4 py-2 rounded text-sm font-medium hover:bg-gray-50">
+                Rate Product
+              </button>
+            </div>
+
+            {/* Rating Summary */}
+            <div className="flex flex-col md:flex-row gap-10 mb-8">
+              {/* Left */}
+              <div>
+                <h3 className="text-4xl font-semibold">
+                  {product.averageRating}{" "}
+                  <span className="text-yellow-500">★</span>
+                </h3>
+                <p className="text-sm text-gray-500">
+                  {product.totalRatings} Ratings
+                </p>
+              </div>
+
+              {/* Right */}
+              <div className="flex flex-col gap-2 w-full md:w-1/2">
+                {[5, 4, 3, 2, 1].map((star) => {
+                  const count = product.ratings.filter(
+                    (r) => r.rating === star
+                  ).length;
+                  const percent =
+                    product.totalRatings === 0
+                      ? 0
+                      : (count / product.totalRatings) * 100;
+
+                  return (
+                    <div key={star} className="flex items-center gap-2 text-sm">
+                      <span className="w-6">{star}★</span>
+                      <div className="flex-1 h-2 bg-gray-200 rounded">
+                        <div
+                          className={`h-2 rounded ${
+                            star >= 4
+                              ? "bg-green-500"
+                              : star === 3
+                              ? "bg-yellow-400"
+                              : "bg-red-400"
+                          }`}
+                          style={{ width: `${percent}%` }}
+                        ></div>
+                      </div>
+                      <span className="w-6 text-gray-500">{count}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Reviews */}
+            <div className="space-y-6">
+              {product.ratings.length === 0 && (
+                <p className="text-sm text-gray-500">
+                  No reviews yet. Be the first to review this product.
+                </p>
+              )}
+
+              {product.ratings.map((review, i) => (
+                <div key={i} className="border-b pb-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-green-600 text-white text-xs px-2 py-1 rounded">
+                      {review.rating} ★
+                    </span>
+                    <span className="font-semibold text-sm">
+                      {review.rating >= 4 ? "Must buy!" : "Good"}
+                    </span>
+                  </div>
+
+                  <p className="text-sm mb-2">{review.review}</p>
+
+                  {/* Review Images */}
+                  {review.images?.length > 0 && (
+                    <div className="flex gap-2 mb-2">
+                      {review.images.map((img, idx) => (
+                        <img
+                          key={idx}
+                          src={img}
+                          alt="review"
+                          className="w-16 h-16 object-cover rounded"
+                        />
+                      ))}
+                    </div>
+                  )}
+
+                  <p className="text-xs text-gray-500">
+                    {review.user?.name || "Verified Buyer"} ·{" "}
+                    {new Date(review.createdAt).toDateString()}
+                  </p>
                 </div>
               ))}
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
+
+      {/* Specifications */}
     </>
   );
 };
