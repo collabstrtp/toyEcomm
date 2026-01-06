@@ -92,12 +92,27 @@ const Home = () => {
     number: productCounts[category._id] || 0,
   }));
 
-  console.log(allProducts);
-  console.log("Categories: ", categories);
-  console.log("Product Counts: ", productCounts);
-
   const categoryCount = productsInEachCategory.length;
   const dynamicColors = generateColors(categoryCount);
+
+  // Calculate brand counts for radar chart
+  const brandCounts = {};
+  allProducts.forEach((product) => {
+    if (product.brand) {
+      brandCounts[product.brand] = (brandCounts[product.brand] || 0) + 1;
+    }
+  });
+  const brandLabels = Object.keys(brandCounts);
+  const brandData = Object.values(brandCounts);
+
+  // Calculate user role counts for donut chart
+  const userRoleCounts = { user: 0, admin: 0 };
+  allUsers.forEach((user) => {
+    if (user.role === "user") userRoleCounts.user++;
+    else if (user.role === "admin") userRoleCounts.admin++;
+  });
+  const userRoleLabels = ["User", "Admin"];
+  const userRoleData = [userRoleCounts.user, userRoleCounts.admin];
 
   const pieData = {
     labels: productsInEachCategory.map((category) => category.title),
@@ -126,14 +141,8 @@ const Home = () => {
       {
         label: "Number of Products",
         data: productsInEachCategory.map((category) => category.number),
-        backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#9966FF",
-        ],
-        borderColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
+        backgroundColor: dynamicColors,
+        borderColor: dynamicColors,
         borderWidth: 1,
       },
     ],
@@ -212,11 +221,11 @@ const Home = () => {
   };
 
   const radarData = {
-    labels: ["Jordan", "Adidas", "Nike", "Converse", "Reebok", "Under Armour"],
+    labels: brandLabels,
     datasets: [
       {
         label: "Number of Products",
-        data: [11, 5, 8, 3, 1, 5],
+        data: brandData,
         backgroundColor: "rgba(0, 0, 0, 0.1)",
         borderColor: "black",
         borderWidth: 2,
@@ -247,6 +256,16 @@ const Home = () => {
       },
     },
   };
+
+  if (showLoader) {
+    return (
+      <div className="bg-white text-black flex flex-col w-full rounded-sm mt-4 lg:m-7 p-8 box-border">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-lg font-semibold">Loading...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white text-black flex flex-col w-full rounded-sm mt-4 lg:m-7 p-8 box-border">
@@ -319,9 +338,7 @@ const Home = () => {
         </div>
 
         <div className="w-full ring-1 ring-black p-6 rounded-md bg-white text-black flex flex-col items-center">
-          <h4 className="font-anta text-center mt-4 text-[24px]">
-            User Demographics
-          </h4>
+          <h4 className="font-anta text-center mt-4 text-[24px]">User Roles</h4>
           <Doughnut data={donutData} options={donutOptions} />
         </div>
       </div>

@@ -73,7 +73,7 @@ exports.register = async (req, res) => {
 
     // Send welcome email
     const welcomeEmail = {
-      from: '"@company" <noreply@company.com>',
+      from: "@company <noreply@company.com>",
       to: email,
       subject: "Welcome to @companyName! Please Verify Your Email",
       text: `Welcome! Please verify your email by clicking this link: ${process.env.BASE_URL}/api/auth/verify-email/${token}`,
@@ -81,7 +81,7 @@ exports.register = async (req, res) => {
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; box-sizing: border-box;">
           <img src="https://logo.png" alt="Logo" style="display: block; margin: 0 auto; height: 80px; width: auto;">
           <div style="margin-top: 30px; text-align: center;">
-            <h2 style="color: #007BFF; margin-bottom: 20px;">Welcome ${name}!</h2>
+            <h2 style="color: #007BFF; margin-bottom: 20px;">Welcome ${email}!</h2>
             <p style="color: #666; line-height: 1.6;">Thank you for registering on our website. We're excited to have you join us.</p>
           </div>
           <div style="padding: 20px; background-color: #f9f9f9; border-radius: 5px; margin-top: 30px">
@@ -183,7 +183,7 @@ exports.login = async (req, res) => {
       }
 
       const welcomeEmail = {
-        from: '"@company" <noreply@company.com>',
+        from: `@company <noreply@company.com>`,
         to: email,
         subject: "Please Verify Your Account",
         html: `
@@ -273,7 +273,7 @@ exports.forgotPassword = async (req, res) => {
     });
 
     var mailOptions = {
-      from: '"@company" <noreply@company.com>',
+      from: "@company <noreply@company.com>",
       to: email,
       subject: "Password Reset Request",
       html: `
@@ -707,13 +707,46 @@ exports.getProfile = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { name, email, number, address } = req.body;
+    const { name, email, number, addresses } = req.body;
     const updateFields = {};
+
     if (name !== undefined) updateFields.name = name;
     if (email !== undefined) updateFields.email = email;
     if (number !== undefined) updateFields.number = number;
-    if (address !== undefined) updateFields.address = address;
-    /* if (profilePic !== undefined) updateFields.profilePic = profilePic; */
+
+    // Handle address operations
+    if (addresses !== undefined) {
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // If addresses array is provided, replace all addresses
+      if (Array.isArray(addresses)) {
+        // Validate addresses
+        for (const addr of addresses) {
+          if (!addr.address || !addr.city) {
+            return res.status(400).json({
+              message: "Each address must have address and city fields",
+            });
+          }
+        }
+
+        // Ensure only one default address
+        let hasDefault = false;
+        addresses.forEach((addr) => {
+          if (addr.isDefault) {
+            if (hasDefault) {
+              addr.isDefault = false; // Unset if multiple defaults
+            } else {
+              hasDefault = true;
+            }
+          }
+        });
+
+        updateFields.addresses = addresses;
+      }
+    }
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
@@ -729,7 +762,6 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 exports.googleAuth = async (req, res) => {
   try {
     const { idToken } = req.body;

@@ -17,7 +17,6 @@ const EditProduct = () => {
   const [removedImages, setRemovedImages] = useState([]);
   const navigate = useNavigate();
 
-
   const [productData, setProductData] = useState({
     name: "",
     category: "",
@@ -117,72 +116,69 @@ const EditProduct = () => {
   };
 
   const handleImageChange = (e) => {
-  const files = Array.from(e.target.files);
-  const urls = files.map((file) => URL.createObjectURL(file));
+    const files = Array.from(e.target.files);
+    const urls = files.map((file) => URL.createObjectURL(file));
 
-  setProductData((prev) => ({
-    ...prev,
-    images: prev.images
-      ? [...prev.images, ...files]
-      : files,
-    imageUrls: [...prev.imageUrls, ...urls],
-  }));
+    setProductData((prev) => ({
+      ...prev,
+      images: prev.images ? [...prev.images, ...files] : files,
+      imageUrls: [...prev.imageUrls, ...urls],
+    }));
 
-  setShowUpload(false);
-};
+    setShowUpload(false);
+  };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setShowLoader(true);
+    e.preventDefault();
+    setShowLoader(true);
 
-  try {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    formData.append("name", productData.name);
-    formData.append("category", productData.category);
-    formData.append("price", productData.price);
-    formData.append("description", productData.description);
-    formData.append("ageGroup", productData.ageGroup);
-    formData.append("gender", productData.gender);
-    formData.append("material", productData.material);
-    formData.append("color", productData.color);
-    formData.append("brand", productData.brand);
-    formData.append("stock", productData.stock);
-    formData.append("discountPercent", productData.discountPercent);
-    formData.append("available", productData.available);
-    formData.append("popular", productData.popular);
-    formData.append("removedImages", JSON.stringify(removedImages));
+      formData.append("name", productData.name);
+      formData.append("category", productData.category);
+      formData.append("price", productData.price);
+      formData.append("description", productData.description);
+      formData.append("ageGroup", productData.ageGroup);
+      formData.append("gender", productData.gender);
+      formData.append("material", productData.material);
+      formData.append("color", productData.color);
+      formData.append("brand", productData.brand);
+      formData.append("stock", productData.stock);
+      formData.append("discountPercent", productData.discountPercent);
+      formData.append("available", productData.available);
+      formData.append("popular", productData.popular);
+      formData.append("removedImages", JSON.stringify(removedImages));
 
-    const specifications = {};
-    specList.forEach(({ key, value }) => {
-      if (key && value) specifications[key] = value;
-    });
-    formData.append("specifications", JSON.stringify(specifications));
-
-    if (productData.images?.length > 0) {
-      productData.images.forEach((file) => {
-        formData.append("images", file);
+      const specifications = {};
+      specList.forEach(({ key, value }) => {
+        if (key && value) specifications[key] = value;
       });
+      formData.append("specifications", JSON.stringify(specifications));
+
+      if (productData.images?.length > 0) {
+        productData.images.forEach((file) => {
+          formData.append("images", file);
+        });
+      }
+
+      // 🔥 WAIT FOR UPLOAD TO FINISH
+      await dispatch(updateProduct({ id, productData: formData })).unwrap();
+
+      toast.success("🦄 Product Updated", {
+        position: "bottom-right",
+        autoClose: 3000,
+        transition: Zoom,
+      });
+
+      navigate("/admin/productlist");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error updating product");
+    } finally {
+      setShowLoader(false);
     }
-
-    // 🔥 WAIT FOR UPLOAD TO FINISH
-    await dispatch(updateProduct({ id, productData: formData })).unwrap();
-
-    toast.success("🦄 Product Updated", {
-      position: "bottom-right",
-      autoClose: 3000,
-      transition: Zoom,
-    });
-
-    navigate("/admin/productlist");
-  } catch (error) {
-    console.error(error);
-    toast.error("Error updating product");
-  } finally {
-    setShowLoader(false);
-  }
-};
-
+  };
 
   if (!product) {
     return (
@@ -484,13 +480,11 @@ const EditProduct = () => {
             onChange={handleImageChange}
             type="file"
             id="product-images-input"
-  name="images"     // ✅ MUST MATCH multer field
+            name="images" // ✅ MUST MATCH multer field
             multiple
             hidden
             className="bg-gray-100 text-black outline-none max-w-80 w-full py-3 px-4 rounded-md"
           />
-     
-
         </div>
       ) : null}
 
@@ -512,26 +506,27 @@ const EditProduct = () => {
                 <button
                   type="button"
                   onClick={() => {
-  setProductData((prev) => {
-    const removedImage = prev.imageUrls[index];
+                    setProductData((prev) => {
+                      const removedImage = prev.imageUrls[index];
 
-    return {
-      ...prev,
-      imageUrls: prev.imageUrls.filter((_, i) => i !== index),
-      images: prev.images
-        ? Array.from(prev.images).filter((_, i) => i !== index)
-        : null,
-    };
-  });
+                      return {
+                        ...prev,
+                        imageUrls: prev.imageUrls.filter((_, i) => i !== index),
+                        images: prev.images
+                          ? Array.from(prev.images).filter(
+                              (_, i) => i !== index
+                            )
+                          : null,
+                      };
+                    });
 
-  // 🔥 Track removed DB image
-const removedUrl = productData.imageUrls[index];
+                    // 🔥 Track removed DB image
+                    const removedUrl = productData.imageUrls[index];
 
-if (!removedUrl.startsWith("blob:")) {
-  setRemovedImages((prev) => [...prev, removedUrl]);
-}
-}}
-
+                    if (!removedUrl.startsWith("blob:")) {
+                      setRemovedImages((prev) => [...prev, removedUrl]);
+                    }
+                  }}
                   className="
                   absolute -top-2 -right-2
                   h-7 w-7
@@ -568,7 +563,7 @@ if (!removedUrl.startsWith("blob:")) {
         className="btn_dark_rounded mt-5 !rounded gap-x-1 flex justify-center items-center bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
       >
         <PlusOutlined className="font-anta" />
-        Add Product
+        Update Product
       </button>
 
       {/* Loader */}

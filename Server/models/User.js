@@ -28,11 +28,30 @@ const userSchema = new mongoose.Schema({
     sparse: true,
     required: false,
   },
-  address: {
-    type: String,
-    trim: true,
-    default: "",
-  },
+  addresses: [
+    {
+      type: {
+        type: String,
+        required: true,
+        enum: ["Home", "Work", "Other"],
+        default: "Home",
+      },
+      address: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      city: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      isDefault: {
+        type: Boolean,
+        default: false,
+      },
+    },
+  ],
   profilePic: {
     type: String,
     default: "",
