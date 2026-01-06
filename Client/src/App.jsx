@@ -10,6 +10,7 @@ import Cart from "./Pages/Cart";
 import Favourites from "./Pages/Favourites";
 import About from "./Pages/About";
 import ProfileSection from "./Pages/ProfileSection";
+import CategoryProducts from "./Pages/CategoryProducts";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="productlist" element={<ProductList />} />
           <Route path="product" element={<Product />} />
+          <Route path="category/:name" element={<CategoryProducts />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="about" element={<About />} />
