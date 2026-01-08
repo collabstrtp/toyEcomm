@@ -48,6 +48,7 @@ function ProductList({ fixed = true }) {
         }));
 
         setProducts(normalizedProducts);
+        console.log("Fetched products:", normalizedProducts);
       } catch (err) {
         console.error("Error fetching products", err);
       } finally {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,useParams } from "react-router-dom";
+
 import axios from "axios";
 import {
   Heart,
@@ -11,7 +12,7 @@ import {
 } from "lucide-react";
 
 const Product = () => {
-  const id = "695806ca31736efc70aacf22";
+  const { id } = useParams();  
 
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
@@ -24,7 +25,7 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:8080/api/products/${id}`);
+        const res = await axios.get(`http://localhost:5000/api/products/${id}`);
         setProduct(res.data.product);
         setImages(res.data.product.images);
       } catch (error) {
