@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink,useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 import axios from "axios";
 import {
@@ -10,9 +10,10 @@ import {
   MessageCircle,
   X,
 } from "lucide-react";
+import { BASE_URL } from "../Utils/urlconfig";
 
 const Product = () => {
-  const { id } = useParams();  
+  const { id } = useParams();
 
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
@@ -25,7 +26,7 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const res = await axios.get(`${BASE_URL}/products/${id}`);
         setProduct(res.data.product);
         setImages(res.data.product.images);
       } catch (error) {

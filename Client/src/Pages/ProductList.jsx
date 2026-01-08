@@ -4,6 +4,7 @@ import FilterBar from "../Components/FilterBar";
 import Navbar from "../Components/Navbar";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { BASE_URL } from "../Utils/urlconfig";
 
 function ProductList({ fixed = true }) {
   const navigate = useNavigate();
@@ -26,9 +27,7 @@ function ProductList({ fixed = true }) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/products/allproducts"
-        );
+        const res = await axios.get(`${BASE_URL}/products/allproducts`);
 
         const normalizedProducts = res.data.products.map((p) => ({
           id: p._id,
