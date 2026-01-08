@@ -63,6 +63,7 @@ export const updateProduct = createAsyncThunk(
 
       return response.data;
     } catch (error) {
+      console.error("Error updating product:", error);
       return thunkAPI.rejectWithValue(error.response?.data || "Update failed");
     }
   }

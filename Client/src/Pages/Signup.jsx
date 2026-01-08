@@ -10,6 +10,7 @@ import authimg from "../assets/authimg.png";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     phoneNo: "",
     password: "",
@@ -125,6 +126,15 @@ const Signup = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="w-full">
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Your Name"
+              className="w-full px-4 py-2 border rounded mb-2"
+              required
+            />
             <input
               type="email"
               name="email"

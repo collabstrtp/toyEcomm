@@ -492,7 +492,7 @@ const Home = () => {
                     ? "from-orange-400 to-amber-400"
                     : "from-orange-500 to-yellow-400"
                 } rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer md:h-72 h-50 p-4`}
-                onClick={() => navigate(`/products?category=${category.name}`)}
+                onClick={() => navigate(`/category/${category.name}`)}
               >
                 {/* Decorative clouds */}
                 <div className="absolute top-4 left-8 w-16 h-8 bg-white rounded-full opacity-80"></div>
