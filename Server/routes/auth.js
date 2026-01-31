@@ -25,11 +25,11 @@ router.post("/resend-phone-otp", authController.resendPhoneOTP);
 // Pre-registration phone verification routes
 router.post(
   "/send-pre-registration-otp",
-  authController.sendPreRegistrationOTP
+  authController.sendPreRegistrationOTP,
 );
 router.post(
   "/verify-pre-registration-otp",
-  authController.verifyPreRegistrationOTP
+  authController.verifyPreRegistrationOTP,
 );
 
 // Get user profile
@@ -37,6 +37,23 @@ router.get("/profile", authMiddleware, authController.getProfile);
 
 // Update user profile
 router.put("/profile", authMiddleware, authController.updateProfile);
+
+// Favorites routes
+router.get("/favorites", authMiddleware, (req, res, next) => {
+  console.log("GET /favorites route hit");
+  authController.getFavorites(req, res);
+});
+
+router.post("/favorites/:productId", authMiddleware, (req, res, next) => {
+  console.log("POST /favorites/:productId route hit", req.params.productId);
+  authController.addFavorite(req, res);
+});
+
+router.delete("/favorites/:productId", authMiddleware, (req, res, next) => {
+  console.log("DELETE /favorites/:productId route hit", req.params.productId);
+  authController.removeFavorite(req, res);
+});
+
 router.post("/google", authController.googleAuth);
 
 module.exports = router;

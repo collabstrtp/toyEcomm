@@ -7,12 +7,14 @@ import { Heart, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../Utils/urlconfig";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const scrollContainerRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [bannerSlide, setBannerSlide] = useState(0);
   const navigate = useNavigate();
+  const { user, token } = useSelector((state) => state.auth);
   const [favorites, setFavorites] = useState([]);
   const [notification, setNotification] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -210,7 +212,7 @@ const Home = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/categories/allcategories`
+          `${BASE_URL}/categories/allcategories`,
         );
         setCategories(response.data.categories);
         setLoadingCategories(false);
@@ -229,7 +231,7 @@ const Home = () => {
       try {
         const response = await axios.get(`${BASE_URL}/banners/allbanners`);
         const homeBanners = response.data.filter(
-          (banner) => banner.pageName === "HomePage"
+          (banner) => banner.pageName === "HomePage",
         );
         if (homeBanners.length > 0) {
           const allUrls = homeBanners.flatMap((banner) => banner.urls);
@@ -248,15 +250,66 @@ const Home = () => {
     };
 
     fetchBanners();
-  }, []);
-  const snacks = slideImages[currentSlide];
-  const toggleFavorite = (e, product) => {
-    e.stopPropagation();
-    const isFavorited = favorites.some((fav) => fav.id === product.id);
-    if (isFavorited) {
-      setFavorites(favorites.filter((fav) => fav.id !== product.id));
+
+    // Load favorites from backend if user is logged in
+    if (user && token) {
+      const loadFavorites = async () => {
+        try {
+          const response = await axios.get(`${BASE_URL}/auth/favorites`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.data.success) {
+            const favoriteIds = response.data.favorites.map((fav) =>
+              typeof fav === "string" ? fav : fav._id,
+            );
+            setFavorites(favoriteIds);
+          }
+        } catch (err) {
+          console.error("Error loading favorites:", err);
+          setFavorites([]);
+        }
+      };
+      loadFavorites();
     } else {
-      setFavorites([...favorites, product]);
+      setFavorites([]);
+    }
+  }, [user, token]);
+  const snacks = slideImages[currentSlide];
+  const toggleFavorite = async (e, product) => {
+    e.stopPropagation();
+
+    if (!user || !token) {
+      return;
+    }
+
+    try {
+      const isFavorited = favorites.some((fav) => fav.id === product.id);
+
+      if (isFavorited) {
+        // Remove from backend
+        await axios.delete(`${BASE_URL}/auth/favorites/${product.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavorites(favorites.filter((fav) => fav.id !== product.id));
+      } else {
+        // Add to backend
+        await axios.post(
+          `${BASE_URL}/auth/favorites/${product.id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        setFavorites([...favorites, product]);
+      }
+    } catch (err) {
+      console.error("Error toggling favorite:", err);
     }
   };
 

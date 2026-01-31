@@ -1,14 +1,18 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
-
+import {
+  getAuth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+} from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCYkKsLzn9iDeCH4o7ELUfnJoyExjLBiwE",
-  authDomain: "return-treasure.firebaseapp.com",
-  projectId: "return-treasure",
-  storageBucket: "return-treasure.firebasestorage.app",
-  messagingSenderId: "26716130647",
-  appId: "1:26716130647:web:7c9488de51593f08cdc212"
+  apiKey: "AIzaSyBbzkb1bxtlDewZ7qxRfAxGK07BexFO7q8",
+  authDomain: "returntreasure.firebaseapp.com",
+  projectId: "returntreasure",
+  storageBucket: "returntreasure.firebasestorage.app",
+  messagingSenderId: "59748296700",
+  appId: "1:59748296700:web:526c47bfae571cbc3c7479",
+  measurementId: "G-MS503G45K5",
 };
 
 // Initialize Firebase

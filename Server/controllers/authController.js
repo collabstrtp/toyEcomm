@@ -68,7 +68,7 @@ exports.register = async (req, res) => {
         role: user.role,
         email: user.email,
       },
-      "7d"
+      "7d",
     );
 
     // Send welcome email
@@ -261,7 +261,7 @@ exports.forgotPassword = async (req, res) => {
     }
 
     // Generate a random token
-    const token = jwtUtils.generateToken({ email: user.email, id: user._id });
+    const token = jwtUtils.generateToken({ email: user.email, _id: user._id });
 
     const link = `${process.env.CLIENT_URL}/auth/reset-password/${user._id}/${token}`;
     var transporter = nodemailer.createTransport({
@@ -384,7 +384,7 @@ exports.resetPasswordPut = async (req, res) => {
       $set: {
         password: hashedPassword,
       },
-    }
+    },
   );
   res
     .status(200)
@@ -693,7 +693,7 @@ exports.getProfile = async (req, res) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId).select(
-      "-password -phoneOTP -phoneOTPExpiry"
+      "-password -phoneOTP -phoneOTPExpiry",
     );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -751,7 +751,7 @@ exports.updateProfile = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $set: updateFields },
-      { new: true }
+      { new: true },
     ).select("-password -phoneOTP -phoneOTPExpiry");
 
     if (!updatedUser) {
@@ -787,23 +787,22 @@ exports.googleAuth = async (req, res) => {
         name: name || "Google User",
         email,
         password: randomPassword,
-        number: "",
         profilePic: picture || "",
         role: "user",
         isVerified: true,
         isPhoneVerified: false,
         googleId: uid,
+        // Don't set number field for Google users to avoid unique constraint issues
       });
     }
 
-    const token = jwt.sign(
+    const token = jwtUtils.generateToken(
       {
-        id: user._id,
-        email: user.email,
+        _id: user._id,
         role: user.role,
+        email: user.email,
       },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      "7d",
     );
 
     res.status(200).json({
@@ -814,5 +813,77 @@ exports.googleAuth = async (req, res) => {
   } catch (error) {
     console.error("Google Auth Error:", error);
     res.status(500).json({ message: "Authentication failed", error });
+  }
+};
+// Get user's favorites
+exports.getFavorites = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate("favorites");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({
+      success: true,
+      favorites: user.favorites,
+    });
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    res.status(500).json({ message: "Error fetching favorites", error });
+  }
+};
+
+// Add product to favorites
+exports.addFavorite = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if already in favorites
+    if (user.favorites.includes(productId)) {
+      return res.status(400).json({ message: "Product already in favorites" });
+    }
+
+    user.favorites.push(productId);
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Added to favorites",
+      favorites: user.favorites,
+    });
+  } catch (error) {
+    console.error("Error adding favorite:", error);
+    res.status(500).json({ message: "Error adding favorite", error });
+  }
+};
+
+// Remove product from favorites
+exports.removeFavorite = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Remove from favorites array
+    user.favorites = user.favorites.filter(
+      (fav) => fav.toString() !== productId,
+    );
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Removed from favorites",
+      favorites: user.favorites,
+    });
+  } catch (error) {
+    console.error("Error removing favorite:", error);
+    res.status(500).json({ message: "Error removing favorite", error });
   }
 };

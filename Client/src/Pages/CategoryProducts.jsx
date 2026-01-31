@@ -17,7 +17,7 @@ const CategoryProducts = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/products/category/${name}`
+          `${BASE_URL}/products/category/${name}`,
         );
         setProducts(response.data.products);
         setLoading(false);
@@ -28,18 +28,27 @@ const CategoryProducts = () => {
     };
 
     fetchProducts();
+
+    // Load favorites from localStorage
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(storedFavorites);
   }, [name]);
 
   const toggleFavorite = (e, product) => {
     e.stopPropagation();
     const isFavorited = favorites.some((fav) => fav.id === product._id);
+    let updatedFavorites;
     if (isFavorited) {
-      setFavorites(favorites.filter((fav) => fav.id !== product._id));
+      updatedFavorites = favorites.filter((fav) => fav.id !== product._id);
+      setFavorites(updatedFavorites);
       showNotification("Removed from favourites");
     } else {
-      setFavorites([...favorites, product]);
+      updatedFavorites = [...favorites, product];
+      setFavorites(updatedFavorites);
       showNotification("Added to favourites ❤️");
     }
+    // Save to localStorage
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
   const isFavorited = (productId) =>

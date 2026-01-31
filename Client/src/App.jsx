@@ -6,8 +6,8 @@ import ProductList from "./Pages/ProductList";
 import Product from "./Pages/Product";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import Cart from "./Pages/Cart";
-import Favourites from "./Pages/Favourites";
+/* import Cart from "./Pages/Cart";
+ */ import Favourites from "./Pages/Favourites";
 import About from "./Pages/About";
 import ProfileSection from "./Pages/ProfileSection";
 import CategoryProducts from "./Pages/CategoryProducts";
@@ -24,7 +24,8 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="about" element={<About />} />
-          <Route path="cart" element={<Cart />} />
+          {/*           <Route path="cart" element={<Cart />} />
+           */}{" "}
           <Route path="favourites" element={<Favourites />} />
           <Route path="profile" element={<ProfileSection />} />
           <Route path="favourites" element={<Favourites />} />

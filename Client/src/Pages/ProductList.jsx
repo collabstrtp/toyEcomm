@@ -1,21 +1,26 @@
 import { useNavigate } from "react-router-dom";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, MessageCircle } from "lucide-react";
 import FilterBar from "../Components/FilterBar";
 import Navbar from "../Components/Navbar";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../Utils/urlconfig";
+import redirectToWhatsApp from "../Utils/whatsapp";
+import { ShoppingCart } from "lucide-react";
+import { useSelector } from "react-redux";
 
 function ProductList({ fixed = true }) {
   const navigate = useNavigate();
+  const { user, token } = useSelector((state) => state.auth);
   const [favorites, setFavorites] = useState([]);
+  const [favoritesLoaded, setFavoritesLoaded] = useState(false);
   const [notification, setNotification] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [filters, setFilters] = useState({
-    priceRange: [0, 700],
+    priceRange: [0, 70000000000],
     sortOrder: "featured",
     categories: [],
     colors: [],
@@ -56,7 +61,34 @@ function ProductList({ fixed = true }) {
     };
 
     fetchProducts();
-  }, []);
+
+    // Load favorites from backend if logged in, otherwise from localStorage
+    const loadFavorites = async () => {
+      if (user && token) {
+        try {
+          const response = await axios.get(`${BASE_URL}/auth/favorites`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.data.success) {
+            // Store favorite IDs directly
+            const favoriteIds = response.data.favorites.map((fav) =>
+              typeof fav === "string" ? fav : fav._id,
+            );
+            setFavorites(favoriteIds);
+          }
+        } catch (err) {
+          console.error("Error loading favorites:", err);
+          setFavorites([]);
+        }
+      } else {
+        setFavorites([]);
+      }
+    };
+
+    loadFavorites();
+  }, [user, token]);
 
   const filterOptions = {
     categories: ["Electronics", "Soft toys", "toy"],
@@ -66,24 +98,55 @@ function ProductList({ fixed = true }) {
     ageGroups: ["0-2", "3-5", "6-8", "13+"],
   };
 
-  const toggleFavorite = (e, product) => {
+  const toggleFavorite = async (e, product) => {
     e.stopPropagation();
-    const isFavorited = favorites.some((fav) => fav.id === product.id);
-    if (isFavorited) {
-      setFavorites(favorites.filter((fav) => fav.id !== product.id));
-      showNotification("Removed from favourites");
-    } else {
-      setFavorites([...favorites, product]);
-      showNotification("Added to favourites ❤️");
+
+    if (!user || !token) {
+      showNotification("Please log in to add favorites");
+      return;
+    }
+
+    try {
+      const isFavorited = favorites.includes(product.id);
+
+      if (isFavorited) {
+        // Remove from backend
+        await axios.delete(`${BASE_URL}/auth/favorites/${product.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavorites(favorites.filter((favId) => favId !== product.id));
+        showNotification("Removed from favourites");
+      } else {
+        // Add to backend
+        await axios.post(
+          `${BASE_URL}/auth/favorites/${product.id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        setFavorites([...favorites, product.id]);
+        showNotification("Added to favourites ❤️");
+      }
+    } catch (err) {
+      console.error("Error toggling favorite:", err);
+      showNotification("Error updating favorites");
     }
   };
 
-  const isFavorited = (productId) =>
-    favorites.some((fav) => fav.id === productId);
+  const isFavorited = (productId) => favorites.includes(productId);
 
-  const addToCart = (e, product) => {
+  const contactViaWhatsApp = (e, product) => {
     e.stopPropagation();
-    showNotification(`${product.name.substring(0, 30)}... added to cart! 🛒`);
+    // Use the centralized WhatsApp util to open the chat
+    redirectToWhatsApp(product);
+    showNotification(
+      `Opening WhatsApp for ${product.name.substring(0, 30)}... 💬`,
+    );
   };
 
   const showNotification = (message) => {
@@ -126,12 +189,12 @@ function ProductList({ fixed = true }) {
 
     filtered = filtered.filter(
       (p) =>
-        p.price >= filters.priceRange[0] && p.price <= filters.priceRange[1]
+        p.price >= filters.priceRange[0] && p.price <= filters.priceRange[1],
     );
 
     if (filters.categories.length > 0) {
       filtered = filtered.filter((p) =>
-        filters.categories.includes(p.category)
+        filters.categories.includes(p.category),
       );
     }
 
@@ -255,11 +318,11 @@ function ProductList({ fixed = true }) {
 
                   <div className="mt-auto space-y-2">
                     <p className="text-xl font-bold text-gray-900">
-                      ${product.price.toFixed(2)}
+                      ₹{product.price.toFixed(2)}
                     </p>
 
                     <button
-                      onClick={(e) => addToCart(e, product)}
+                      onClick={(e) => contactViaWhatsApp(e, product)}
                       disabled={!product.inStock}
                       className={`w-full py-2.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
                         product.inStock
@@ -267,9 +330,17 @@ function ProductList({ fixed = true }) {
                           : "bg-gray-200 text-gray-500 cursor-not-allowed"
                       }`}
                     >
-                      <ShoppingCart className="w-4 h-4" />
-                      {product.inStock ? "Add to Cart" : "Out of Stock"}
+                      <MessageCircle className="w-4 h-4" />
+                      {product.inStock ? "Buy via WhatsApp" : "Out of Stock"}
                     </button>
+
+                    {/*  <button
+                      onClick={(e) => contactViaWhatsApp(e, product)}
+                      className="w-full mt-2 py-2 rounded-lg border border-green-500 text-green-600 font-medium hover:bg-green-50 transition-colors flex items-center justify-center gap-2"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      Contact via WhatsApp
+                    </button> */}
 
                     <div className="text-xs text-center text-gray-600">
                       {product.reviews}

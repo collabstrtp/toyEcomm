@@ -10,6 +10,7 @@ import {
   MessageCircle,
   X,
 } from "lucide-react";
+import redirectToWhatsApp from "../Utils/whatsapp";
 import { BASE_URL } from "../Utils/urlconfig";
 
 const Product = () => {
@@ -49,7 +50,15 @@ const Product = () => {
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
 
   const handleAddToCart = () => {
-    alert(`Added ${quantity} ${product.name}(s) to cart`);
+    // Redirect the user to WhatsApp with product details and quantity
+    const payload = {
+      id: product._id,
+      name: product.name,
+      price: discountedPrice,
+      quantity,
+      image: images[currentImageIndex],
+    };
+    redirectToWhatsApp(payload);
   };
 
   const toggleFavorite = () => {
@@ -218,22 +227,26 @@ const Product = () => {
           <div className="flex items-center mb-10 gap-4">
             <button
               onClick={handleAddToCart}
-              className="px-8 py-3 rounded-full bg-[#0073C3] text-white font-medium hover:bg-blue-700"
-            >
-              Add to cart
-            </button>
-
-            <button
-              onClick={() =>
-                window.open(
-                  `https://wa.me/+919755390579?text=I am interested in ${product.name}`,
-                  "_blank"
-                )
-              }
-              className="px-4 py-3 rounded-full bg-green-500 text-white hover:bg-green-600"
+              className="px-8 py-3 rounded-full bg-green-600 text-white font-medium hover:bg-green-700 flex flex-row items-center gap-2"
             >
               <MessageCircle />
+              Buy via WhatsApp
             </button>
+
+            {/* <button
+              onClick={() =>
+                redirectToWhatsApp({
+                  id: product._id,
+                  name: product.name,
+                  price: discountedPrice,
+                  quantity: 1,
+                })
+              }
+              className="px-4 py-3 rounded-full bg-green-500 text-white hover:bg-green-600"
+              aria-label="Contact via WhatsApp"
+            >
+              <MessageCircle />
+            </button> */}
           </div>
           <div className="mt-10 border-t border-gray-200 pt-6">
             <h2 className="text-lg font-semibold mb-4">Specifications</h2>
@@ -286,7 +299,7 @@ const Product = () => {
                         </span>
                         <span className="font-medium">{value}</span>
                       </div>
-                    )
+                    ),
                   )}
                 </div>
               </div>
@@ -319,7 +332,7 @@ const Product = () => {
               <div className="flex flex-col gap-2 w-full md:w-1/2">
                 {[5, 4, 3, 2, 1].map((star) => {
                   const count = product.ratings.filter(
-                    (r) => r.rating === star
+                    (r) => r.rating === star,
                   ).length;
                   const percent =
                     product.totalRatings === 0
@@ -335,8 +348,8 @@ const Product = () => {
                             star >= 4
                               ? "bg-green-500"
                               : star === 3
-                              ? "bg-yellow-400"
-                              : "bg-red-400"
+                                ? "bg-yellow-400"
+                                : "bg-red-400"
                           }`}
                           style={{ width: `${percent}%` }}
                         ></div>

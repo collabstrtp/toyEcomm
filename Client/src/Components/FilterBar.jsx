@@ -43,7 +43,7 @@ const FilterBar = ({
               top: rect.bottom + window.scrollY,
               left: rect.left + window.scrollX,
             }
-          : {}
+          : {},
       );
       setOpenDropdown(dropdownName);
     }
@@ -73,10 +73,10 @@ const FilterBar = ({
   };
 
   const priceRanges = [
-    { label: "Under $200", min: 0, max: 200 },
-    { label: "$200 - $400", min: 200, max: 400 },
-    { label: "$400 - $600", min: 400, max: 600 },
-    { label: "Over $600", min: 600, max: 700 },
+    { label: "Under ₹2000", min: 0, max: 2000 },
+    { label: "₹2000 - ₹4000", min: 2000, max: 4000 },
+    { label: "₹4000 - ₹6000", min: 4000, max: 6000 },
+    { label: "Over ₹6000", min: 6000, max: 700000000 },
   ];
 
   // Render dropdown as fixed for visibility
@@ -152,7 +152,7 @@ const FilterBar = ({
     const selectedRange = priceRanges.find(
       (range) =>
         filters.priceRange[0] === range.min &&
-        filters.priceRange[1] === range.max
+        filters.priceRange[1] === range.max,
     );
     return (
       <div

@@ -23,7 +23,7 @@ const authMiddleware = (req, res, next) => {
     const decoded = jwtUtils.verifyToken(token);
     req.user = decoded;
     console.log("Auth Middleware - Token decoded successfully:", {
-      userId: decoded._id,
+      userId: decoded._id || decoded.id,
       userRole: decoded.role,
       userEmail: decoded.email,
     });

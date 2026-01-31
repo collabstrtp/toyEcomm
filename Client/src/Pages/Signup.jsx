@@ -12,7 +12,7 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phoneNo: "",
+    number: "",
     password: "",
   });
 
@@ -146,8 +146,8 @@ const Signup = () => {
             />
             <input
               type="text"
-              name="phoneNo"
-              value={formData.phoneNo}
+              name="number"
+              value={formData.number}
               onChange={handleChange}
               placeholder="Your Phone No"
               className="w-full px-4 py-2 border rounded mb-2"

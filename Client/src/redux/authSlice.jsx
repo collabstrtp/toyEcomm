@@ -3,9 +3,22 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: JSON.parse(localStorage.getItem("user")) || null,
-    token: localStorage.getItem("token") || null,
-    isAuthenticated: !!localStorage.getItem("token"),
+    user: (() => {
+      try {
+        const user = localStorage.getItem("user");
+        return user && user !== "undefined" ? JSON.parse(user) : null;
+      } catch (error) {
+        return null;
+      }
+    })(),
+    token: (() => {
+      const token = localStorage.getItem("token");
+      return token && token !== "undefined" ? token : null;
+    })(),
+    isAuthenticated: (() => {
+      const token = localStorage.getItem("token");
+      return !!(token && token !== "undefined");
+    })(),
   },
   reducers: {
     setCredentials: (state, { payload }) => {
@@ -14,7 +27,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       localStorage.setItem("user", JSON.stringify(payload.user));
       localStorage.setItem("token", payload.token);
-      localStorage.setItem("tokenTimestamp", Date.now()); 
+      localStorage.setItem("tokenTimestamp", Date.now());
     },
     logOut: (state) => {
       state.user = null;
@@ -27,9 +40,9 @@ const authSlice = createSlice({
     checkTokenExpiry: (state) => {
       const tokenTimestamp = localStorage.getItem("tokenTimestamp");
       const isExpired =
-        tokenTimestamp && Date.now() - tokenTimestamp > 24 * 60 * 60 * 1000; 
+        tokenTimestamp && Date.now() - tokenTimestamp > 24 * 60 * 60 * 1000;
       if (isExpired) {
-        authSlice.caseReducers.logOut(state); 
+        authSlice.caseReducers.logOut(state);
       }
     },
   },

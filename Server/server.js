@@ -12,8 +12,8 @@ const blogRoutes = require("./routes/posts");
 const commentRoutes = require("./routes/comments");
 const bannerRoutes = require("./routes/banner");
 const categoryRoutes = require("./routes/category");
-
-const contactRoutes = require("./routes/contact");
+/* const favouriteRoutes = require("./routes/favourites");
+ */ const contactRoutes = require("./routes/contact");
 
 dotenv.config();
 
@@ -43,6 +43,7 @@ app.use("/api/products", productRoutes);
 
 //use auth routes
 app.use("/api/auth", authRoutes);
+console.log("Auth routes registered");
 
 //use post route
 app.use("/api/blogs", blogRoutes);
@@ -57,6 +58,9 @@ app.use("/api/comments", commentRoutes);
 
 app.use("/api/contact", contactRoutes);
 
+//use favourite route
+/* app.use("/api/favourites", favouriteRoutes);
+ */
 //use error handling middleware
 app.use(errorHandler);
 

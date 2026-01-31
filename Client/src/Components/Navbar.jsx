@@ -139,12 +139,12 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
 
         {isAuthenticated ? (
           <>
-            <button
+            {/* <button
               className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100"
               onClick={() => navigate("/cart")}
             >
               <ShoppingCart size={20} />
-            </button>
+            </button> */}
 
             <button
               className="text-orange-500 p-2 rounded-full font-medium shadow-md hover:bg-orange-100"
@@ -244,9 +244,9 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
           <NavLinkComponent to="/productlist" onClick={() => setIsOpen(false)}>
             Products
           </NavLinkComponent>
-          <NavLinkComponent to="/cart" onClick={() => setIsOpen(false)}>
+          {/* <NavLinkComponent to="/cart" onClick={() => setIsOpen(false)}>
             Cart
-          </NavLinkComponent>
+          </NavLinkComponent> */}
           <NavLinkComponent to="/favourites" onClick={() => setIsOpen(false)}>
             Wishlist
           </NavLinkComponent>
