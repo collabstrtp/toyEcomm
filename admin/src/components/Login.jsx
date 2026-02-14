@@ -229,7 +229,7 @@ const Login = () => {
               : "Login"}
         </button>
 
-        <div className="flexCenter mt-6 gap-3">
+        <div className="flexCenter mb-2 gap-3">
           {isRegisterMode ? (
             <p className="text-white">
               Already have an account?{" "}
@@ -241,15 +241,20 @@ const Login = () => {
               </span>
             </p>
           ) : (
-            <p className="text-white">
-              Don't have an admin account?{" "}
-              <span
-                className="text-blue-400 cursor-pointer underline"
-                onClick={() => setIsRegisterMode(true)}
-              >
-                Register here
-              </span>
-            </p>
+            <div className="flex flex-col items-center gap-3">
+              <p className="text-white text-sm">
+                Don't have an admin account?{" "}
+                <span
+                  className="text-blue-400 cursor-pointer underline"
+                  onClick={() => setIsRegisterMode(true)}
+                >
+                  Register here
+                </span>
+              </p>
+              <p className="text-white">
+                To continue, Login with the ADMIN credentials!{" "}
+              </p>
+            </div>
           )}
         </div>
       </div>
