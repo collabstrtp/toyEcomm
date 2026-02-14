@@ -11,10 +11,26 @@ export const loginUser = createAsyncThunk(
     } catch (error) {
       console.error("Login error:", error);
       return thunkAPI.rejectWithValue(
-        error.response?.data || { message: "Network error occurred" }
+        error.response?.data || { message: "Network error occurred" },
       );
     }
-  }
+  },
+);
+
+// Async thunk for user registration
+export const registerUser = createAsyncThunk(
+  "auth/register",
+  async (userData, thunkAPI) => {
+    try {
+      const response = await api.post("/api/auth/register", userData);
+      return response.data;
+    } catch (error) {
+      console.error("Registration error:", error);
+      return thunkAPI.rejectWithValue(
+        error.response?.data || { message: "Network error occurred" },
+      );
+    }
+  },
 );
 
 // Async thunk for fetching all users
@@ -27,7 +43,7 @@ export const fetchAllUsers = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 const authSlice = createSlice({
@@ -61,6 +77,17 @@ const authSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload.user;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });

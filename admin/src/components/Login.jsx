@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../features/authSlice";
+import { loginUser, registerUser } from "../features/authSlice";
 import { toast, Zoom } from "react-toastify";
 import logo from "../assets/logo.png";
 
 const Login = () => {
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    name: "",
+    number: "",
   });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { status } = useSelector((state) => state.auth);
 
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -92,14 +96,110 @@ const Login = () => {
     }
   };
 
+  const register = async () => {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.password ||
+      !formData.number
+    ) {
+      toast.error("Please fill in all fields", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
+
+    try {
+      // Add role: admin for admin panel registration
+      const registerData = {
+        ...formData,
+        role: "admin",
+      };
+
+      const response = await dispatch(registerUser(registerData));
+      console.log("Register response:", response);
+
+      if (response.payload && response.payload.success) {
+        const { user, token } = response.payload;
+        localStorage.setItem("token", token);
+        toast.success(`Welcome ${user.name}! Account created successfully!`, {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        navigate("/admin");
+      } else {
+        const errorMessage =
+          response.payload?.message || "Registration failed. Please try again.";
+        toast.error(errorMessage, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Zoom,
+        });
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      toast.error("An error occurred during registration. Please try again.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Zoom,
+      });
+    }
+  };
+
   return (
     <section className="pt-36 pb-24 max_padd_container h-screen flexCenter text-white flex-col bg-black">
       <div className="max-w-[555px]  bg-[#ffffff4e] m-auto px-14 py-10 rounded-md">
         <div className="flex justify-center items-center">
           <img src={logo} className="w-[60px]" />
         </div>
-        <h3 className="font-anta h3 text-center">Admin Login</h3>
+        <h3 className="font-anta h3 text-center">
+          {isRegisterMode ? "Admin Registration" : "Admin Login"}
+        </h3>
         <div className="flex flex-col gap-4 mt-7">
+          {isRegisterMode && (
+            <>
+              <input
+                name="name"
+                value={formData.name}
+                onChange={changeHandler}
+                type="text"
+                placeholder="Full Name..."
+                className="h-14 w-full pl-5 bg-slate-900/30 outline-none rounded-xl placeholder-white"
+              />
+              <input
+                name="number"
+                value={formData.number}
+                onChange={changeHandler}
+                type="tel"
+                placeholder="Phone Number..."
+                className="h-14 w-full pl-5 bg-slate-900/30 outline-none rounded-xl placeholder-white"
+              />
+            </>
+          )}
           <input
             name="email"
             value={formData.email}
@@ -118,16 +218,39 @@ const Login = () => {
           />
         </div>
         <button
-          onClick={() => login()}
+          onClick={() => (isRegisterMode ? register() : login())}
+          disabled={status === "loading"}
           className="btn_dark_rounded my-5 w-full !rounded-md"
         >
-          Login
+          {status === "loading"
+            ? "Please wait..."
+            : isRegisterMode
+              ? "Register as Admin"
+              : "Login"}
         </button>
 
         <div className="flexCenter mt-6 gap-3">
-          <p className="text-white">
-            To continue, Login with the ADMIN credentials!
-          </p>
+          {isRegisterMode ? (
+            <p className="text-white">
+              Already have an account?{" "}
+              <span
+                className="text-blue-400 cursor-pointer underline"
+                onClick={() => setIsRegisterMode(false)}
+              >
+                Login here
+              </span>
+            </p>
+          ) : (
+            <p className="text-white">
+              Don't have an admin account?{" "}
+              <span
+                className="text-blue-400 cursor-pointer underline"
+                onClick={() => setIsRegisterMode(true)}
+              >
+                Register here
+              </span>
+            </p>
+          )}
         </div>
       </div>
     </section>
