@@ -35,6 +35,10 @@ app.use(express.urlencoded({ extended: true }));
 //connect to mongoDB atlas
 connectDB();
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Return Treasure Backend API");
+});
+
 //use products routes
 app.use("/api/products", productRoutes);
 
