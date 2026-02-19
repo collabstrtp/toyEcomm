@@ -9,7 +9,7 @@ async function uploadToCloudinary(file) {
       (error, result) => {
         if (error) reject(error);
         else resolve(result.secure_url);
-      }
+      },
     );
     stream.end(file.buffer);
   });
@@ -70,7 +70,7 @@ exports.createProduct = async (req, res) => {
     }
 
     const imageUrls = await Promise.all(
-      req.files.images.map(file => uploadToCloudinary(file))
+      req.files.images.map((file) => uploadToCloudinary(file)),
     );
 
     const product = new Product({
@@ -89,7 +89,7 @@ exports.createProduct = async (req, res) => {
       stock,
       popular,
       specifications,
-      available
+      available,
     });
 
     await product.save();
@@ -105,8 +105,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-
-
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({}).populate("category", "name");
@@ -116,10 +114,32 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+// text index search endpoint for suggestions/autocomplete
+exports.searchProducts = async (req, res) => {
+  try {
+    const query = req.query.q || "";
+    if (!query.trim()) {
+      return res.status(200).json({ products: [] });
+    }
+    const products = await Product.find(
+      { $text: { $search: query }, available: true },
+      { score: { $meta: "textScore" } },
+    )
+      .sort({ score: { $meta: "textScore" } })
+      .limit(10);
+    res.status(200).json({ products });
+  } catch (error) {
+    console.error("Search products error:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id)
-      .populate("category", "name");
+    const product = await Product.findById(req.params.id).populate(
+      "category",
+      "name",
+    );
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -129,7 +149,7 @@ exports.getProductById = async (req, res) => {
 
     // 🔥 FIX: Convert Map → Object
     productObj.specifications = Object.fromEntries(
-      product.specifications || []
+      product.specifications || [],
     );
 
     // Ratings
@@ -144,7 +164,6 @@ exports.getProductById = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
-
 
 exports.updateProduct = async (req, res) => {
   try {
@@ -184,12 +203,10 @@ exports.updateProduct = async (req, res) => {
       ? JSON.parse(req.body.removedImages)
       : [];
 
-
     const existingProduct = await Product.findById(productId);
     if (!existingProduct) {
       return res.status(404).json({ error: "Product not found" });
     }
-
 
     if (category && category !== existingProduct.category.toString()) {
       const categoryExists = await Category.findById(category);
@@ -197,8 +214,6 @@ exports.updateProduct = async (req, res) => {
         return res.status(404).json({ error: "Category not found" });
       }
     }
-
-
 
     let images = existingProduct.images || [];
 
@@ -210,12 +225,10 @@ exports.updateProduct = async (req, res) => {
     // ➕ Add newly uploaded images
     if (req.files?.images?.length > 0) {
       const newImageUrls = await Promise.all(
-        req.files.images.map((file) => uploadToCloudinary(file))
+        req.files.images.map((file) => uploadToCloudinary(file)),
       );
       images = [...images, ...newImageUrls];
     }
-
- 
 
     existingProduct.name = name ?? existingProduct.name;
     existingProduct.category = category ?? existingProduct.category;
@@ -250,10 +263,6 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-
-
-
-
 exports.deleteProduct = async (req, res) => {
   if (req.user.role !== "admin") {
     return res
@@ -280,14 +289,14 @@ exports.deleteProduct = async (req, res) => {
         // Extract public Id from the URL
         const publicId = imageUrl.substring(
           imageUrl.lastIndexOf("/") + 1,
-          imageUrl.lastIndexOf(".")
+          imageUrl.lastIndexOf("."),
         );
         await cloudinary.uploader.destroy(publicId);
         //     console.log(`Image with publicId ${publicId} deleted from cloudinary.`);
       } catch (err) {
         console.error(
           `Error deleting image with publicId ${publicId}from Cloudinary:`,
-          err
+          err,
         );
         return null;
       }
@@ -402,7 +411,7 @@ exports.rateProduct = async (req, res) => {
 
     // Check if user already rated
     const existing = product.ratings.find(
-      (r) => r.user.toString() === userId.toString()
+      (r) => r.user.toString() === userId.toString(),
     );
     if (existing) {
       existing.rating = rating;

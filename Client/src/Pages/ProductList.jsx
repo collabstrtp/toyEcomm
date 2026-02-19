@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Heart, MessageCircle } from "lucide-react";
 import FilterBar from "../Components/FilterBar";
 import Navbar from "../Components/Navbar";
@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 
 function ProductList({ fixed = true }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, token } = useSelector((state) => state.auth);
   const [favorites, setFavorites] = useState([]);
   const [favoritesLoaded, setFavoritesLoaded] = useState(false);
@@ -32,7 +33,17 @@ function ProductList({ fixed = true }) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/products/allproducts`);
+        // check for query param
+        const params = new URLSearchParams(location.search);
+        const q = params.get("q");
+        let res;
+        if (q && q.trim()) {
+          res = await axios.get(
+            `${BASE_URL}/products/search?q=${encodeURIComponent(q)}`,
+          );
+        } else {
+          res = await axios.get(`${BASE_URL}/products/allproducts`);
+        }
 
         const normalizedProducts = res.data.products.map((p) => ({
           id: p._id,
@@ -142,8 +153,8 @@ function ProductList({ fixed = true }) {
 
   const contactViaWhatsApp = (e, product) => {
     e.stopPropagation();
-    // Use the centralized WhatsApp util to open the chat
-    redirectToWhatsApp(product);
+    // Use the centralized WhatsApp util to open the chat with user info
+    redirectToWhatsApp(product, user);
     showNotification(
       `Opening WhatsApp for ${product.name.substring(0, 30)}... 💬`,
     );

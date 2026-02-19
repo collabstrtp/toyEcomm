@@ -91,12 +91,14 @@ const ProductSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    
   },
 
   {
     timestamps: true,
-  }
+  },
 );
+
+// create text index on name & description for search
+ProductSchema.index({ name: "text", description: "text" });
 
 module.exports = mongoose.model("Product", ProductSchema);

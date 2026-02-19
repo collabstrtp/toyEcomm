@@ -1,4 +1,4 @@
-const redirectToWhatsApp = (product) => {
+const redirectToWhatsApp = (product, user = null) => {
   // WhatsApp Business number (Vite env)
   const phoneNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917325860606";
 
@@ -13,6 +13,17 @@ const redirectToWhatsApp = (product) => {
 
   const productImage = product?.image || "";
 
+  // Include user information if available
+  const userInfo = user
+    ? `
+
+👤 Customer Details:
+📧 Email: ${user.email || "Not provided"}
+📱 Phone: ${user.number || "Not provided"}
+👤 Name: ${user.name || "Not provided"}
+`
+    : "";
+
   const message = `
 Hello 👋
 
@@ -21,6 +32,7 @@ I'm interested in the following product:
 🧸 Product: ${productName}
 💰 Price: ${productPrice}
 ${productUrl ? `${productUrl}` : ""}
+${userInfo}
 
 Could you please share delivery details?
 

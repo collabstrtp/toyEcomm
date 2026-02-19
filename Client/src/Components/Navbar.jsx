@@ -7,6 +7,8 @@ import logo2 from "../assets/logo2.png";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../redux/authSlice"; // adjust path
+import axios from "axios";
+import { BASE_URL } from "../Utils/urlconfig";
 
 const Navbar = ({ setShowProfile, fixed = false }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +16,8 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const dispatch = useDispatch();
 
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -38,18 +42,24 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log("Searching for:", searchQuery);
+    // navigate to product list or search results page
+    if (searchQuery.trim()) {
+      navigate(`/productlist?q=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   const handleMobileSearchSubmit = (e) => {
     e.preventDefault();
-    console.log("Mobile searching for:", mobileSearchQuery);
+    if (mobileSearchQuery.trim()) {
+      navigate(`/productlist?q=${encodeURIComponent(mobileSearchQuery)}`);
+    }
   };
 
   const toggleSearch = () => {
     setShowSearch(!showSearch);
     if (showSearch) {
       setSearchQuery("");
+      setSuggestions([]);
     }
   };
 
@@ -57,6 +67,7 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
     setShowMobileSearch(!showMobileSearch);
     if (showMobileSearch) {
       setMobileSearchQuery("");
+      setSuggestions([]);
     }
   };
 
@@ -70,13 +81,38 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
     </Link>
   );
 
+  // load suggestions whenever query changes (applies both desktop + mobile)
+  React.useEffect(() => {
+    const activeQuery = showMobileSearch ? mobileSearchQuery : searchQuery;
+    if (!activeQuery.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    setLoadingSuggestions(true);
+    const deb = setTimeout(async () => {
+      try {
+        const res = await axios.get(
+          `${BASE_URL}/products/search?q=${encodeURIComponent(activeQuery)}`,
+        );
+        setSuggestions(res.data.products || []);
+      } catch (err) {
+        console.error("Error fetching suggestions", err);
+      } finally {
+        setLoadingSuggestions(false);
+      }
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(deb);
+  }, [searchQuery, mobileSearchQuery, showMobileSearch]);
+
   return (
     <div
       className={`bg-white ${
         fixed ? "fixed" : "relative"
       } shadow-xl py-0 px-6 rounded-full flex justify-between justify-self-center items-center mx-auto  w-full  max-w-6xl ${
         fixed ? "top-5" : "top-0"
-      } z-100 overflow-hidden`}
+      } z-100`}
     >
       {/* Logo */}
       {!showMobileSearch ? (
@@ -114,16 +150,39 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
             exit={{ width: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             onSubmit={handleSearchSubmit}
-            className="hidden md:flex items-center mx-auto overflow-hidden"
+            className="hidden md:flex items-center mx-auto w-full"
           >
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search products..."
-              className="px-4 py-2 border-2 border-orange-500 rounded-full focus:outline-none w-96"
-              autoFocus
-            />
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products..."
+                className="px-4 py-2 border-2 border-orange-500 rounded-full focus:outline-none w-96"
+                autoFocus
+              />
+              {/* suggestions dropdown */}
+              {showSearch && (
+                <ul className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-md mt-1 shadow-md z-50 max-h-60 overflow-y-auto">
+                  {loadingSuggestions && (
+                    <li className="px-4 py-2 text-gray-500">Loading...</li>
+                  )}
+                  {!loadingSuggestions && suggestions.length === 0 && (
+                    <li className="px-4 py-2 text-gray-500">No results</li>
+                  )}
+                  {!loadingSuggestions &&
+                    suggestions.map((prod) => (
+                      <li
+                        key={prod._id}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => navigate(`/product/${prod._id}`)}
+                      >
+                        {prod.name}
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </div>
           </motion.form>
         )}
       </AnimatePresence>
@@ -189,16 +248,38 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
             exit={{ width: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             onSubmit={handleMobileSearchSubmit}
-            className="md:hidden absolute left-1/2 transform -translate-x-1/2 overflow-hidden"
+            className="md:hidden absolute left-1/2 transform -translate-x-1/2 overflow-visible"
           >
-            <input
-              type="text"
-              value={mobileSearchQuery}
-              onChange={(e) => setMobileSearchQuery(e.target.value)}
-              placeholder="Search..."
-              className="px-4 py-2 border-2 border-orange-500 rounded-full focus:outline-none w-48 sm:w-64"
-              autoFocus
-            />
+            <div className="relative">
+              <input
+                type="text"
+                value={mobileSearchQuery}
+                onChange={(e) => setMobileSearchQuery(e.target.value)}
+                placeholder="Search..."
+                className="px-4 py-2 border-2 border-orange-500 rounded-full focus:outline-none w-48 sm:w-64"
+                autoFocus
+              />
+              {showMobileSearch && (
+                <ul className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-md mt-1 shadow-md z-50 max-h-60 overflow-y-auto">
+                  {loadingSuggestions && (
+                    <li className="px-4 py-2 text-gray-500">Loading...</li>
+                  )}
+                  {!loadingSuggestions && suggestions.length === 0 && (
+                    <li className="px-4 py-2 text-gray-500">No results</li>
+                  )}
+                  {!loadingSuggestions &&
+                    suggestions.map((prod) => (
+                      <li
+                        key={prod._id}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => navigate(`/product/${prod._id}`)}
+                      >
+                        {prod.name}
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </div>
           </motion.form>
         )}
       </AnimatePresence>

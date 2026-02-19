@@ -320,88 +320,40 @@ const Home = () => {
     e.stopPropagation();
   };
 
-  const products = [
-    {
-      id: 1,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0430.jpg",
-      title: "Electric shaver for Men & Women, 4-in-1 Rechargeable...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 2,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0431.jpg",
-      title: "KingSo 22 inch Wood Burning Fire Pit for Camping...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 3,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0432.jpg",
-      title: "LEGO Speed Champions 2 Fast 2 Furious Nissan Skyline...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 4,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0433.jpg",
-      title: "LEGO Classic LEGO Medium Creative Brick Box 10696",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 5,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0434.jpg",
-      title: "Better Homes & Gardens Oaklee 2-Drawer Nightstand...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 6,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0435.jpg",
-      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 7,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0436.jpg",
-      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 8,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0437.jpg",
-      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 9,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0438.jpg",
-      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-    {
-      id: 10,
-      image:
-        "https://raw.githubusercontent.com/collabstrtp/photos/main/toyEcom/IMG-20251108-WA0439.jpg",
-      title: "Fisher-Price Laugh & Learn Wake Up & Learn Coffee Mug...",
-      currentPrice: 16.99,
-      originalPrice: 52.99,
-    },
-  ];
+  // state to hold fetched products and derived top-rated array
+  const [products, setProducts] = useState([]);
+  const [topRated, setTopRated] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+
+  // fetch products from backend and compute average rating
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/products/allproducts`);
+        const fetched = res.data.products || [];
+        setProducts(fetched);
+
+        // compute average rating for each product
+        const withRating = fetched.map((p) => {
+          const ratingsArr = p.ratings?.map((r) => r.rating) || [];
+          const avg = ratingsArr.length
+            ? ratingsArr.reduce((a, b) => a + b, 0) / ratingsArr.length
+            : 0;
+          return { ...p, averageRating: avg };
+        });
+
+        // sort and take top 10 (or whatever limit you want)
+        withRating.sort((a, b) => b.averageRating - a.averageRating);
+        setTopRated(withRating.slice(0, 10));
+      } catch (err) {
+        console.error("Error loading products", err);
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
 
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
@@ -584,7 +536,7 @@ const Home = () => {
       {/* Recently Viewed / Continue Shopping */}
       <div className="w-full py-6">
         <h2 className="md:px-10 px-5 mb-6 text-2xl font-semibold text-gray-800">
-          Continue your shopping
+          Highly rated products
         </h2>
 
         <div className="relative px-0 md:px-10">
@@ -593,41 +545,55 @@ const Home = () => {
             ref={scrollContainerRef}
             className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide"
           >
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="flex-shrink-0 w-36 sm:w-44 md:w-48 lg:w-52 flex flex-col border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-all cursor-pointer"
-                onClick={() => navigate("/product")}
-              >
-                {/* Product Image */}
-                <div className="relative w-full md:h-50 h-35  bg-gray-50">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-cover p-3"
-                    loading="lazy"
-                  />
-                </div>
+            {loadingProducts ? (
+              <p className="text-center w-full text-gray-500 py-4">
+                Loading products...
+              </p>
+            ) : topRated.length === 0 ? (
+              <p className="text-center w-full text-gray-500 py-4">
+                No highly rated products available.
+              </p>
+            ) : (
+              topRated.map((product) => (
+                <div
+                  key={product._id || product.id}
+                  className="flex-shrink-0 w-36 sm:w-44 md:w-48 lg:w-52 flex flex-col border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-all cursor-pointer"
+                  onClick={() => navigate(`/product/${product._id}`)}
+                >
+                  {/* Product Image */}
+                  <div className="relative w-full md:h-50 h-35  bg-gray-50">
+                    <img
+                      src={product.images ? product.images[0] : product.image}
+                      alt={product.name || product.title}
+                      className="w-full h-full object-cover p-3"
+                      loading="lazy"
+                    />
+                  </div>
 
-                {/* Product Details */}
-                <div className="px-3 py-2">
-                  <h3 className="text-sm font-medium text-gray-800 truncate mb-1">
-                    {product.title}
-                  </h3>
-
-                  <div className="flex items-center gap-2">
-                    <p className="text-base font-semibold text-gray-900">
-                      ₹{product.currentPrice}
-                    </p>
-                    {product.originalPrice && (
-                      <p className="text-sm text-gray-500 line-through">
-                        ₹{product.originalPrice}
+                  {/* Product Details */}
+                  <div className="px-3 py-2">
+                    <h3 className="text-sm font-medium text-gray-800 truncate mb-1">
+                      {product.name || product.title}
+                    </h3>
+                    {product.averageRating !== undefined && (
+                      <p className="text-xs text-yellow-500 mb-1">
+                        ⭐ {product.averageRating.toFixed(1)}
                       </p>
                     )}
+                    <div className="flex items-center gap-2">
+                      <p className="text-base font-semibold text-gray-900">
+                        ₹{product.price || product.currentPrice}
+                      </p>
+                      {product.discountPercent && (
+                        <p className="text-sm text-gray-500 line-through">
+                          ₹{product.originalPrice}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

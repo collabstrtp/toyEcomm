@@ -12,11 +12,13 @@ router.post(
   upload.fields([{ name: "images", maxCount: 5 }]),
   authMiddleware,
   adminMiddleware,
-  productController.createProduct
+  productController.createProduct,
 );
 
 //get all products
 router.get("/allproducts", productController.getAllProducts);
+// search products using text index (autocomplete / suggestions)
+router.get("/search", productController.searchProducts);
 
 //get popular products
 router.get("/popular", productController.getPopularProducts);
@@ -37,22 +39,21 @@ router.put(
     { name: "categoryBanner", maxCount: 10 },
     { name: "categoryThumbnail", maxCount: 1 },
   ]),
-  productController.updateProduct
+  productController.updateProduct,
 );
-
 
 // Toggle product availability
 router.put(
   "/toggle-availability/:id",
   [authMiddleware, adminMiddleware],
-  productController.toggleProductAvailability
+  productController.toggleProductAvailability,
 );
 
 //delete a product
 router.delete(
   "/delete/:id",
   [authMiddleware, adminMiddleware],
-  productController.deleteProduct
+  productController.deleteProduct,
 );
 
 //get products by category

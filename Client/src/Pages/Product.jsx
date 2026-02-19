@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import axios from "axios";
 import {
@@ -15,6 +16,7 @@ import { BASE_URL } from "../Utils/urlconfig";
 
 const Product = () => {
   const { id } = useParams();
+  const { user } = useSelector((state) => state.auth);
 
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
@@ -58,7 +60,7 @@ const Product = () => {
       quantity,
       image: images[currentImageIndex],
     };
-    redirectToWhatsApp(payload);
+    redirectToWhatsApp(payload, user);
   };
 
   const toggleFavorite = () => {
