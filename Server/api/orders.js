@@ -37,19 +37,19 @@ router.put(
   orderController.updateOrderStatus,
 );
 
-// Mark order as valid/invalid (Admin only)
-router.put(
-  "/:id/valid",
-  authMiddleware,
-  adminMiddleware,
-  orderController.updateOrderValidity,
-);
-
 // Mark order as reviewed
 router.put(
   "/:orderId/reviewed",
   authMiddleware,
   orderController.markAsReviewed,
+);
+
+// Delete order (Admin only)
+router.delete(
+  "/:id",
+  authMiddleware,
+  adminMiddleware,
+  orderController.deleteOrder,
 );
 
 module.exports = router;
