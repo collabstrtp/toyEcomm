@@ -64,7 +64,7 @@ const Product = () => {
         try {
           const token = localStorage.getItem("token");
           const response = await axios.get(
-            `${BASE_URL}/api/orders/can-review/${id}`,
+            `${BASE_URL}/orders/can-review/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ const Product = () => {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        `${BASE_URL}/api/products/${id}/rate`,
+        `${BASE_URL}/products/${id}/rate`,
         { rating: reviewRating, review: reviewText, orderId: reviewOrderId },
         {
           headers: {
@@ -108,7 +108,7 @@ const Product = () => {
 
       if (reviewOrderId) {
         await axios.put(
-          `${BASE_URL}/api/orders/${reviewOrderId}/reviewed`,
+          `${BASE_URL}/orders/${reviewOrderId}/reviewed`,
           { reviewText },
           {
             headers: {
