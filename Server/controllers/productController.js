@@ -136,10 +136,10 @@ exports.searchProducts = async (req, res) => {
 
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate(
-      "category",
-      "name",
-    );
+    const product = await Product.findById(req.params.id)
+      .populate("category", "name")
+      .populate("ratings.user", "name")
+      .populate("ratings.order", "customerName status");
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -152,12 +152,15 @@ exports.getProductById = async (req, res) => {
       product.specifications || [],
     );
 
-    // Ratings
+    // Ratings - include review text and user info
     const ratingsArr = product.ratings?.map((r) => r.rating) || [];
     productObj.averageRating = ratingsArr.length
       ? ratingsArr.reduce((a, b) => a + b, 0) / ratingsArr.length
       : 0;
     productObj.totalRatings = ratingsArr.length;
+
+    // Keep the full ratings array with review text and user info
+    productObj.ratings = product.ratings || [];
 
     res.status(200).json({ product: productObj });
   } catch (error) {
@@ -402,7 +405,7 @@ exports.rateProduct = async (req, res) => {
     return res.status(401).json({ message: "Not authorized" });
   }
   const { productId } = req.params;
-  const { rating } = req.body;
+  const { rating, review, orderId } = req.body;
   const userId = req.user._id; // assuming auth middleware sets req.user
 
   try {
@@ -415,8 +418,17 @@ exports.rateProduct = async (req, res) => {
     );
     if (existing) {
       existing.rating = rating;
+      existing.review = review || "";
+      if (orderId) {
+        existing.order = orderId;
+      }
     } else {
-      product.ratings.push({ user: userId, rating });
+      product.ratings.push({
+        user: userId,
+        rating,
+        review: review || "",
+        order: orderId || null,
+      });
     }
     await product.save();
 

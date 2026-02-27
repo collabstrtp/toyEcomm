@@ -11,6 +11,7 @@ const authRoutes = require("./auth");
 const bannerRoutes = require("./banner");
 const categoryRoutes = require("./category");
 const contactRoutes = require("./contact");
+const orderRoutes = require("./orders");
 
 dotenv.config();
 
@@ -52,6 +53,9 @@ app.use("/api/banners", bannerRoutes);
 app.use("/api/categories", categoryRoutes);
 
 app.use("/api/contact", contactRoutes);
+
+//use order routes
+app.use("/api/orders", orderRoutes);
 
 //use favourite route
 /* app.use("/api/favourites", favouriteRoutes);

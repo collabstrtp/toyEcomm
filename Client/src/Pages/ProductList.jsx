@@ -52,6 +52,7 @@ function ProductList({ fixed = true }) {
           images: p.images,
           price: p.price,
           discountPercent: p.discountPercent,
+          discountedPrice: p.price - (p.price * p.discountPercent) / 100,
           category: p.category?.name?.trim(),
           color: p.color,
           material: p.material,
@@ -320,6 +321,11 @@ function ProductList({ fixed = true }) {
                 </div>
 
                 <div className="p-4 flex-1 flex flex-col">
+                  {product.discountPercent > 0 && (
+                    <div className="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">
+                      {product.discountPercent}% OFF
+                    </div>
+                  )}
                   <p className="text-xs text-orange-600 font-medium mb-2">
                     {product.category}
                   </p>
@@ -328,9 +334,20 @@ function ProductList({ fixed = true }) {
                   </h3>
 
                   <div className="mt-auto space-y-2">
-                    <p className="text-xl font-bold text-gray-900">
-                      ₹{product.price.toFixed(2)}
-                    </p>
+                    {product.discountPercent > 0 ? (
+                      <>
+                        <p className="text-xl font-bold text-gray-900">
+                          ₹{product.discountedPrice.toFixed(2)}
+                        </p>
+                        <p className="text-sm text-gray-500 line-through">
+                          ₹{product.price.toFixed(2)}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-xl font-bold text-gray-900">
+                        ₹{product.price.toFixed(2)}
+                      </p>
+                    )}
 
                     <button
                       onClick={(e) => contactViaWhatsApp(e, product)}

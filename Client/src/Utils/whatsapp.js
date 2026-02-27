@@ -1,6 +1,10 @@
-const redirectToWhatsApp = (product, user = null) => {
+import axios from "axios";
+
+const redirectToWhatsApp = async (product, user = null) => {
   // WhatsApp Business number (Vite env)
   const phoneNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917325860606";
+  const BASE_URL =
+    import.meta.env.VITE_APP_SERVER_BASE_URL || "http://localhost:8080";
 
   const productName = product?.name || "this product";
   const productPrice = product?.price
@@ -41,6 +45,32 @@ Could you please share delivery details?
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
     message.trim(),
   )}`;
+
+  // Create order in backend if user is logged in
+  if (user && product?.id) {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `${BASE_URL}/api/orders`,
+        {
+          productId: product.id,
+          quantity: product.quantity || 1,
+          price: product.price,
+          customerName: user.name || "Customer",
+          customerEmail: user.email || "",
+          customerPhone: user.number || "",
+          shippingAddress: "",
+        },
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        },
+      );
+      console.log("Order created successfully");
+    } catch (error) {
+      console.error("Error creating order:", error);
+      // Continue to WhatsApp even if order creation fails
+    }
+  }
 
   window.open(whatsappUrl, "_blank");
 };
