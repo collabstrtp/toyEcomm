@@ -51,7 +51,7 @@ Could you please share delivery details?
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `${BASE_URL}/api/orders`,
+        `${BASE_URL}/orders`,
         {
           productId: product.id,
           quantity: product.quantity || 1,
