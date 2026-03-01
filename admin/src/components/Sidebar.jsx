@@ -8,11 +8,11 @@ import {
   CloseOutlined,
   HomeOutlined,
   UserOutlined,
-  FileImageOutlined,
   FlagOutlined,
   ShoppingCartOutlined,
   FormOutlined,
   FundOutlined,
+  InboxOutlined,
 } from "@ant-design/icons";
 import {
   Accordion,
@@ -29,8 +29,6 @@ const Sidebar = () => {
   const [categoriesExpanded, setCategoriesExpanded] = useState(false);
   const [blogsExpanded, setBlogsExpanded] = useState(false);
   const [bannersExpanded, setBannersExpanded] = useState(false);
-  const [liveClassesExpanded, setLiveClassesExpanded] = useState(false);
-  const [workshopsExpanded, setWorkshopsExpanded] = useState(false);
   const location = useLocation();
 
   const toggleSidebar = () => {
@@ -393,6 +391,25 @@ const Sidebar = () => {
           </Typography>
         </AccordionDetails>
       </Accordion>
+
+      <div
+        className={`p-3 flex medium-16 ${
+          !isDesktopOrLaptop && !isSidebarOpen ? "hidden" : ""
+        }`}
+      >
+        <Link
+          to={"orders"}
+          onClick={closeSidebar}
+          className={`font-anta mx-2 flex items-center gap-x-2 ${
+            isActive("/admin/orders")
+              ? "border-b-2 border-orange-500 text-orange-500"
+              : "border-b-black hover:border-b-orange-500 text-white"
+          }`}
+        >
+          <InboxOutlined />
+          Orders
+        </Link>
+      </div>
     </div>
   );
 };

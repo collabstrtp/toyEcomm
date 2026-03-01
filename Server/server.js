@@ -8,12 +8,10 @@ const errorHandler = require("./middleware/errorHandler");
 const validateRequest = require("./middleware/validateRequest");
 const productRoutes = require("./routes/products");
 const authRoutes = require("./routes/auth");
-const blogRoutes = require("./routes/posts");
-const commentRoutes = require("./routes/comments");
 const bannerRoutes = require("./routes/banner");
 const categoryRoutes = require("./routes/category");
-/* const favouriteRoutes = require("./routes/favourites");
- */ const contactRoutes = require("./routes/contact");
+const contactRoutes = require("./routes/contact");
+const orderRoutes = require("./routes/orders");
 
 dotenv.config();
 
@@ -49,18 +47,15 @@ app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 console.log("Auth routes registered");
 
-//use post route
-app.use("/api/blogs", blogRoutes);
-
 //use banner route
 app.use("/api/banners", bannerRoutes);
 
 app.use("/api/categories", categoryRoutes);
 
-//use comment route
-app.use("/api/comments", commentRoutes);
-
 app.use("/api/contact", contactRoutes);
+
+//use order routes
+app.use("/api/orders", orderRoutes);
 
 //use favourite route
 /* app.use("/api/favourites", favouriteRoutes);

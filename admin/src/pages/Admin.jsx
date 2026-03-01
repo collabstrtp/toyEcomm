@@ -16,6 +16,7 @@ import EditBlog from "../components/EditBlog";
 import AddCategory from "../components/AddCategory";
 import AllCategories from "../components/AllCategories";
 import EditCategory from "../components/EditCategory";
+import OrdersList from "../components/OrdersList";
 
 const Admin = () => {
   return (
@@ -38,7 +39,7 @@ const Admin = () => {
         <Route path="addcategory" element={<AddCategory />} />
         <Route path="allcategories" element={<AllCategories />} />
         <Route path="editcategory/:id" element={<EditCategory />} />
-        {/*    <Route path="allcomments" element={<AllComments />} /> */}
+        <Route path="orders" element={<OrdersList />} />
       </Routes>
     </div>
   );

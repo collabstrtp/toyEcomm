@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const ratingSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
   rating: { type: Number, required: true },
+  review: { type: String, default: "" },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const ProductSchema = new mongoose.Schema(
