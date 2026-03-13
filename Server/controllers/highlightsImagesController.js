@@ -108,6 +108,11 @@ exports.updateImage = async (req, res) => {
   try {
     const { images, serialNumber } = req.body;
     const imageId = req.params.id;
+    console.log("Update Image - Received data:", {
+      imageId,
+      images,
+      serialNumber,
+    });
 
     const existingImage = await HighlightsImages.findById(imageId);
 

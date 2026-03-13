@@ -435,7 +435,6 @@ export default function Highlightsimages() {
     setModalOpen(true);
   };
 
-
   const totalImages = images.length;
 
   return (
@@ -460,40 +459,40 @@ export default function Highlightsimages() {
       </div>
 
       {/* ── Content ── */}
-     {/* ── Content ── */}
-{loading ? (
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-    {Array.from({ length: 10 }).map((_, i) => (
-      <SkeletonCard key={i} />
-    ))}
-  </div>
-) : images.length === 0 ? (
-  <div className="flex flex-col items-center justify-center py-24 text-center">
-    <PictureOutlined className="text-6xl text-gray-200 mb-4" />
-    <h3 className="text-lg font-semibold text-gray-400">No images yet</h3>
-    <p className="text-sm text-gray-300 mb-6">
-      Click "Add Image" to upload your first highlight image.
-    </p>
+      {/* ── Content ── */}
+      {loading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
+      ) : images.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <PictureOutlined className="text-6xl text-gray-200 mb-4" />
+          <h3 className="text-lg font-semibold text-gray-400">No images yet</h3>
+          <p className="text-sm text-gray-300 mb-6">
+            Click "Add Image" to upload your first highlight image.
+          </p>
 
-    <button
-      onClick={openAdd}
-      className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-orange-200 transition-colors"
-    >
-      <PlusOutlined /> Add Image
-    </button>
-  </div>
-) : (
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-    {images.map((img) => (
-      <ImageCard
-        key={img._id}
-        img={img}
-        onEdit={openEdit}
-        onDelete={setDeleteTarget}
-      />
-    ))}
-  </div>
-)}
+          <button
+            onClick={openAdd}
+            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-orange-200 transition-colors"
+          >
+            <PlusOutlined /> Add Image
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          {images.map((img) => (
+            <ImageCard
+              key={img._id}
+              img={img}
+              onEdit={openEdit}
+              onDelete={setDeleteTarget}
+            />
+          ))}
+        </div>
+      )}
 
       {/* ── Add / Edit Modal ── */}
       <ImageFormModal
