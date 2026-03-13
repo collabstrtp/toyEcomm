@@ -12,6 +12,7 @@ const bannerRoutes = require("./routes/banner");
 const categoryRoutes = require("./routes/category");
 const contactRoutes = require("./routes/contact");
 const orderRoutes = require("./routes/orders");
+const highlightsImagesRoutes = require("./routes/highlightsImages");
 
 dotenv.config();
 
@@ -45,7 +46,6 @@ app.use("/api/products", productRoutes);
 
 //use auth routes
 app.use("/api/auth", authRoutes);
-console.log("Auth routes registered");
 
 //use banner route
 app.use("/api/banners", bannerRoutes);
@@ -56,6 +56,8 @@ app.use("/api/contact", contactRoutes);
 
 //use order routes
 app.use("/api/orders", orderRoutes);
+//use highlights images routes
+app.use("/api/highlightsimages", highlightsImagesRoutes);
 
 //use favourite route
 /* app.use("/api/favourites", favouriteRoutes);
@@ -66,5 +68,5 @@ app.use(errorHandler);
 //use validation middleware for routes that require validation
 app.use("/validate", validateRequest);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

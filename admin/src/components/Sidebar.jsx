@@ -398,6 +398,25 @@ const Sidebar = () => {
         }`}
       >
         <Link
+          to={"highlightsimages"}
+          onClick={closeSidebar}
+          className={`font-anta mx-2 flex items-center gap-x-2 ${
+            isActive("/admin/highlightsimages")
+              ? "border-b-2 border-orange-500 text-orange-500"
+              : "border-b-black hover:border-b-orange-500 text-white"
+          }`}
+        >
+          <FundOutlined />
+          Highlight Images
+        </Link>
+      </div>
+
+      <div
+        className={`p-3 flex medium-16 ${
+          !isDesktopOrLaptop && !isSidebarOpen ? "hidden" : ""
+        }`}
+      >
+        <Link
           to={"orders"}
           onClick={closeSidebar}
           className={`font-anta mx-2 flex items-center gap-x-2 ${

@@ -17,7 +17,7 @@ import AddCategory from "../components/AddCategory";
 import AllCategories from "../components/AllCategories";
 import EditCategory from "../components/EditCategory";
 import OrdersList from "../components/OrdersList";
-
+import HighlightsImages from "../components/HighlightsImages";
 const Admin = () => {
   return (
     <div className="lg:flex bg-white">
@@ -40,6 +40,7 @@ const Admin = () => {
         <Route path="allcategories" element={<AllCategories />} />
         <Route path="editcategory/:id" element={<EditCategory />} />
         <Route path="orders" element={<OrdersList />} />
+        <Route path="highlightsimages" element={<HighlightsImages />} />
       </Routes>
     </div>
   );

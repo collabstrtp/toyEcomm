@@ -1,39 +1,63 @@
 const HighlightsImages = require("../models/HighlightsImages");
+const Product = require("../models/Product");
 const cloudinary = require("../config/cloudinary");
 
-async function uploadToCloudinary(file) {
+// Upload function
+const uploadToCloudinary = (fileBuffer) => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       { resource_type: "auto" },
       (error, result) => {
-        if (error) reject(error);
-        else resolve(result.secure_url);
+        if (error) return reject(error);
+        resolve(result.secure_url); // store only URL
       },
     );
-    stream.end(file.buffer);
+
+    stream.end(fileBuffer);
   });
-}
+};
 
 exports.addImage = async (req, res) => {
   try {
-    const { images, product } = req.body;
+    const { product } = req.body;
 
-    const newImage = new HighlightsImages({
-      images,
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Image file is required",
+      });
+    }
+
+    // Check product exists
+    const existingProduct = await Product.findById(product);
+    if (!existingProduct) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    // 🔥 Count images of THIS product only
+    const count = await HighlightsImages.countDocuments();
+    const nextSerialNumber = count + 1;
+
+    // Upload image
+    const imageUrl = await uploadToCloudinary(req.file.buffer);
+
+    const newImage = await HighlightsImages.create({
+      images: imageUrl,
       product,
+      serialNumber: nextSerialNumber,
     });
-
-    const savedImage = await newImage.save();
 
     res.status(201).json({
       success: true,
-      message: "Image added successfully",
-      data: savedImage,
+      data: newImage,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error adding image",
+      message: "Error uploading image",
       error: error.message,
     });
   }
@@ -41,11 +65,11 @@ exports.addImage = async (req, res) => {
 
 exports.getAllImages = async (req, res) => {
   try {
-    const images = await HighlightsImages.find()
-      .populate("product");
+    const images = await HighlightsImages.find().sort({ serialNumber: 1 }); // only serial sort
 
     res.status(200).json({
       success: true,
+      count: images.length,
       data: images,
     });
   } catch (error) {
@@ -56,11 +80,9 @@ exports.getAllImages = async (req, res) => {
     });
   }
 };
-
 exports.getSingleImage = async (req, res) => {
   try {
-    const image = await HighlightsImages.findById(req.params.id)
-      .populate("product");
+    const image = await HighlightsImages.findById(req.params.id);
 
     if (!image) {
       return res.status(404).json({
@@ -71,7 +93,7 @@ exports.getSingleImage = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: image,
+      data: image, // returns id, product id, image, serialNumber
     });
   } catch (error) {
     res.status(500).json({
@@ -84,24 +106,65 @@ exports.getSingleImage = async (req, res) => {
 
 exports.updateImage = async (req, res) => {
   try {
-    const { images, product } = req.body;
+    const { images, serialNumber } = req.body;
+    const imageId = req.params.id;
 
-    const updatedImage = await HighlightsImages.findByIdAndUpdate(
-      req.params.id,
-      { images, product },
-      { new: true }
-    );
+    const existingImage = await HighlightsImages.findById(imageId);
 
-    if (!updatedImage) {
+    if (!existingImage) {
       return res.status(404).json({
         success: false,
         message: "Image not found",
       });
     }
 
+    const oldSerial = existingImage.serialNumber;
+
+    // 🔥 Get max serial globally
+    const maxImage = await HighlightsImages.findOne().sort({
+      serialNumber: -1,
+    });
+
+    const maxSerial = maxImage ? maxImage.serialNumber : 0;
+
+    let newSerial = serialNumber;
+
+    // If serial bigger than max → set to max
+    if (serialNumber > maxSerial) {
+      newSerial = maxSerial;
+    }
+
+    if (newSerial !== oldSerial) {
+      if (newSerial < oldSerial) {
+        // Move up
+        await HighlightsImages.updateMany(
+          {
+            serialNumber: { $gte: newSerial, $lt: oldSerial },
+          },
+          { $inc: { serialNumber: 1 } },
+        );
+      } else {
+        // Move down
+        await HighlightsImages.updateMany(
+          {
+            serialNumber: { $gt: oldSerial, $lte: newSerial },
+          },
+          { $inc: { serialNumber: -1 } },
+        );
+      }
+    }
+
+    const updatedImage = await HighlightsImages.findByIdAndUpdate(
+      imageId,
+      {
+        images,
+        serialNumber: newSerial,
+      },
+      { new: true },
+    );
+
     res.status(200).json({
       success: true,
-      message: "Image updated successfully",
       data: updatedImage,
     });
   } catch (error) {
@@ -115,7 +178,9 @@ exports.updateImage = async (req, res) => {
 
 exports.deleteImage = async (req, res) => {
   try {
-    const deletedImage = await HighlightsImages.findByIdAndDelete(req.params.id);
+    const imageId = req.params.id;
+
+    const deletedImage = await HighlightsImages.findById(imageId);
 
     if (!deletedImage) {
       return res.status(404).json({
@@ -123,6 +188,19 @@ exports.deleteImage = async (req, res) => {
         message: "Image not found",
       });
     }
+
+    const { serialNumber } = deletedImage;
+
+    // 1️⃣ Delete image
+    await HighlightsImages.findByIdAndDelete(imageId);
+
+    // 2️⃣ Shift remaining images globally
+    await HighlightsImages.updateMany(
+      {
+        serialNumber: { $gt: serialNumber },
+      },
+      { $inc: { serialNumber: -1 } },
+    );
 
     res.status(200).json({
       success: true,
