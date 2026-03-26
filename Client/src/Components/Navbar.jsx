@@ -117,11 +117,21 @@ const Navbar = ({ setShowProfile, fixed = false }) => {
       {/* Logo */}
       {!showMobileSearch ? (
         <div className="flex items-center">
-          <img src={logo} alt="Mumvets Logo" className="h-15 w-auto" />
+          <button
+            onClick={() => navigate("/")}
+            className="p-1 hover:scale-105 transition-transform border-0 bg-transparent"
+          >
+            <img src={logo} alt="Mumvets Logo" className="h-15 w-auto" />
+          </button>
         </div>
       ) : (
         <div className="flex items-center">
-          <img src={logo2} alt="Mumvets Logo" className="h-15 w-auto" />
+          <button
+            onClick={() => navigate("/")}
+            className="p-1 hover:scale-105 transition-transform border-0 bg-transparent"
+          >
+            <img src={logo2} alt="Mumvets Logo" className="h-15 w-auto" />
+          </button>
         </div>
       )}
 
