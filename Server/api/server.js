@@ -12,6 +12,7 @@ const bannerRoutes = require("./banner");
 const categoryRoutes = require("./category");
 const contactRoutes = require("./contact");
 const orderRoutes = require("./orders");
+const highlightsImagesRoutes = require("./highlightsImages");
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use("/api/contact", contactRoutes);
 
 //use order routes
 app.use("/api/orders", orderRoutes);
+app.use("/api/highlightsimages", highlightsImagesRoutes);
 
 //use favourite route
 /* app.use("/api/favourites", favouriteRoutes);
