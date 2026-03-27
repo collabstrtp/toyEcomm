@@ -76,7 +76,7 @@ const EditBanner = () => {
 
     try {
       const response = await dispatch(
-        editBanner({ id: id, bannerData: formData })
+        editBanner({ id: id, bannerData: formData }),
       ).unwrap(); // Handle success or error based on the response
       if (response.success) {
         toast.success("Banner Updated!", {
@@ -144,9 +144,9 @@ const EditBanner = () => {
             <option value="_">-</option>
             <option value="HomePage">Home Page</option>
             <option value="BlogPage">Blog Page</option>
-            <option value="LiveclassPage">LiveClass Page</option>
-            <option value="WorkshopPage">Workshop Page</option>
-            <option value="Offers">Offers</option>
+            <option value="CategoryPage">CategoryPage</option>
+            <option value="ProductPage">Product Page</option>
+            <option value="AboutUsPage">AboutUsPage</option>
           </select>
         </div>
       </div>

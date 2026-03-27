@@ -124,9 +124,9 @@ const BannerSection = () => {
             <option value="_">-</option>
             <option value="HomePage">Home Page</option>
             <option value="BlogPage">Blog Page</option>
-            <option value="LiveclassPage">Liveclass Page</option>
-            <option value="WorkshopPage">Workshop Page</option>
-            <option value="Offers">Offers</option>
+            <option value="CategoryPage">CategoryPage</option>
+            <option value="ProductPage">Product Page</option>
+            <option value="AboutUsPage">AboutUsPage</option>
           </select>
         </div>
       </div>

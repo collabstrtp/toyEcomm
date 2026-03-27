@@ -29,6 +29,30 @@ const AddProduct = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [specList, setSpecList] = useState([{ key: "", value: "" }]);
 
+  const requiredFields = {
+    name: () => productData.name.trim() !== "",
+    categoryId: () => productData.categoryId !== "",
+    new_price: () => productData.new_price !== "",
+    description: () => productData.description.trim() !== "",
+    ageGroup: () => productData.ageGroup !== "",
+    gender: () => productData.gender !== "",
+    stock: () => productData.stock !== "" && !isNaN(productData.stock),
+    images: () => productData.imageUrls && productData.imageUrls.length > 0,
+  };
+
+  const renderLabel = (field, text) => {
+    const isValid = requiredFields[field] ? requiredFields[field]() : false;
+    const starColor = isValid ? "text-black" : "text-red-500";
+    return (
+      <h4 className="font-anta bold-18 pb-2">
+        {requiredFields[field] ? (
+          <span className={`${starColor} mr-1`}>*</span>
+        ) : null}
+        {text}
+      </h4>
+    );
+  };
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -96,9 +120,12 @@ const AddProduct = () => {
       !productData.name ||
       !productData.categoryId ||
       !productData.new_price ||
+      !productData.description ||
       !productData.ageGroup ||
       !productData.gender ||
-      !productData.stock
+      !productData.stock ||
+      !productData.images ||
+      !productData.imageUrls.length
     ) {
       toast.error("Please fill all required fields");
       setShowLoader(false);
@@ -184,7 +211,7 @@ const AddProduct = () => {
       <div className="flex flex-col lg:flex-row gap-x-10">
         {/* NAME */}
         <div className="mb-3 max-w-[300px] w-full">
-          <h4 className="font-anta bold-18 pb-2">Product Title:</h4>
+          {renderLabel("name", "Product Title:")}
           <input
             type="text"
             name="name"
@@ -197,7 +224,7 @@ const AddProduct = () => {
 
         {/* CATEGORY */}
         <div className="mb-3 max-w-[300px] w-full">
-          <h4 className="font-anta bold-18 pb-2">Category:</h4>
+          {renderLabel("categoryId", "Category:")}
           <select
             name="categoryId"
             value={productData.categoryId}
@@ -270,7 +297,7 @@ const AddProduct = () => {
       {/*  PRICES */}
       <div className="flex flex-col lg:flex-row  gap-x-10">
         <div className="mb-3 max-w-[300px] w-full">
-          <h4 className="font-anta bold-18 pb-2">Stock Quantity:</h4>
+          {renderLabel("stock", "Stock Quantity:")}
           <input
             type="number"
             name="stock"
@@ -282,7 +309,7 @@ const AddProduct = () => {
         </div>
         {/* NEW PRICE */}
         <div className="mb-3 max-w-[700px] w-full">
-          <h4 className="font-anta bold-18 pb-2">Price:</h4>
+          {renderLabel("new_price", "Price:")}
           <input
             type="number"
             name="new_price"
@@ -309,7 +336,7 @@ const AddProduct = () => {
 
       {/*  DESCRIPTION*/}
       <div className="mb-3 w-full">
-        <h4 className="font-anta bold-18 pb-2">Description:</h4>
+        {renderLabel("description", "Description:")}
         <textarea
           id="description"
           placeholder="Type here..."
@@ -326,7 +353,7 @@ const AddProduct = () => {
 
         <div className="flex flex-col lg:flex-row gap-x-10">
           <div className="mb-3 max-w-[300px] w-full">
-            <h4 className="font-anta bold-18 pb-2">Gender:</h4>
+            {renderLabel("gender", "Gender:")}
             <select
               name="gender"
               value={productData.gender}
@@ -432,7 +459,7 @@ const AddProduct = () => {
 
       {/* AGE GROUP */}
       <div className="mb-3">
-        <h4 className="font-anta bold-18 pb-2">Age Group:</h4>
+        {renderLabel("ageGroup", "Age Group:")}
         <div className="flex gap-4 flex-wrap">
           {["0-2", "3-5", "6-8", "9-12", "13+"].map((age) => (
             <label key={age} className="flex items-center gap-2">
@@ -452,7 +479,7 @@ const AddProduct = () => {
       {/*  UPLOAD IMAGES */}
       {showUpload ? (
         <div className="mt-10">
-          <h4 className="font-anta bold-18 pb-2">Add Product Images:</h4>
+          {renderLabel("images", "Add Product Images:")}
           <label
             htmlFor="product-images-input"
             className="flex justify-center items-center flex-col border-2 border-gray-300 bg-gray-50 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
